@@ -1,0 +1,24 @@
+<% content_for :additional_css do %>
+ <%= stylesheet_link_tag 'pages/dashboard'%>
+<% end %>
+
+  
+ 
+<% content_for :additional_js do %> 
+  <%= javascript_include_tag "Charts", "excanvas.min", 'jquery.flot','jquery.flot.pie',
+ 					'jquery.flot.orderBars',  'jquery.flot.tooltip.min', 
+						'jquery.flot.resize', 
+						'line',
+						'donut'
+ 					%>
+
+					<script>
+
+					$(function () {
+
+						Theme.init ();
+
+					});
+
+					</script>
+<% end %>
