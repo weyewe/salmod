@@ -32,7 +32,7 @@ gem "delayed_job_active_record", "~> 0.2.1" # delayed_job
 gem 'hirefireapp'
 gem "daemons"
 
-
+gem 'awesome_nested_set'
 # gem 'jquery-rails'
 
 

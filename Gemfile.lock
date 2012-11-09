@@ -216,6 +216,7 @@ DEPENDENCIES
   acts_as_commentable_with_threading!
   acts_as_decimal
   airbrake
+  awesome_nested_set
   coffee-rails (~> 3.2.1)
   daemons
   delayed_job_active_record (~> 0.2.1)
