@@ -84,19 +84,32 @@ wilson = Customer.create :name => "Alfindo",
 vios_b_1725_bad_params = {
   :id_code => "B1725BAD"
 } 
-vios_b_1725_bad = willy.new_vehicle_registration( admin ,  vios_b_1725_bad_params )    
+
+vios_b_1725_bad  = willy.new_vehicle_registration( admin ,  vios_b_1725_bad_params )    
+
+
+rush_b_1665_bsf_params = {
+  :id_code => "B 1725Bsf"
+}
+
+rush_b_1665_bsf  = willy.new_vehicle_registration( admin ,  rush_b_1665_bsf_params )    
 
 =begin
   Create the basic sales case 
   1. new customer come, with unregistered broken car 
   2. create sales order
   3. add service fee  
+  
+  many cases of sales order
+  1. only purchasing things   # not our target market 
+  # if there is service involved, maintenance must be included
+  2. purchase for maintenance purpose 
+  3. both of them mixed altogether 
+  
+  # Registered Customer == can be given credit 
+  
+  Simplest case: creating one (only purchase, no maintenance, purely retail)
 =end    
-
-# create sales order 
-  ## LIST of items 
-# create new customer on the fly ( in the pop up, i think)
-# create maintenance on the fly ( in the pop up ) 
 
 
            
