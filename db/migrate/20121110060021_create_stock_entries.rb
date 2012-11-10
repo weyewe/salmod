@@ -3,6 +3,7 @@ class CreateStockEntries < ActiveRecord::Migration
     create_table :stock_entries do |t|
       # stock entry can be: addition or deduction 
       t.integer :is_addition, :default => true  
+      t.integer :creator_id 
       
       t.integer :source_document_id  
       t.string :source_document   
@@ -10,8 +11,7 @@ class CreateStockEntries < ActiveRecord::Migration
       
       
       t.integer :quantity  
-      t.integer :broken 
-      t.integer :sold 
+      t.integer :used  , :default => 0  # use can be == broken, etc 
        
       t.integer :item_id
       

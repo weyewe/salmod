@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   has_many :roles, :through => :assignments
   
   
-  def create_main_user(new_user_params) 
+  def self.create_main_user(new_user_params) 
     new_user = User.create( :email => new_user_params[:email], 
                             :password => new_user_params[:password],
                             :password => new_user_params[:password_confirmation] )

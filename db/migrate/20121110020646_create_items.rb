@@ -11,6 +11,7 @@ class CreateItems < ActiveRecord::Migration
 
       t.string :name 
       
+      t.integer :category_id 
       
       
       t.timestamps

@@ -3,9 +3,10 @@ class StockMigration < ActiveRecord::Base
   
   
   def stock_entry 
+    stock_migration = self 
     StockEntry.find(:first, :conditions => {
-      :source_document => self.class.to_s, 
-      :source_document_id => self.id ,
+      :source_document => stock_migration.class.to_s, 
+      :source_document_id => stock_migration.id ,
       :entry_case =>  STOCK_ENTRY_CASE[:initial_migration], 
       :is_addition => true 
     })
@@ -28,13 +29,18 @@ class StockMigration < ActiveRecord::Base
   
   
   def StockMigration.create_item_migration(employee, item, quantity,  base_price_per_piece) 
+    puts "In this shite\n"*5
     stock_migration = self.create_migration
     
     new_stock_entry = StockEntry.new 
-    new_stock_entry.creator_id = admin.id
-    new_stock_entry.quantity = initial_quantity
+    new_stock_entry.creator_id = employee.id
+    new_stock_entry.quantity = quantity
     new_stock_entry.base_price_per_piece  = base_price_per_piece
-    new_stock_entry.item_id  = self.id 
+    
+    puts "Before the item ID \n"*2
+    new_stock_entry.item_id  = item.id 
+    
+    puts "After item ID\n"*3
     new_stock_entry.entry_case =  STOCK_ENTRY_CASE[:initial_migration]
     new_stock_entry.source_document = self.to_s 
     new_stock_entry.source_document_id = stock_migration.id 

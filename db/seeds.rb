@@ -23,13 +23,16 @@ joni.add_role_if_not_exists( mechanic_role )
                         
                         
 # CREATE ITEM CATEGORY 
+puts "Created the basic"
 spare_part =  Category.create :name => "Spare Part" 
 
+puts "created the first A"
   body_part = spare_part.create_sub_category :name => "Body Part" 
     head_lamp = body_part.create_sub_category :name => "Head Lamp"
     radio_receiver = body_part.create_sub_category :name => "Radio Receiver"
     speaker = body_part.create_sub_category :name => "Speaker"
    
+puts "created the first B"
   engine_spare_part = spare_part.create_sub_category :name => "Spare Part Mesin"
     piston =   engine_spare_part.create_sub_category :name => "Piston"
     valve =   engine_spare_part.create_sub_category :name => "Valve"
@@ -37,23 +40,27 @@ spare_part =  Category.create :name => "Spare Part"
     lubricant = engine_spare_part.create_sub_category :name => "Lubricant"
     shock_breaker = engine_spare_part.create_sub_category :name => "Shock Breaker"
 
+puts "Created the first C"
   undercarriage = spare_part.create_sub_category :name => "Undercarriage"   
-    combustion_pipe =   undercarriage.create_sub_category :name => "Piston"
-                        
+    combustion_pipe =   undercarriage.create_sub_category :name => "Combustion Pipe"
+
+puts "Create the last shit "                        
 # Create VENDOR 
 toyota_puri = Vendor.create :name => "Toyota Puri",
                     :contact_person => "Wilson",
                     :mobile => "08161437707"
-
+puts "created the toyota puri"
 bangjay = Vendor.create :name => "Bangjay", 
                         :contact_person => "Rudi",
                         :mobile => "0819 323 27 141"
                         
 # Create Inventory Item 
-shell_lubricant = Item.create( lubricant, :name => "Shell Formula 1 Lubricant 5L") 
-pertamina_lubricant = Item.create( lubricant, :name => "Pertamina Top Gun 4L")
-top_one_lubricant = Item.create( lubricant , :name => "Top One Indomobil 5L")
+shell_lubricant = Item.create_by_category( lubricant, :name => "Shell Formula 1 Lubricant 5L") 
+pertamina_lubricant = Item.create_by_category( lubricant, :name => "Pertamina Top Gun 4L")
+top_one_lubricant = Item.create_by_category( lubricant , :name => "Top One Indomobil 5L")
 
+
+puts "After creating inventory item "
 # Stock the inventory Item, using initial migration  
 shell_quantity = 30
 shell_price_per_item  =  BigDecimal('400000')
@@ -62,10 +69,11 @@ shell_lubricant.reload
 
 pertamina_quantity = 20
 pertamina_price_per_item  =  BigDecimal('350000')
-pertamina_lubricant.create_item_migration(  admin,  pertamina_quantity, pertamina_price_per_item ) 
 StockMigration.create_item_migration(admin, pertamina_lubricant, pertamina_quantity,  pertamina_price_per_item)
 pertamina_lubricant.reload   
 
+
+puts "After all the stock migration "
 # create customer ( REGISTERED vehicle, it means )
 willy = Customer.create :name => "Weyewe",
                     :contact_person => "Willy" 
@@ -76,8 +84,7 @@ wilson = Customer.create :name => "Alfindo",
 vios_b_1725_bad_params = {
   :id_code => "B1725BAD"
 } 
-vios_b_1725_bad = willy.new_vehicle_registration( admin , willy, vehicle_params )    
-
+vios_b_1725_bad = willy.new_vehicle_registration( admin ,  vios_b_1725_bad_params )    
 
 =begin
   Create the basic sales case 
