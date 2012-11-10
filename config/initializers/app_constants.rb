@@ -10,14 +10,14 @@ USER_ROLE = {
     # assign role to the user  
   
   
-  :manager => "Manager", 
+  :purchasing => "Purchasing", 
   # new item 
   # create purchase order to add item stock
   # add the recommended selling price 
   
-  :sales => "Sales" # this sales can do 2 things: consumer sales and business sales. fuck it.
+  :inventory => "Inventory", # this sales can do 2 things: consumer sales and business sales. fuck it.
   # => when she is doing consumer sales, she pick: which warehouse ? 
-  
+  :sales => "Sales", 
   
   # 
   # :business_sales => "BusinessSales", 
@@ -26,6 +26,7 @@ USER_ROLE = {
   # :consumer_sales => "ConsumerSales"
   # # purely doing sales, give sales price and that's it, give the item to the client 
   # # the item deducted will be from the store she is attached to 
+  :mechanic => "Mechanic"
 }
 
  
@@ -92,11 +93,28 @@ IMAGE_ASSET_URL = {
 
 
 
+SALES_ENTRY_CASE = {
+  :service => 1 , 
+  :item => 2 
+}
 
-
-
-
-
+# each entry case must be supported by the document 
+STOCK_ENTRY_CASE = {
+  # => 0-199 == addition 
+    # => 0-9 == internal addition
+  :stock_migration => 0 , 
+  :stock_adjustment =>1,
+  :scrap => 2,  # broken 
+  
+    # => 10-19 == related to vendor 
+  :purchase => 10 ,  
+  :purchase_return => 11,
+    
+    # => 20-29 == related to sales to customer  
+  :sales => 20 ,
+  :sales_return => 21 
+  
+} 
 
 
 

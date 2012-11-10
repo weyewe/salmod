@@ -34,6 +34,7 @@ gem "daemons"
 
 gem 'awesome_nested_set'
 # gem 'jquery-rails'
+gem "cancan"
 
 
 

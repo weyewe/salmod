@@ -58,6 +58,8 @@ Salmod::Application.configure do
                                 pages/dashboard.css
                                 pages/pricing.css
                                 pages/reports.css
+                                
+                                signin.js
                   )
 
   # Disable delivery errors, bad email addresses will be ignored
