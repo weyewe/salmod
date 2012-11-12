@@ -18,6 +18,9 @@ class CreateItems < ActiveRecord::Migration
       # for alfindo, there is average cogs per kg 
       # updated whenever there is stock entry addition
       
+      t.decimal :recommended_selling_price , :precision => 11, :scale => 2 , :default => 0  # 10^9 << max value
+      
+      
       
       t.timestamps
     end

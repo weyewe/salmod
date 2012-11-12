@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121110072028) do
+ActiveRecord::Schema.define(:version => 20121112062511) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -42,15 +42,28 @@ ActiveRecord::Schema.define(:version => 20121110072028) do
     t.datetime "updated_at",     :null => false
   end
 
+  create_table "employees", :force => true do |t|
+    t.string   "name"
+    t.string   "code"
+    t.string   "mobile_phone"
+    t.text     "address"
+    t.integer  "creator_id"
+    t.integer  "year"
+    t.integer  "month"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
   create_table "items", :force => true do |t|
-    t.integer  "ready",                                         :default => 0
-    t.integer  "scrap",                                         :default => 0
-    t.integer  "pending_return",                                :default => 0
+    t.integer  "ready",                                                    :default => 0
+    t.integer  "scrap",                                                    :default => 0
+    t.integer  "pending_return",                                           :default => 0
     t.string   "name"
     t.integer  "category_id"
-    t.decimal  "average_cost",   :precision => 11, :scale => 2, :default => 0.0
-    t.datetime "created_at",                                                     :null => false
-    t.datetime "updated_at",                                                     :null => false
+    t.decimal  "average_cost",              :precision => 11, :scale => 2, :default => 0.0
+    t.decimal  "recommended_selling_price", :precision => 11, :scale => 2, :default => 0.0
+    t.datetime "created_at",                                                                :null => false
+    t.datetime "updated_at",                                                                :null => false
   end
 
   create_table "maintenances", :force => true do |t|
@@ -100,6 +113,29 @@ ActiveRecord::Schema.define(:version => 20121110072028) do
     t.integer  "paid_declarator_id"
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
+  end
+
+  create_table "service_items", :force => true do |t|
+    t.integer  "service_id"
+    t.integer  "sales_entry_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "service_subcriptions", :force => true do |t|
+    t.integer  "service_item_id"
+    t.integer  "employee_id"
+    t.integer  "is_active",       :default => 0
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+  end
+
+  create_table "services", :force => true do |t|
+    t.string   "name"
+    t.boolean  "is_deleted",                                               :default => false
+    t.decimal  "recommended_selling_price", :precision => 11, :scale => 2, :default => 0.0
+    t.datetime "created_at",                                                                  :null => false
+    t.datetime "updated_at",                                                                  :null => false
   end
 
   create_table "stock_deductions", :force => true do |t|

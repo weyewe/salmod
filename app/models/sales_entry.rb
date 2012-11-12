@@ -2,10 +2,14 @@ class SalesEntry < ActiveRecord::Base
   attr_accessible :entry_id, :entry_case, :selling_price_per_piece, :quantity
   belongs_to :sales_order 
   belongs_to :maintenance 
+  
+  has_one :service_item 
+  has_one :service, :through  => :service_item 
    
   
   def update_total_sales_price 
-    self.selling_price_per_piece *  self.quantity
+    self.total_sales_price = self.selling_price_per_piece *  self.quantity
+    self.save 
   end
   
   def delete
@@ -51,5 +55,24 @@ class SalesEntry < ActiveRecord::Base
       )
        
     end 
+  end
+  
+  
+  def generate_service_item
+    if self.entry_case != SALES_ENTRY_CASE[:service]
+      return nil 
+    end
+    
+    ServiceItem.create :service_id => self.entry_id, :sales_entry_id => self.id 
+  end
+  
+  def add_employee( employee )
+    if self.entry_case !=  SALES_ENTRY_CASE[:service]
+      return nil 
+    end
+    
+    
+    service_item = self.service_item 
+    service_item.add_employee_participation( employee )  
   end
 end

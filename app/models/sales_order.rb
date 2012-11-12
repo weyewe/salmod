@@ -6,6 +6,9 @@ class SalesOrder < ActiveRecord::Base
   # has_many :sales_entries, :through => :stock_entry_usages  # can be service or item sold 
   # has_many :stock_entry_usages
   
+  # has_many :services, :through => :service_items 
+  #   has_many :service_items 
+  
   def self.create_sales_order( employee, customer, vehicle )  
     a = SalesOrder.new
     year = DateTime.now.year 
@@ -32,6 +35,7 @@ class SalesOrder < ActiveRecord::Base
     a.save 
     return a 
   end
+  
   
   
   
@@ -67,6 +71,21 @@ class SalesOrder < ActiveRecord::Base
     return sales_entry  
   end
   
+  
+  
+  def add_sales_entry_service(service_object) 
+    sales_entry = self.sales_entries.create(
+      :entry_id => service_object.id ,   
+      :entry_case => SALES_ENTRY_CASE[:service] ,
+      :quantity => 1 , 
+      :selling_price_per_piece => service_object.recommended_selling_price
+    )
+    
+    sales_entry.generate_service_item 
+  
+    return sales_entry
+  end
+ 
   def delete_sales_entry( sales_entry ) 
     SalesEntry.where(:id => sales_entry.id).each {|x| x.delete }
   end

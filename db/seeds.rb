@@ -10,17 +10,15 @@ admin = User.create_main_user(   :email => "admin@gmail.com" ,:password => "will
 admin.add_role_if_not_exists( admin_role ) 
 admin.reload
  
-# Create Employee  
-# these 2 are mechanics 
-joko = User.create(   :email => "joko@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234")
-joko.add_role_if_not_exists( mechanic_role ) 
-
-joni = User.create(   :email => "joni@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234")
-joni.add_role_if_not_exists( mechanic_role )
+# Create Employee 
 
  
+# these 2 are mechanics 
+joko = Employee.create(   :name => "Joko"  )  
+joni = Employee.create(   :name => "Joni" ) 
 
-                        
+ 
+            
                         
 # CREATE ITEM CATEGORY 
 puts "Created the basic"
@@ -207,16 +205,42 @@ pertamina_lubricant_sales_entry = sales_order.add_sales_entry_item(pertamina_lub
                                                             pertamina_purchase_quantity, 
                                                             pertamina_purchase_price )
 
-
 puts "Total sales entries: #{sales_order.active_sales_entries.count }"   
 
 sales_order.delete_sales_entry( pertamina_lubricant_sales_entry )    
 sales_order.reload 
 puts "Total sales entries: #{sales_order.active_sales_entries.count }"   
 
-
 sales_order.confirm_sales( admin ) # will create stock entry, update the item's stock summary
 
 total_willy_sales_order = customer.sales_orders.count 
 puts "Total willy sales order: #{total_willy_sales_order}"
 puts "Total rush_b_1665_bsf sales order: #{vehicle.sales_orders.count }"
+
+
+=begin
+  CREATING SERVICES 
+=end
+
+lubricant_replacement = Service.create :name => "Lubricant Replacement"
+tire_replacement = Service.create :name => "Tire replacement"
+
+
+
+customer = willy
+vehicle = rush_b_1665_bsf 
+sales_order =  SalesOrder.create_sales_order( admin, customer, vehicle )  
+
+lubricant_replacement_sales_entry   = sales_order.add_sales_entry_service(lubricant_replacement  )  
+tire_replacement_sales_entry  = sales_order.add_sales_entry_service(tire_replacement )
+
+
+lubricant_replacement_sales_entry.add_employee( joko )
+tire_replacement_sales_entry.add_employee( joni ) 
+ 
+sales_order.confirm_sales( admin ) # will create stock entry, update the item's stock summary
+
+total_willy_sales_order = customer.sales_orders.count 
+puts "Total willy sales order: #{total_willy_sales_order}"
+puts "Total rush_b_1665_bsf sales order: #{vehicle.sales_orders.count }"
+
