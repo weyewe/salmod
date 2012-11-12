@@ -9,5 +9,7 @@
 //= require jquery.ui.touch-punch.min 
 //= require bootstrap.min 
 //= require Theme 
+//= require jquery.msgbox.min
+//= require utility
 //= require script 
 

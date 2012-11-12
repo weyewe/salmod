@@ -8,5 +8,6 @@
  *= require bootstrap-responsive 
  *= require ui-lightness/jquery-ui-1.8.21.custom.css
  *= require app_application.css  
+ *= require msgbox
  *= require_self
 */

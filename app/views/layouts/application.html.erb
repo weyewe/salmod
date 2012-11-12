@@ -174,7 +174,12 @@
 					 
 				
 					<ul class="dropdown-menu">
-						<li><a href="./faq.html"><i class="icon-folder-open"></i>Item Category</a></li>
+						<li>
+							<%= link_to new_category_url do %>
+								<i class="icon-folder-open"></i>Category
+							<% end %>
+								<!-- <a href="./faq.html"><i class="icon-folder-open"></i>Item Category</a> -->
+						</li>
 						<li><a href="./faq.html"><i class="icon-hdd"></i>Item DB</a></li> 
 						<li> <a href="./reports.html"><i class="icon-trash"></i>Scrap Item</a></li>
 						<li><a href="./settings.html"><i class="icon-random"></i>Warehouse Mutation</a></li>

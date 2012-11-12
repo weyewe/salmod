@@ -1,0 +1,24 @@
+$(document).ready(function(){
+	
+	// if category creation is successful, append that category
+	// show growl notification 
+	
+	var $form = $('#new_object');
+	
+	<% new_form = escape_javascript(  render :partial => "categories/new_object", :locals => {
+    :new_object => @new_object , 
+		:url => categories_url,
+  })%>
+
+
+	$form.replaceWith('<%= new_form %>');
+
+	<% if @new_category.valid? %>
+		// show the growl. save. done. 
+	<% else %>
+		//  $.msgbox("Fail to create new category.", 
+		// {type: "error"});
+	<% end %>
+	
+	// else, display error.. 
+});

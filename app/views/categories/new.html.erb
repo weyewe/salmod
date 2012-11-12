@@ -1,0 +1,69 @@
+<%= render :partial => "layouts/masthead" ,:locals => {
+	:title => "Categories Summary",
+	:description => ""
+}%>
+
+<div id="content">
+
+	<div class="container">
+		
+		
+		<div class="row">
+			
+			<div class="span8">
+				 
+				
+				<%= render :partial => "categories/new_object", :locals => {
+					:new_object => @new_category , 
+					:url => categories_url, 
+				}%>
+
+				
+				
+				<table class="table table-bordered table-striped table-highlight">
+					<thead>
+						<tr>
+							<th>Category Name</th>
+							<th>Total Item</th> 
+						</tr>
+					</thead>
+					<tbody>
+						<% @categories.each do |category| %>
+						<tr>
+							<td>
+								<%= category.name %>
+							</td>
+							
+							<td>
+								<%= category.items.count %>
+							</td>
+						</tr>
+						<% end %>
+					</tbody>
+				</table>
+
+				
+			</div> <!-- /.span8 -->
+			
+			
+			<div class="span4">
+				
+						
+				<a href="javascript:;" class="btn btn-large btn-primary btn-block btn-big-block">Tree View</a>	
+				
+				
+				<a href="javascript:;" class="btn btn-large btn-tertiary btn-block btn-big-block">Contact Support</a>
+				
+				
+				<div>
+				</div> <!-- /.table wrapper -->
+						
+				
+			</div> <!-- /.span4 -->
+			
+		</div> <!-- /.row -->
+		
+	
+	</div> <!-- /.container -->
+
+</div> <!-- /#content -->

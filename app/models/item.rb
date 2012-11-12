@@ -2,6 +2,8 @@ class Item < ActiveRecord::Base
   attr_accessible :name
   has_many :stock_entry 
   
+  belongs_to :category 
+  
   validates_uniqueness_of :name
   validates_presence_of :name 
 =begin

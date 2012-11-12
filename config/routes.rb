@@ -7,6 +7,8 @@ Salmod::Application.routes.draw do
   root :to => 'home#index'
   root :to => 'home#login'
   
+  resources :categories 
+  
   
   
   resources :customers 

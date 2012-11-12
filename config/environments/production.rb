@@ -60,6 +60,9 @@ Salmod::Application.configure do
                                 pages/reports.css
                                 
                                 signin.js
+                                
+                                jquery.msgbox.css 
+                                jquery.msgbox.min.js
                   )
 
   # Disable delivery errors, bad email addresses will be ignored

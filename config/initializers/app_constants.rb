@@ -40,6 +40,16 @@ PROPOSER_ROLE = 0
 APPROVER_ROLE = 1 
 
 IMAGE_ASSET_URL = {
+  
+  # MSG BOX
+  :alert => 'http://s3.amazonaws.com/salmod/app_asset/msg-box/alert.png',
+  :background => 'http://s3.amazonaws.com/salmod/app_asset/msg-box/background.png',
+  :confirm => 'http://s3.amazonaws.com/salmod/app_asset/msg-box/confirm.png',
+  :error => 'http://s3.amazonaws.com/salmod/app_asset/msg-box/error.png',
+  :info => 'http://s3.amazonaws.com/salmod/app_asset/msg-box/info.png',
+  :question => 'http://s3.amazonaws.com/salmod/app_asset/msg-box/question.png',
+  
+  
   # FONT 
   :font_awesome_eot => 'http://s3.amazonaws.com/salmod/app_asset/font/fontawesome-webfont.eot',
   :font_awesome_svg => 'http://s3.amazonaws.com/salmod/app_asset/font/fontawesome-webfont.svg',
@@ -84,6 +94,8 @@ IMAGE_ASSET_URL = {
   :validation_success => 'http://s3.amazonaws.com/salmod/app_asset/app_application/validation-success.png',
   :zoom => 'http://s3.amazonaws.com/salmod/app_asset/app_application/zoom.png',
   :logo => 'http://s3.amazonaws.com/salmod/app_asset/app_application/logo.png'
+  
+  
   
   
   
