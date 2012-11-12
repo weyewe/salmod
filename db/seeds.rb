@@ -108,10 +108,115 @@ rush_b_1665_bsf  = willy.new_vehicle_registration( admin ,  rush_b_1665_bsf_para
   
   # Registered Customer == can be given credit 
   
-  Simplest case: creating one (only purchase, no maintenance, purely retail)
+  
 =end    
 
+##################################################################
+###  Simplest case: creating one (only purchase, no maintenance, purely retail)
+###  no indent sales 
+###  the purchase price is not deduced from the price books. entered 
+###  PRICE BOOK? Later.. First priority: make the sales order a reality. 
+##################################################################
+customer = nil
+vehicle = nil 
+sales_order=  SalesOrder.create_sales_order( admin, customer, vehicle )  
 
-           
+shell_purchase_quantity = 5
+shell_purchase_price = BigDecimal('600000')
+shell_lubricant_sales_entry = sales_order.add_sales_entry_item(shell_lubricant, 
+                                                            shell_purchase_quantity, 
+                                                            shell_purchase_price ) 
+
+pertamina_purchase_quantity = 1
+pertamina_purchase_price = BigDecimal('540000')
+pertamina_lubricant_sales_entry = sales_order.add_sales_entry_item(pertamina_lubricant, 
+                                                            pertamina_purchase_quantity, 
+                                                            pertamina_purchase_price )
+                                    
+
+puts "Total sales entries: #{sales_order.active_sales_entries.count }"   
+
+sales_order.delete_sales_entry( pertamina_lubricant_sales_entry )    
+sales_order.reload 
+puts "Total sales entries: #{sales_order.active_sales_entries.count }"   
+
+
+sales_order.confirm_sales( admin ) # will create stock entry, update the item's stock summary 
+
+
+
+
+##################################################################
+###  Case 2: customer subscribed to the sales 
+###  no indent sales 
+###  the purchase price is not deduced from the price books.  
+###  PRICE BOOK? Later.. First priority: make the sales order a reality. 
+##################################################################
+
+customer = willy
+vehicle = nil 
+sales_order=  SalesOrder.create_sales_order( admin, customer, vehicle )  
+
+shell_purchase_quantity = 5
+shell_purchase_price = BigDecimal('600000')
+shell_lubricant_sales_entry = sales_order.add_sales_entry_item(shell_lubricant, 
+                                                            shell_purchase_quantity, 
+                                                            shell_purchase_price ) 
+
+pertamina_purchase_quantity = 1
+pertamina_purchase_price = BigDecimal('540000')
+pertamina_lubricant_sales_entry = sales_order.add_sales_entry_item(pertamina_lubricant, 
+                                                            pertamina_purchase_quantity, 
+                                                            pertamina_purchase_price )
+
+
+puts "Total sales entries: #{sales_order.active_sales_entries.count }"   
+
+sales_order.delete_sales_entry( pertamina_lubricant_sales_entry )    
+sales_order.reload 
+puts "Total sales entries: #{sales_order.active_sales_entries.count }"   
+
+
+sales_order.confirm_sales( admin ) # will create stock entry, update the item's stock summary
+
+total_willy_sales_order = customer.sales_orders.count 
+puts "Total willy sales order: #{total_willy_sales_order}"
                   
  
+##################################################################
+###  Case 3: customer + vehicle subscribed to sales  
+###  no indent sales 
+###  the purchase price is not deduced from the price books.  
+###  PRICE BOOK? Later.. First priority: make the sales order a reality. 
+##################################################################
+
+
+customer = willy
+vehicle = rush_b_1665_bsf 
+sales_order=  SalesOrder.create_sales_order( admin, customer, vehicle )  
+
+shell_purchase_quantity = 5
+shell_purchase_price = BigDecimal('600000')
+shell_lubricant_sales_entry = sales_order.add_sales_entry_item(shell_lubricant, 
+                                                            shell_purchase_quantity, 
+                                                            shell_purchase_price ) 
+
+pertamina_purchase_quantity = 1
+pertamina_purchase_price = BigDecimal('540000')
+pertamina_lubricant_sales_entry = sales_order.add_sales_entry_item(pertamina_lubricant, 
+                                                            pertamina_purchase_quantity, 
+                                                            pertamina_purchase_price )
+
+
+puts "Total sales entries: #{sales_order.active_sales_entries.count }"   
+
+sales_order.delete_sales_entry( pertamina_lubricant_sales_entry )    
+sales_order.reload 
+puts "Total sales entries: #{sales_order.active_sales_entries.count }"   
+
+
+sales_order.confirm_sales( admin ) # will create stock entry, update the item's stock summary
+
+total_willy_sales_order = customer.sales_orders.count 
+puts "Total willy sales order: #{total_willy_sales_order}"
+puts "Total rush_b_1665_bsf sales order: #{vehicle.sales_orders.count }"

@@ -19,4 +19,21 @@ class Item < ActiveRecord::Base
     return item 
   end
   
+  
+  def recalculate_average_cost_post_stock_entry_addition( new_stock_entry ) 
+    total_amount = self.average_cost * self.ready  + 
+                  new_stock_entry.base_price_per_piece * new_stock_entry.quantity
+                  
+    total_quantity = self.ready + new_stock_entry.quantity 
+    
+    
+    if total_quantity ==0 
+      self.average_cost = BigDecimal('0')
+    else
+      self.average_cost = total_amount / total_quantity 
+    end
+    self.save 
+    
+  end
+  
 end

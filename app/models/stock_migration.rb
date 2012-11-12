@@ -18,7 +18,7 @@ class StockMigration < ActiveRecord::Base
     month = DateTime.now.month  
     total_stock_migration_created_this_month = StockMigration.where(:year => year.to_i, :month => month.to_i).count  
     
-    a.migration_code =  year.to_s + '/' + 
+    a.code =  'SM/' + year.to_s + '/' + 
                         month.to_s + '/' + 
                         (total_stock_migration_created_this_month + 1 ).to_s 
     
@@ -29,7 +29,6 @@ class StockMigration < ActiveRecord::Base
   
   
   def StockMigration.create_item_migration(employee, item, quantity,  base_price_per_piece) 
-    puts "In this shite\n"*5
     stock_migration = self.create_migration
     
     new_stock_entry = StockEntry.new 
@@ -37,17 +36,23 @@ class StockMigration < ActiveRecord::Base
     new_stock_entry.quantity = quantity
     new_stock_entry.base_price_per_piece  = base_price_per_piece
     
-    puts "Before the item ID \n"*2
     new_stock_entry.item_id  = item.id 
     
-    puts "After item ID\n"*3
     new_stock_entry.entry_case =  STOCK_ENTRY_CASE[:initial_migration]
     new_stock_entry.source_document = self.to_s 
     new_stock_entry.source_document_id = stock_migration.id 
     new_stock_entry.save 
-    return new_stock_entry  
     
     # update the summary? 
+    item.ready += new_stock_entry.quantity
+    item.save 
+    
+    item.recalculate_average_cost_post_stock_entry_addition( new_stock_entry ) 
+    
+    
+    return new_stock_entry  
+    
+    
   end
   
   

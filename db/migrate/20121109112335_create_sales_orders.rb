@@ -18,6 +18,21 @@ class CreateSalesOrders < ActiveRecord::Migration
       # non registered => we don't need the client info.. 
         # non registered => can be only spare part purchase or including the service. for the service, 
         # we need to know the vehicle ID.
+        
+        
+      t.integer :vehicle_id 
+        
+        
+      t.integer :year
+      t.integer :month 
+      t.boolean :is_deleted , :default => false 
+      
+      t.boolean :is_confirmed , :default => false 
+      t.integer :confirmator_id  
+      
+      t.boolean :is_paid, :default => false 
+      t.integer :paid_declarator_id 
+      
       t.timestamps
     end
   end

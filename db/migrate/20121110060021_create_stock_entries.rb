@@ -1,5 +1,7 @@
 class CreateStockEntries < ActiveRecord::Migration
   def change
+    
+    # STOCK ENTRY IS ONLY FOR ADDITION 
     create_table :stock_entries do |t|
       # stock entry can be: addition or deduction 
       t.integer :is_addition, :default => true  
@@ -11,9 +13,11 @@ class CreateStockEntries < ActiveRecord::Migration
       
       
       t.integer :quantity  
-      t.integer :used  , :default => 0  # use can be == broken, etc 
+      t.integer :used_quantity  , :default => 0  # use can be == broken, etc 
        
       t.integer :item_id
+      
+      t.boolean :is_finished, :default => false 
       
       t.decimal :base_price_per_piece, :precision => 12, :scale => 2 , :default => 0 # 10^9 << max value
        

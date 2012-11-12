@@ -5,6 +5,8 @@ class Customer < ActiveRecord::Base
   validates_presence_of :name 
   validates_uniqueness_of :name
   
+  has_many :sales_orders 
+  
   def new_vehicle_registration( employee ,  vehicle_params ) 
     id_code = vehicle_params[:id_code]
     if not id_code.present? 

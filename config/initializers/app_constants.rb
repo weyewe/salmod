@@ -116,7 +116,9 @@ STOCK_ENTRY_CASE = {
   
 } 
 
-
+STOCK_DEDUCTION_CASE = {
+  :sales_order => 1 
+}
 
 
 

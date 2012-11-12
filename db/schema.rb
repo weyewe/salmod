@@ -43,13 +43,14 @@ ActiveRecord::Schema.define(:version => 20121110072028) do
   end
 
   create_table "items", :force => true do |t|
-    t.integer  "ready"
-    t.integer  "scrap"
-    t.integer  "pending_return"
+    t.integer  "ready",                                         :default => 0
+    t.integer  "scrap",                                         :default => 0
+    t.integer  "pending_return",                                :default => 0
     t.string   "name"
     t.integer  "category_id"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.decimal  "average_cost",   :precision => 11, :scale => 2, :default => 0.0
+    t.datetime "created_at",                                                     :null => false
+    t.datetime "updated_at",                                                     :null => false
   end
 
   create_table "maintenances", :force => true do |t|
@@ -78,21 +79,40 @@ ActiveRecord::Schema.define(:version => 20121110072028) do
     t.integer  "maintenance_id"
     t.decimal  "selling_price_per_piece", :precision => 11, :scale => 2, :default => 0.0
     t.decimal  "total_sales_price",       :precision => 11, :scale => 2, :default => 0.0
-    t.datetime "created_at",                                                              :null => false
-    t.datetime "updated_at",                                                              :null => false
+    t.boolean  "is_deleted",                                             :default => false
+    t.integer  "sales_order_id"
+    t.datetime "created_at",                                                                :null => false
+    t.datetime "updated_at",                                                                :null => false
   end
 
   create_table "sales_orders", :force => true do |t|
     t.string   "code"
     t.integer  "creator_id"
-    t.boolean  "is_deleted", :default => false
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
+    t.boolean  "is_deleted",             :default => false
+    t.boolean  "is_registered_customer", :default => false
+    t.integer  "customer_id"
+    t.integer  "vehicle_id"
+    t.integer  "year"
+    t.integer  "month"
+    t.boolean  "is_confirmed",           :default => false
+    t.integer  "confirmator_id"
+    t.boolean  "is_paid",                :default => false
+    t.integer  "paid_declarator_id"
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
   end
 
   create_table "stock_deductions", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "quantity"
+    t.integer  "stock_entry_id"
+    t.integer  "creator_id"
+    t.integer  "source_document_id"
+    t.string   "source_document_entry"
+    t.integer  "source_document_entry_id"
+    t.string   "source_document"
+    t.integer  "deduction_case"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
   end
 
   create_table "stock_entries", :force => true do |t|
@@ -102,20 +122,21 @@ ActiveRecord::Schema.define(:version => 20121110072028) do
     t.string   "source_document"
     t.integer  "entry_case"
     t.integer  "quantity"
-    t.integer  "used",                                                :default => 0
+    t.integer  "used_quantity",                                       :default => 0
     t.integer  "item_id"
+    t.boolean  "is_finished",                                         :default => false
     t.decimal  "base_price_per_piece", :precision => 12, :scale => 2, :default => 0.0
-    t.datetime "created_at",                                                           :null => false
-    t.datetime "updated_at",                                                           :null => false
+    t.datetime "created_at",                                                             :null => false
+    t.datetime "updated_at",                                                             :null => false
   end
 
   create_table "stock_migrations", :force => true do |t|
-    t.string   "migration_code"
-    t.boolean  "is_deleted",     :default => false
+    t.string   "code"
+    t.boolean  "is_deleted", :default => false
     t.integer  "year"
     t.integer  "month"
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
   end
 
   create_table "users", :force => true do |t|
