@@ -1,0 +1,22 @@
+<%= simple_form_for( new_object, :url => url,
+      :method => :post , 
+      :html => {:class => "form-horizontal prevent_double_submit ajax-form   no_content_form",
+        :id => "new_object"}) do |f| %>
+
+	<%#= f.input :parent_id , :label => "Super Category" %>
+	
+	<%= f.input :name  , :input_html => {:class => "input-xlarge span5"}, 
+  :label => "Name" %>
+
+	<%= f.input :category_id, :hint => "Item Category", :label => "Category" do %>
+     <%= f.select :category_id, 
+         Category.all_selectable_categories %>
+   <% end %>
+
+  
+
+
+  <div class="form-actions">
+    <%= f.button :submit , :class => "btn btn-primary", :value=> "Create Item" %>
+  </div>
+<% end %>

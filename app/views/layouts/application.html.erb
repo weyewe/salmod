@@ -180,10 +180,22 @@
 							<% end %>
 								<!-- <a href="./faq.html"><i class="icon-folder-open"></i>Item Category</a> -->
 						</li>
-						<li><a href="./faq.html"><i class="icon-hdd"></i>Item DB</a></li> 
+						<li>
+							<%= link_to new_item_url do %>
+								<i class="icon-hdd"></i>Item DB
+							<% end %>
+							<!-- <a href="./faq.html"><i class="icon-hdd"></i>Item DB</a> -->
+						</li> 
+						
+						<li>
+							<%= link_to new_stock_migration_url do %>
+								<i class="icon-star"></i>Stock Adjustment
+							<% end %>
+						<!-- <li><a href="./settings.html"><i class="icon-star"></i>Stock Adjustment</a></li> -->
+						</li>
 						<li> <a href="./reports.html"><i class="icon-trash"></i>Scrap Item</a></li>
 						<li><a href="./settings.html"><i class="icon-random"></i>Warehouse Mutation</a></li>
-						<li><a href="./settings.html"><i class="icon-star"></i>Stock Adjustment</a></li>
+						
 						<li><a href="./settings.html"><i class="icon-money"></i>Price Book</a></li>
 					
 						
@@ -233,11 +245,11 @@
 		<div class="row">
 			
 			<div class="span6">
-				© 2012 <a href="http://jumpstartui.com">Jumpstart UI</a>, all rights reserved.
+				© 2012 <a href="http://weyewe.com">weyewe</a>, all rights reserved.
 			</div> <!-- /span6 -->
 			
 			<div id="builtby" class="span6">
-				<a href="http://jumpstartui.com">Built by Jumpstart.</a>				
+				<a href="http://weyewe.com">Built by weyewe.</a>				
 			</div> <!-- /.span6 -->
 			
 		</div> <!-- /row -->

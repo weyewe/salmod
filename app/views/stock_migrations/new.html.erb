@@ -1,0 +1,84 @@
+<%= render :partial => "layouts/masthead" ,:locals => {
+	:title => "Stock Adjustment",
+	:description => "Can be used for initial migration or post stock opname adjustment"
+}%>
+
+<div id="content">
+
+	<div class="container">
+		
+		
+		<div class="row">
+			
+			<div class="span8">
+			 
+				<%# = render :partial => "stock_migrations/new_object_form", :locals => {
+					:new_object => @new_object , 
+					:url => stock_migrations_url, 
+				}%>
+				
+				
+				
+				
+				<div id="form_wrapper">
+				</div>
+			</div> <!-- /.span8 -->
+			
+			
+			<div class="span4">
+				
+				<%= render :partial => "stock_migrations/stock_migration_trigger_form" %>
+				
+				<div id="item_info_wrapper">
+					<!-- <div id='item_info'>
+							</div> -->
+				</div>
+				
+			</div> <!-- /.span4 -->
+			
+		</div> <!-- /.row -->
+		
+	
+	</div> <!-- /.container -->
+
+</div> <!-- /#content -->
+
+<% content_for :additional_js do %> 
+  <%= javascript_include_tag "jquery.tokeninput" 	%> 
+
+	<script type="text/javascript"> 
+	
+  $(document).ready(function() {
+			var $search_box = $("#signin_search_item_id");
+			var $form = $search_box.parents("form");
+			
+      $search_box.tokenInput( '<%= search_item_url %>' , {
+					propertyToSearch: "name",
+					tokenLimit: 1, 
+          onAdd: function (item) {
+							$form.spin("large", "black"); 
+							$("#selected_item_id").attr( 'value',  item['id'] );
+							
+ 							$.ajax({
+							      url: $form.attr("action"),
+							      type: "POST",
+							      data: $form.serialize(),
+							      dataType: 'script',
+							      success: function(response){ 
+								
+							      }
+							    }); 
+          } ,
+					onDelete: function(item){
+						$("#new_object").remove();
+						$("#item_info").remove();
+					}
+      });
+  });
+
+  </script>
+<% end %>
+
+<% content_for :additional_css do %> 
+  <%= stylesheet_link_tag "token-input", "token-input-facebook" 	%> 
+<% end %>

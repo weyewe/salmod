@@ -26,8 +26,9 @@ ActiveRecord::Schema.define(:version => 20121112062511) do
     t.integer  "lft"
     t.integer  "rgt"
     t.integer  "depth"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.boolean  "is_deleted", :default => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
   end
 
   create_table "customers", :force => true do |t|
@@ -62,8 +63,9 @@ ActiveRecord::Schema.define(:version => 20121112062511) do
     t.integer  "category_id"
     t.decimal  "average_cost",              :precision => 11, :scale => 2, :default => 0.0
     t.decimal  "recommended_selling_price", :precision => 11, :scale => 2, :default => 0.0
-    t.datetime "created_at",                                                                :null => false
-    t.datetime "updated_at",                                                                :null => false
+    t.boolean  "is_deleted",                                               :default => false
+    t.datetime "created_at",                                                                  :null => false
+    t.datetime "updated_at",                                                                  :null => false
   end
 
   create_table "maintenances", :force => true do |t|

@@ -3,8 +3,7 @@ $(document).ready(function(){
 	// if category creation is successful, append that category
 	// show growl notification 
 	
-	var $form = $('#new_object');
-	
+	var $form = $('#new_object'); 
 	$form.spin(false);
 	
 	<% new_form = escape_javascript(  render :partial => "categories/new_object_form", :locals => {

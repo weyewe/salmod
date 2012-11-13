@@ -8,6 +8,11 @@ Salmod::Application.routes.draw do
   root :to => 'home#login'
   
   resources :categories 
+  resources :items 
+  resources :stock_migrations
+  
+  match 'search_item'  => 'items#search_item' , :as => :search_item
+  match 'generate_stock_migration'  => 'stock_migrations#generate_stock_migration' , :as => :generate_stock_migration, :method => :post 
   
   
   

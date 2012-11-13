@@ -7,6 +7,7 @@ class CreateCategories < ActiveRecord::Migration
       t.integer :rgt
       t.integer :depth # this is optional.
 
+      t.boolean :is_deleted, :default => false 
       t.timestamps
     end
   end

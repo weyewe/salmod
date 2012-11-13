@@ -1,5 +1,5 @@
 <%= render :partial => "layouts/masthead" ,:locals => {
-	:title => "Categories Summary",
+	:title => "Item Database",
 	:description => ""
 }%>
 
@@ -13,9 +13,9 @@
 			<div class="span8">
 				 
 				
-				<%= render :partial => "categories/new_object_form", :locals => {
-					:new_object => @new_category , 
-					:url => categories_url, 
+				<%= render :partial => "items/new_object_form", :locals => {
+					:new_object => @new_object , 
+					:url => items_url, 
 				}%>
 
 				
@@ -23,14 +23,15 @@
 				<table class="table table-bordered table-striped table-highlight" id='tableview'>
 					<thead>
 						<tr>
-							<th>Category Name</th>
-							<th>Total Item</th> 
+							<th>Item Name</th>
+							<th>Category</th> 
+							<th>Ready</th>
 						</tr>
 					</thead>
 					<tbody>
-						<% @categories.each do |category| %>
-							<%= render :partial =>  'categories/entry', :locals => {
-								:object => category 
+						<% @objects.each do |object| %>
+							<%= render :partial =>  'items/entry', :locals => {
+								:object => object 
 							} %> 
 						<% end %>
 					</tbody>

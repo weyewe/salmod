@@ -6,6 +6,10 @@ class Item < ActiveRecord::Base
   
   validates_uniqueness_of :name
   validates_presence_of :name 
+  
+  def self.active_items
+    Item.where(:is_deleted => false).order("created_at DESC")
+  end
 =begin
   INITIAL MIGRATION 
 =end 

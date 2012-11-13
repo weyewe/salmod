@@ -48,6 +48,7 @@ IMAGE_ASSET_URL = {
   :error => 'http://s3.amazonaws.com/salmod/app_asset/msg-box/error.png',
   :info => 'http://s3.amazonaws.com/salmod/app_asset/msg-box/info.png',
   :question => 'http://s3.amazonaws.com/salmod/app_asset/msg-box/question.png',
+  :success => 'http://s3.amazonaws.com/salmod/app_asset/msg-box/success.png',
   
   
   # FONT 

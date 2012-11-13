@@ -24,5 +24,9 @@ class Category < ActiveRecord::Base
     return result
   end
   
+  def self.active_categories
+    Category.where(:is_deleted => false).order("created_at DESC")
+  end
+  
   
 end

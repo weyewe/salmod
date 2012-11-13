@@ -11,5 +11,6 @@
 //= require Theme 
 //= require jquery.msgbox.min
 //= require utility
+//= require spin.min
 //= require script 
 

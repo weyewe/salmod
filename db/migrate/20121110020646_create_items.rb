@@ -20,6 +20,7 @@ class CreateItems < ActiveRecord::Migration
       
       t.decimal :recommended_selling_price , :precision => 11, :scale => 2 , :default => 0  # 10^9 << max value
       
+      t.boolean :is_deleted , :default => false 
       
       
       t.timestamps
