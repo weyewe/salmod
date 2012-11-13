@@ -11,12 +11,14 @@ class StockMigrationsController < ApplicationController
   end
   
   def create 
-    item = Item.find_by_id params[:stock_migration][:item_id]  
-    quantity = params[:stock_migration][:quantity]
-    price_per_item = params[:stock_migration][:price_per_item]
+    @item = Item.find_by_id params[:item_id]  
+    quantity = params[:stock_entry][:quantity].to_i 
+    price_per_item = BigDecimal( params[:stock_entry][:base_price_per_piece] ) 
     
     # @object = StockMigration.create_item_migration(current_user , item, params[:stock_migration])
-    @object =   StockMigration.create_item_migration(admin, item, quantity,  price_per_item)  
+    @object =   StockMigration.create_item_migration(current_user , @item, quantity,  price_per_item)  
+    @item.reload 
+    
     
     if @object.valid?
       @new_object=  StockMigration.new 

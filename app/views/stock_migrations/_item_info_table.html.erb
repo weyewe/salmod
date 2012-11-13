@@ -7,14 +7,16 @@
 	<tbody>
 	 	<tr>
 			<td>Name</td>
-			<td><%= @item.name %></td>
+			<td><%= item.name %></td>
 		</tr>
 		<tr>
 			<td>Ready Stock</td>
-			<td><%= @item.ready %></td>
+			<td><%= item.ready %></td>
 		</tr>
 		
-		
-		
+		<tr>
+			<td>Average Price</td>
+			<td><%= print_money( item.average_cost )%></td>
+		</tr> 
 	</tbody>
 </table>
