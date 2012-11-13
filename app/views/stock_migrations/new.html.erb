@@ -7,17 +7,29 @@
 
 	<div class="container">
 		
+		 
 		
 		<div class="row">
 			
+					<ul id="myTab" class="nav nav-pills">
+						<li class="active">
+							<%= link_to "Stock Migration", new_stock_migration_url %>
+								<!-- <a href="#tab1" data-toggle="tab">Stock Migration</a> -->
+						</li>
+						<li class=""><a href="#tab2" data-toggle="tab">Stock Adjustment</a></li>
+						<!-- <li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="#tab3" data-toggle="tab">@fat</a></li>
+								<li><a href="#tab4" data-toggle="tab">@mdo</a></li>
+							</ul>
+						</li> -->
+					</ul>
+		
+			
+			
 			<div class="span8">
-			 
-				<%# = render :partial => "stock_migrations/new_object_form", :locals => {
-					:new_object => @new_object , 
-					:url => stock_migrations_url, 
-				}%>
-				
-				
+			  
 				
 				
 				<div id="form_wrapper">
@@ -37,6 +49,10 @@
 			</div> <!-- /.span4 -->
 			
 		</div> <!-- /.row -->
+		
+		
+		<div class='row'>
+		</div><!--  /.row, for displaying the latest StockMigration performed -->
 		
 	
 	</div> <!-- /.container -->

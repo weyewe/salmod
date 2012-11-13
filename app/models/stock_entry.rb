@@ -27,4 +27,12 @@ class StockEntry < ActiveRecord::Base
     # FOR FIFO 
     StockEntry.where(:is_finished => false ).order("created_at ASC").first 
   end
+  
+  def stock_migration
+    if self.entry_case == STOCK_ENTRY_CASE[:initial_migration]
+      StockMigration.find_by_id self.source_document_id
+    else
+      return nil
+    end
+  end
 end

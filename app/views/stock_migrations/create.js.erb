@@ -19,13 +19,20 @@ $(document).ready(function(){
 		
 		// remove the display table 
 		$("#item_info").remove(); 
+		
+		// remove the form for stock entry 
 		$form.remove(); 
 		
-		<% item_info_table = escape_javascript(  render :partial => "stock_migrations/item_info_table", :locals => {
-	    :item =>  @item
+		// append the new stock migration into the last created stock migration. Just in case if he wants to edit
+		
+ 
+		<% migration_summary_table = escape_javascript(  render :partial => "stock_migrations/migration_summary", :locals => {
+	    :item =>  @item,
+			:object => @object ,
+			:stock_migration => @object.stock_migration
 	  }) %>
 		
-		$.msgbox("<%= item_info_table  %>", 
+		$.msgbox("<%= migration_summary_table  %>", 
 					{type: "info"});
 		
 					
