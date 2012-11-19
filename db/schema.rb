@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121112062511) do
+ActiveRecord::Schema.define(:version => 20121114064127) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -38,9 +38,12 @@ ActiveRecord::Schema.define(:version => 20121112062511) do
     t.string   "mobile"
     t.string   "email"
     t.string   "bbm_pin"
-    t.text     "address"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.text     "office_address"
+    t.text     "delivery_address"
+    t.integer  "town_id"
+    t.boolean  "is_deleted",       :default => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
   end
 
   create_table "employees", :force => true do |t|
@@ -106,6 +109,7 @@ ActiveRecord::Schema.define(:version => 20121112062511) do
     t.boolean  "is_deleted",             :default => false
     t.boolean  "is_registered_customer", :default => false
     t.integer  "customer_id"
+    t.boolean  "is_registered_vehicle",  :default => false
     t.integer  "vehicle_id"
     t.integer  "year"
     t.integer  "month"
@@ -175,6 +179,12 @@ ActiveRecord::Schema.define(:version => 20121112062511) do
     t.integer  "month"
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
+  end
+
+  create_table "towns", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "users", :force => true do |t|

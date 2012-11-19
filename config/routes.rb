@@ -9,14 +9,24 @@ Salmod::Application.routes.draw do
   
   resources :categories 
   resources :items 
-  resources :stock_migrations
   
+  
+  resources :stock_migrations 
   match 'search_item'  => 'items#search_item' , :as => :search_item
   match 'generate_stock_migration'  => 'stock_migrations#generate_stock_migration' , :as => :generate_stock_migration, :method => :post 
   
   
   
   resources :customers 
+  resources :sales_orders do
+    resources :sales_entries 
+  end
+  match 'generate_sales_order'  => 'sales_orders#generate_sales_order' , :as => :generate_sales_order, :method => :post 
+  match 'search_vehicle'  => 'vehicles#search_vehicle' , :as => :search_vehicle
+  
+  
+  
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

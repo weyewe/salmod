@@ -9,9 +9,12 @@ class CreateCustomers < ActiveRecord::Migration
       t.string :email 
       t.string :bbm_pin  
       
-      t.text :address 
+      t.text :office_address 
+      t.text :delivery_address
+      t.integer :town_id 
        
-
+      t.boolean :is_deleted, :default  => false 
+      
       t.timestamps
     end
   end

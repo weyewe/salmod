@@ -5,6 +5,8 @@ inventory_role = Role.create :name => USER_ROLE[:inventory]
 sales_role = Role.create :name => USER_ROLE[:sales]  
 mechanic_role = Role.create :name => USER_ROLE[:mechanic]
 
+jakarta = Town.create(:name => "Jakarta")
+lampung = Town.create :name => "Lampung"
 
 admin = User.create_main_user(   :email => "admin@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234") 
 admin.add_role_if_not_exists( admin_role ) 
@@ -74,10 +76,12 @@ pertamina_lubricant.reload
 puts "After all the stock migration "
 # create customer ( REGISTERED vehicle, it means )
 willy = Customer.create :name => "Weyewe",
-                    :contact_person => "Willy" 
+                    :contact_person => "Willy",
+                    :town_id => jakarta.id 
                     
 wilson = Customer.create :name => "Alfindo",
-                    :contact_person => "Wilson Gozali" 
+                    :contact_person => "Wilson Gozali" ,
+                    :town_id => lampung.id 
                     
 vios_b_1725_bad_params = {
   :id_code => "B1725BAD"

@@ -9,24 +9,27 @@ class SalesOrder < ActiveRecord::Base
   # has_many :services, :through => :service_items 
   #   has_many :service_items 
   
+  # validates_presence_of :is_registered_customer
+  # validates_presence_of :is_registered_vehicle
+  
   def self.create_sales_order( employee, customer, vehicle )  
     a = SalesOrder.new
     year = DateTime.now.year 
     month = DateTime.now.month  
-    total_stock_migration_created_this_month = StockMigration.where(:year => year.to_i, :month => month.to_i).count  
+    total_sales_orders_created_this_month = SalesOrder.where(:year => year.to_i, :month => month.to_i).count  
 
     code =  'SO/' + year.to_s + '/' + 
                         month.to_s + '/' + 
-                        (total_stock_migration_created_this_month + 1 ).to_s 
+                        (total_sales_orders_created_this_month + 1 ).to_s 
                         
     if not customer.nil?
       code << customer.id.to_s + "/"
-      a.customer_id = customer.id 
+      a.customer_id = customer.id   
     end
     
     if not vehicle.nil?
       code << vehicle.id.to_s 
-      a.vehicle_id = vehicle.id 
+      a.vehicle_id = vehicle.id   
     end
     
     a.creator_id = employee.id 
