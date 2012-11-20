@@ -1,17 +1,22 @@
 <tr>
 	<td>
 		<%= sales_entry.item.name %>
+		
+		<button type="button" class="close">×</button>
+		<!-- <a href="javascript:;"><i class="icon-remove"></i></a> -->
 	</td>
 
 	<td>
 		<%= sales_entry.quantity %>
+		<a type="button" style="cursor:pointer; text-decoration:none;"><i class='icon-edit'></i></a>
 	</td>
 
 	<td>
 		<%= print_money( sales_entry.selling_price_per_piece )%>
+		<a type="button" style="cursor:pointer; text-decoration:none;"><i class='icon-edit'></i></a>
 	</td>
 
 	<td>
-		150.000
+		<%= print_money( sales_entry.total_price )%> 
 	</td>
 </tr>

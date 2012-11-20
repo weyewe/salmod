@@ -89,6 +89,7 @@ class SalesOrder < ActiveRecord::Base
     new_object.selling_price_per_piece = price_per_piece
     
     
+    
     if not quantity.present? or quantity <=  0
       new_object.errors.add(:quantity , "Quantity harus setidaknya 1" ) 
       return new_object
@@ -98,6 +99,8 @@ class SalesOrder < ActiveRecord::Base
       new_object.errors.add(:selling_price_per_piece , "Harga jual harus lebih besar dari 0 rupiah" ) 
       return new_object
     end
+    
+    new_object.total_sales_price = quantity  * price_per_piece
      
     new_object.save  
     new_object.update_total_sales_price  

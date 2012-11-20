@@ -91,4 +91,11 @@ class SalesEntry < ActiveRecord::Base
     service_item = self.service_item 
     service_item.add_employee_participation( employee )  
   end
+  
+=begin
+  Sales Order Creation
+=end
+  def total_price
+    self.quantity * self.selling_price_per_piece
+  end
 end
