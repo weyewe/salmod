@@ -19,7 +19,8 @@ $(document).ready(function(){
 		$form.remove(); 
 		
 		<% new_entry  = escape_javascript(  render :partial => 'sales_entries/sales_order/entry', :locals => {
-			:sales_entry => @sales_entry 
+			:sales_entry => @sales_entry ,
+			:sales_order => @sales_order 
 		} )%>
 		
 	 $("#purchased_items tbody").append('<%= new_entry %>');

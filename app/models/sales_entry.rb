@@ -98,4 +98,26 @@ class SalesEntry < ActiveRecord::Base
   def total_price
     self.quantity * self.selling_price_per_piece
   end
+  
+=begin
+  UPDATE SALES ENTRY
+=end
+  def update_item(quantity, price_per_piece) 
+    if not quantity.present? or quantity <=  0
+      self.errors.add(:quantity , "Quantity harus setidaknya 1" ) 
+      return self
+    end
+     
+    if not price_per_piece.present? or price_per_piece <=  BigDecimal('0')
+      self.errors.add(:selling_price_per_piece , "Harga jual harus lebih besar dari 0 rupiah" ) 
+      return self
+    end
+    
+    self.quantity = quantity 
+    self.selling_price_per_piece = price_per_piece
+    self.total_sales_price = quantity  * price_per_piece 
+    self.save
+    
+    return self
+  end
 end

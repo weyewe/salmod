@@ -30,8 +30,46 @@ class SalesEntriesController < ApplicationController
                                                         @quantity, 
                                                         @selling_price_per_piece )
                           
-    @has_no_errors  = @sales_entry.errors.messages.length == 0 
-     
+    @has_no_errors  = @sales_entry.errors.messages.length == 0  
+  end
+  
+=begin
+  EDIT SALES ENTRY
+=end
+  def edit
+    @sales_order = SalesOrder.find_by_id params[:sales_order_id]
+    @sales_entry =  @sales_order.active_sales_entries.where(:id => params[:id]).first
+    @item = @sales_entry.item 
+  end
+
+=begin
+  UPDATE SALES ENTRY
+=end
+
+  def update_sales_entry
+    @sales_order = SalesOrder.find_by_id params[:sales_order_id]
+    @sales_entry =  @sales_order.active_sales_entries.where(:id => params[:id]).first
+    
+    @quantity =  params[:sales_entry][:quantity].to_i
+    @selling_price_per_piece =  BigDecimal( params[:sales_entry][:selling_price_per_piece] )
+    
+    @new_object = @sales_entry.update_item( @quantity, @selling_price_per_piece)
+    @has_no_errors  = @new_object.errors.messages.length == 0  
+    
+    @item = @sales_entry.item
+  end
+  
+  
+=begin
+  DELETE SALES ENTRY 
+=end
+  
+  def delete_sales_entry_from_sales_order
+    @sales_order = SalesOrder.find_by_id params[:sales_order_id]
+    @sales_entry = @sales_order.active_sales_entries.where(:id => params[:object_to_destroy_id]).first
+    
+    @sales_order.delete_sales_entry( @sales_entry )   
+    
   end
   
 end

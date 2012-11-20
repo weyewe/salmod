@@ -32,7 +32,17 @@ Salmod::Application.routes.draw do
   Adding Sales Entry
 =end
   match 'generate_sales_entry_add_product_form' => 'sales_entries#generate_sales_entry_add_product_form', :as => :generate_sales_entry_add_product_form, :method => :post 
-  
+
+=begin
+  Editing sales entry 
+=end
+  match 'update_sales_entry/:sales_order_id/sales_entry/:id' => 'sales_entries#update_sales_entry', :as => :update_sales_entry, :method => :post 
+
+=begin
+  DELETE Sales Entry
+=end
+  match 'delete_sales_entry_from_sales_order/:sales_order_id' => 'sales_entries#delete_sales_entry_from_sales_order', :as => :delete_sales_entry_from_sales_order, :method => :post 
+
   
   
   # The priority is based upon order of creation:

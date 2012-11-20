@@ -1,0 +1,10 @@
+$(document).ready(function(){
+	
+	var $row = $("#entry-<%= @sales_entry.id %>")
+	$row.spin(false); 
+	
+	$row.remove(); 
+	
+	$.msgbox("Berhasil menghapus item: <%= @sales_entry.item.name %>");
+	
+});

@@ -3,6 +3,7 @@
   <%= f.input :search_item_id , :label => "Item"  %> 
 	<%=	 hidden_field_tag 'selected_item_id', '' %> 
 	<%=	 hidden_field_tag 'sales_order_id', "#{sales_order.id}" %> 
+	<%= hidden_field_tag 'search_item_url', "#{search_item_url}"  %>
 <% end %>
 
  

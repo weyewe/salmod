@@ -100,10 +100,8 @@ class SalesOrder < ActiveRecord::Base
       return new_object
     end
     
-    new_object.total_sales_price = quantity  * price_per_piece
-     
-    new_object.save  
-    new_object.update_total_sales_price  
+    new_object.total_sales_price = quantity  * price_per_piece 
+    new_object.save   
   
     return new_object  
   end
@@ -124,7 +122,11 @@ class SalesOrder < ActiveRecord::Base
   end
  
   def delete_sales_entry( sales_entry ) 
-    SalesEntry.where(:id => sales_entry.id).each {|x| x.delete }
+    if self.is_confirmed == true 
+      return nil
+    end 
+    
+    SalesEntry.where(:id => sales_entry.id, :sales_order_id => self.id).each {|x| x.delete }
   end
   
   # on sales order confirm, deduct stock level 

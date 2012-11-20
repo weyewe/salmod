@@ -13,6 +13,10 @@
 					<% else %>
 						<span class="label label-success"><%= sales_order.customer.name %></span>
 					<% end %>
+					
+					<%= link_to root_url, :class =>"edit_entry", :style => "cursor:pointer; text-decoration:none;" do %>
+						<i class='icon-edit'></i>Edit
+					<% end %>
 			</td>
 			<td> 
 				
@@ -23,7 +27,9 @@
 						<span class="label label-success"><%= sales_order.vehicle.id_code %></span>
 					<% end %>
 
-
+					<%= link_to root_url, :class =>"edit_entry", :style => "cursor:pointer; text-decoration:none;" do %>
+						<i class='icon-edit'></i>Edit
+					<% end %>
 			</td>
 		</tr>
 		<tr>

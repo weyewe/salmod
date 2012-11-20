@@ -1,20 +1,13 @@
 <%= render :partial => "layouts/masthead" ,:locals => {
-	:title => "Sales Order",
-	:description => "Create sales order: for registered customer or unregistered"
+	:title => "Sales Order Entries",
+	:description => "Add Sales Order Entries: Product or Service"
 }%>
-
 
 <%= create_breadcrumb(@breadcrumbs).html_safe %>
 
-
 <div id="content">
-
-	<div class="container">
-		
-		 
-		
-		<div class="row">
-			 
+	<div class="container"> 
+		<div class="row"> 
 			<div class="span8">  
 				<%= render :partial => "sales_entries/sales_order_summary" , :locals => {
 					:sales_order => @sales_order
@@ -22,66 +15,47 @@
 				
 				<%= render :partial => "sales_entries/purchased_items" , :locals => {
 					:sales_order => @sales_order
-				}%>
-				
-				
+				}%> 
 			</div> <!-- /.span8 -->
 			
 			
 			<div class="span4">
 				<%= render :partial => "sales_entries/sales_entry_trigger_form", :locals => {
 					:sales_order => @sales_order 
-				} %>
-				
-				
+				} %> 
 				<div id='add_product_form_wrapper'> 
 				</div> 
 			</div> <!-- /.span4 -->
-			
 		</div> <!-- /.row -->
 		
-		
 		<div class='row'>
-		</div><!--  /.row, for displaying the latest StockMigration performed -->
-		
-	
+		</div><!--  /.row, for displaying the latest StockMigration performed --> 
 	</div> <!-- /.container -->
 </div> <!-- /#content --> 
 
+<div class="modal fade hide" id="editEntry">
+  <div class="modal-header">
+    <h3>Edit Sales Entry</h3>
+  </div>
+  <div class="modal-body"> 
+	<!-- content -->
+  </div>
+  <div class="modal-footer">
+    <!-- <a href="javascript:;" class="btn" data-dismiss="modal">Close</a> -->
+		<a  class="btn modal_closer"  >Close</a>
+  </div>
+</div>
+
+
+<div class="hidden" id="delete_entry_form_wrapper">
+  <%= form_for SalesEntry.new, :url =>delete_sales_entry_from_sales_order_url(@sales_order)   do |f| %>
+    <%= hidden_field_tag 'object_to_destroy_id' , ''  %> 
+  <% end %>
+</div>
+
 
 <% content_for :additional_js do %> 
-  <%= javascript_include_tag "jquery.tokeninput" 	%> 
-
-	<script type="text/javascript"> 
-	
-  $(document).ready(function() {
-			var $search_box = $("#sales_entry_search_item_id");
-			var $form = $search_box.parents("form");
-			
-      $search_box.tokenInput( '<%= search_item_url  %>' , {
-					propertyToSearch: "name",
-					tokenLimit: 1, 
-          onAdd: function (item) {
-							$form.spin("large", "black"); 
-							$("#selected_item_id").attr( 'value',  item['id'] );
-							
- 							$.ajax({
-							      url: $form.attr("action"),
-							      type: "POST",
-							      data: $form.serialize(),
-							      dataType: 'script',
-							      success: function(response){ 
-								
-							      }
-							    }); 
-          } ,
-					onDelete: function(item){
-						$("#add_product_form").remove();
-					}
-      });
-  });
-
-  </script>
+  <%= javascript_include_tag "jquery.tokeninput", "sales_order/sales_entry_creation" 	%>  
 <% end %>
 
 <% content_for :additional_css do %> 

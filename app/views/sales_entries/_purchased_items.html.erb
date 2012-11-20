@@ -5,12 +5,14 @@
 			<th> Quantity </th>
 			<th> Price Each </th>
 			<th> Total Price </th>
+			<th style='text-align:center;' colspan='2'>Action</th>
 		</tr>
 	</thead>
 	<tbody>
 		<% sales_order.active_sales_entries.each do |sales_entry| %>
 			<%= render :partial => 'sales_entries/sales_order/entry', :locals => {
-				:sales_entry => sales_entry 
+				:sales_entry => sales_entry ,
+				:sales_order => sales_order
 			}%>
 			
 		<% end %>

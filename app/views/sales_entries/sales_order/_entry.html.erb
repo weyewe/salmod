@@ -1,22 +1,33 @@
-<tr>
-	<td>
+<tr id='entry-<%= sales_entry.id %>'>
+	<td class='identifier'>
 		<%= sales_entry.item.name %>
 		
-		<button type="button" class="close">×</button>
+		
 		<!-- <a href="javascript:;"><i class="icon-remove"></i></a> -->
 	</td>
 
 	<td>
 		<%= sales_entry.quantity %>
-		<a type="button" style="cursor:pointer; text-decoration:none;"><i class='icon-edit'></i></a>
 	</td>
 
 	<td>
 		<%= print_money( sales_entry.selling_price_per_piece )%>
-		<a type="button" style="cursor:pointer; text-decoration:none;"><i class='icon-edit'></i></a>
 	</td>
 
 	<td>
 		<%= print_money( sales_entry.total_price )%> 
+	</td>
+	
+	<td>
+		<%= link_to root_url, :class =>"delete_entry", :style => "cursor:pointer; text-decoration:none;" do %>
+			<i class='icon-remove'></i>Delete
+		<% end %> 
+	</td>
+	
+	<td>
+		<%= link_to edit_sales_order_sales_entry_url(sales_order, sales_entry), 
+			:class =>"edit_entry modal-toggler", :style => "cursor:pointer; text-decoration:none;" do %>
+			<i class='icon-edit'></i>Edit
+		<% end %>
 	</td>
 </tr>
