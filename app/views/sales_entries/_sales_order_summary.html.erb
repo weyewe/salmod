@@ -1,0 +1,32 @@
+<table class="table table-bordered table-striped table-highlight" id='table_form'>
+	<thead>
+		<tr>
+			<th colspan='2' style='text-align:center;'>Sales Order: <b><%= sales_order.code %></b></th>  
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td> 
+			   Customer: 
+					<% if sales_order.customer.nil? %>
+						<span class="label label-important">N/A</span>
+					<% else %>
+						<span class="label label-success"><%= sales_order.customer.name %></span>
+					<% end %>
+			</td>
+			<td> 
+				
+				Vehicle: 
+					<% if sales_order.vehicle.nil? %>
+						<span class="label label-important">N/A</span>
+					<% else %>
+						<span class="label label-success"><%= sales_order.vehicle.id_code %></span>
+					<% end %>
+
+
+			</td>
+		</tr>
+		<tr>
+		</tr>
+	</tbody>
+</table>

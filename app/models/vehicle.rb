@@ -7,4 +7,5 @@ class Vehicle < ActiveRecord::Base
   # has_many :ownership_mutation 
   
   validates_presence_of :id_code
+  validates_uniqueness_of :id_code 
 end

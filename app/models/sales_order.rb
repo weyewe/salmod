@@ -1,8 +1,10 @@
 class SalesOrder < ActiveRecord::Base
   # attr_accessible :title, :body
   belongs_to :customer 
+  belongs_to :vehicle
   has_many :maintenances  # no, we don't go with the maintenance. stick with the MVP, willy! 
   has_many :sales_entries 
+  
   # has_many :sales_entries, :through => :stock_entry_usages  # can be service or item sold 
   # has_many :stock_entry_usages
   
@@ -22,13 +24,13 @@ class SalesOrder < ActiveRecord::Base
                         month.to_s + '/' + 
                         (total_sales_orders_created_this_month + 1 ).to_s 
                         
+    a.year = year
+    a.month = month 
     if not customer.nil?
-      code << customer.id.to_s + "/"
       a.customer_id = customer.id   
     end
     
     if not vehicle.nil?
-      code << vehicle.id.to_s 
       a.vehicle_id = vehicle.id   
     end
     

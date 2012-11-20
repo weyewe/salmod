@@ -2,6 +2,7 @@ class SalesOrdersController < ApplicationController
   
   def new
     @new_object = SalesOrder.new 
+    @pending_confirmation_sales_orders = SalesOrder.where(:is_confirmed => false, :is_deleted => false ).order("created_at ASC")
   end
   
   

@@ -17,12 +17,21 @@ Salmod::Application.routes.draw do
   
   
   
+=begin
+  Creating Sales Order
+=end
   resources :customers 
   resources :sales_orders do
     resources :sales_entries 
   end
+
   match 'generate_sales_order'  => 'sales_orders#generate_sales_order' , :as => :generate_sales_order, :method => :post 
   match 'search_vehicle'  => 'vehicles#search_vehicle' , :as => :search_vehicle
+  
+=begin
+  Adding Sales Entry
+=end
+  match 'generate_sales_entry_add_product_form' => 'sales_entries#generate_sales_entry_add_product_form', :as => :generate_sales_entry_add_product_form, :method => :post 
   
   
   
