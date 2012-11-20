@@ -1,29 +1,35 @@
 <%= simple_form_for( new_object, :url => url,
       :method => :post , 
       :html => {:class => " prevent_double_submit ajax-form",
-        :id => "new_object"}) do |f| %> 
-			<table class="table table-bordered table-striped table-highlight" id='tableview'>
+        :id => "add_product_form"}) do |f| %> 
+	<%=	 hidden_field_tag 'item_id', "#{item.id}" %> 
+
+			<table class="table table-bordered table-striped table-highlight">
 				<thead>
 					<tr>
-						<th colspan='2' style='text-align:center;'><%= item.name  %></th>  
+						<th style='text-align:center;'><%= item.name  %></th>  
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td> 
-						  	<%= f.input :customer_id, :input_html => { :class => 'search_customer', :id => "search_customer_id" }  ,
-											:label => "Customer" , :hint => "Leave empty if not registered", :as => :string  %> 
+						  	<%= f.input :quantity,  
+											:label => "Quantity" , :hint => "At least it should be 1", :as => :string  %> 
 						</td>
+						
+					</tr>
+					<tr>
 						<td> 
-								<%= f.input :vehicle_id, :input_html => { :class => 'search_vehicle', :id=> 'search_vehicle_id' },
-											:label =>"Nomor Polisi", :hint => "Leave empty if not registered", :as => :string %>
+								<%= f.input :selling_price_per_piece ,
+											:label =>"Harga Satuan", 
+											:hint => "Recommended selling price: #{print_money(item.recommended_selling_price)}", 
+											:as => :string %>
 			 
 							
-							<a class=" label label-secondary" data-toggle="modal" href="#myModal">New Vehicle</a>
 						</td>
 					</tr>
 					<tr>
-						<td colspan='2' style='text-align:center;'><%= f.submit  "Confirm Sales Order Details", :class =>"btn" %></td>
+						<td style='text-align:center;'><%= f.submit  "Add Product", :class =>"btn" %></td>
 					</tr>
 				</tbody>
 			</table> 

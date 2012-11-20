@@ -57,6 +57,22 @@ class SalesEntry < ActiveRecord::Base
     end 
   end
   
+  def is_product?
+    self.entry_case == SALES_ENTRY_CASE[:item]
+  end
+  
+  def is_service?
+    self.entry_case == SALES_ENTRY_CASE[:service]
+  end
+  
+  def item
+    if self.is_product?
+      return Item.find_by_id self.entry_id
+    else self.is_service?
+      return Service.find_by_id self.entry_id
+    end
+  end
+  
   
   def generate_service_item
     if self.entry_case != SALES_ENTRY_CASE[:service]

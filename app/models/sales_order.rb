@@ -58,22 +58,51 @@ class SalesOrder < ActiveRecord::Base
     })  
   end 
   
+  
+  def has_sales_entry_for_item?(item)
+    not sales_entry_for_item( item).nil?
+  end
+  
+  # @has_no_errors  = @project.errors.messages.length == 0 
   def add_sales_entry_item(item,  quantity,   price_per_piece )
     past_item = self.sales_entry_for_item(item)   
-    return past_item if not past_item.nil? 
+    
+    puts "Gonna return if the past item is not nil\n"*10
+    puts "#{past_item.class}"
+    puts "sales_order.id #{self.id}"
+    puts "total sales entries: #{self.active_sales_entries.count}"
+    if not past_item.nil?  and past_item.is_product? 
+      past_item.errors.add(:duplicate_entry , "There is exact item in the sales order list" ) 
+      return past_item 
+    end
+    
+    
+    puts "Gonna create new sales entry\n"*10
     
     # rule for sales entry creation: max stock?  no indent?. just sell whatever we have now 
-    # MVP minimum viable product 
-    sales_entry = self.sales_entries.create(
-      :entry_id => item.id ,   
-      :entry_case => SALES_ENTRY_CASE[:item] ,
-      :quantity => quantity , 
-      :selling_price_per_piece => price_per_piece
-    )
+    # MVP minimum viable product
+    new_object = SalesEntry.new
+    new_object.sales_order_id = self.id
+    new_object.entry_id = item.id 
+    new_object.entry_case = SALES_ENTRY_CASE[:item] 
+    new_object.quantity = quantity  
+    new_object.selling_price_per_piece = price_per_piece
+    
+    
+    if not quantity.present? or quantity <=  0
+      new_object.errors.add(:quantity , "Quantity harus setidaknya 1" ) 
+      return new_object
+    end
      
-    sales_entry.update_total_sales_price  
+    if not price_per_piece.present? or price_per_piece <=  BigDecimal('0')
+      new_object.errors.add(:selling_price_per_piece , "Harga jual harus lebih besar dari 0 rupiah" ) 
+      return new_object
+    end
+     
+    new_object.save  
+    new_object.update_total_sales_price  
   
-    return sales_entry  
+    return new_object  
   end
   
   

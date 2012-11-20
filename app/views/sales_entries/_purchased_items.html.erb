@@ -1,4 +1,4 @@
-<table class="table table-bordered table-striped table-highlight" id='tableview'>
+<table class="table table-bordered table-striped table-highlight" id='purchased_items'>
 	<thead>
 		<tr>
 			<th> Item 	</th>
@@ -8,22 +8,12 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<td>
-				Awesome Shell 4L Supra
-			</td>
+		<% sales_order.active_sales_entries.each do |sales_entry| %>
+			<%= render :partial => 'sales_entries/sales_order/entry', :locals => {
+				:sales_entry => sales_entry 
+			}%>
 			
-			<td>
-				1
-			</td>
-			
-			<td>
-				150.000
-			</td>
-			
-			<td>
-				150.000
-			</td>
-		</tr>
+		<% end %>
+		
 	</tbody>
 </table>

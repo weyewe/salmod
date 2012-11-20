@@ -29,11 +29,13 @@
 			
 			
 			<div class="span4">
+				<%= render :partial => "sales_entries/sales_entry_trigger_form", :locals => {
+					:sales_order => @sales_order 
+				} %>
 				
-			 <%= render :partial => "sales_entries/sales_entry_action", :locals => {
-				:sales_order => @sales_order
-			} %> 
 				
+				<div id='add_product_form_wrapper'> 
+				</div> 
 			</div> <!-- /.span4 -->
 			
 		</div> <!-- /.row -->
@@ -44,15 +46,7 @@
 		
 	
 	</div> <!-- /.container -->
-
-</div> <!-- /#content -->
-
-<%= render :partial => "sales_entries/sales_order/add_product" %>
-<%= render :partial => "sales_entries/sales_order/edit_product" %>
-<%= render :partial => "sales_entries/sales_order/add_service" %>
-<%= render :partial => "sales_entries/sales_order/edit_service" %>
- 
-
+</div> <!-- /#content --> 
 
 
 <% content_for :additional_js do %> 
@@ -64,7 +58,7 @@
 			var $search_box = $("#sales_entry_search_item_id");
 			var $form = $search_box.parents("form");
 			
-      $search_box.tokenInput( '<%= generate_sales_entry_add_product_form_url  %>' , {
+      $search_box.tokenInput( '<%= search_item_url  %>' , {
 					propertyToSearch: "name",
 					tokenLimit: 1, 
           onAdd: function (item) {
@@ -82,8 +76,7 @@
 							    }); 
           } ,
 					onDelete: function(item){
-						$("#new_object").remove();
-						$("#item_info").remove();
+						$("#add_product_form").remove();
 					}
       });
   });
