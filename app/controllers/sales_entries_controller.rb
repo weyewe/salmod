@@ -97,9 +97,11 @@ class SalesEntriesController < ApplicationController
     
     @service = Service.find_by_id params[:service_id] 
     @selling_price_per_piece =  BigDecimal( params[:sales_entry][:selling_price_per_piece] ) 
+    
     @employee = Employee.find_by_id params[:employee_id]
      
     @new_object  =  @sales_entry.update_service(  @selling_price_per_piece, @employee )  
+    @new_object.reload
     
     @has_no_errors  = @sales_entry.errors.messages.length == 0
   end

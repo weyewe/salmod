@@ -46,7 +46,7 @@ class SalesOrder < ActiveRecord::Base
   
   
   def active_sales_entries
-    self.sales_entries.where(:is_deleted => false )
+    self.sales_entries.where(:is_deleted => false ).order("created_at ASC")
     
   end
   
