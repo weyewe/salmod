@@ -13,6 +13,7 @@ Salmod::Application.routes.draw do
   
   resources :stock_migrations 
   match 'search_item'  => 'items#search_item' , :as => :search_item
+  match 'search_service' => 'services#search_service', :as => :search_service
   match 'generate_stock_migration'  => 'stock_migrations#generate_stock_migration' , :as => :generate_stock_migration, :method => :post 
   
   
@@ -32,6 +33,9 @@ Salmod::Application.routes.draw do
   Adding Sales Entry
 =end
   match 'generate_sales_entry_add_product_form' => 'sales_entries#generate_sales_entry_add_product_form', :as => :generate_sales_entry_add_product_form, :method => :post 
+  match 'generate_sales_entry_add_service_form' => 'sales_entries#generate_sales_entry_add_service_form', :as => :generate_sales_entry_add_service_form, :method => :post 
+  
+  match 'create_service_sales_entry/:sales_order_id' => 'sales_entries#create_service_sales_entry', :as => :create_service_sales_entry , :method => :post 
 
 =begin
   Editing sales entry 

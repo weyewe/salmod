@@ -54,8 +54,9 @@ ActiveRecord::Schema.define(:version => 20121114064127) do
     t.integer  "creator_id"
     t.integer  "year"
     t.integer  "month"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.boolean  "is_deleted",   :default => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
   end
 
   create_table "items", :force => true do |t|
@@ -124,8 +125,9 @@ ActiveRecord::Schema.define(:version => 20121114064127) do
   create_table "service_items", :force => true do |t|
     t.integer  "service_id"
     t.integer  "sales_entry_id"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.boolean  "is_deleted",     :default => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
   end
 
   create_table "service_subcriptions", :force => true do |t|

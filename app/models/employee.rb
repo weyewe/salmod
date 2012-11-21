@@ -20,4 +20,8 @@ class Employee < ActiveRecord::Base
     self.code = code
     self.save 
   end
+  
+  def self.active_employees
+    Employee.where(:is_deleted => false ) 
+  end
 end

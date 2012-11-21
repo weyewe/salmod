@@ -37,7 +37,7 @@ gem 'awesome_nested_set'
 gem "cancan"
 
 
-
+gem 'pdfkit'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

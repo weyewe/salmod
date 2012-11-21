@@ -2,17 +2,30 @@ class SalesEntriesController < ApplicationController
   def new 
     @sales_order = SalesOrder.find_by_id params[:sales_order_id]
     
+    
     add_breadcrumb "Create Sales Order", 'new_sales_order_url'
     set_breadcrumb_for @group_loan, 'new_sales_order_sales_entry_url' + "(#{@sales_order.id})", 
                 "#{@sales_order.code}"
   end
   
+  
+=begin
+  Generate Sales Entry FORM 
+=end
   def generate_sales_entry_add_product_form
     @item=  Item.find_by_id params[:selected_item_id]
     @sales_order = SalesOrder.find_by_id params[:sales_order_id]
-    @new_object = SalesEntry.new 
+    @new_object = SalesEntry.new  
+  end
+  
+  def generate_sales_entry_add_service_form
+    @service =  Service.find_by_id params[:selected_service_id]
+    @sales_order = SalesOrder.find_by_id params[:sales_order_id]
+    @new_object = SalesEntry.new
     
-     
+    @employees= Employee.active_employees
+    
+    
   end
   
   
@@ -32,6 +45,25 @@ class SalesEntriesController < ApplicationController
                           
     @has_no_errors  = @sales_entry.errors.messages.length == 0  
   end
+  
+  def create_service_sales_entry
+    @sales_order = SalesOrder.find_by_id params[:sales_order_id]
+    @service = Service.find_by_id params[:service_id] 
+    @selling_price_per_piece =  BigDecimal( params[:sales_entry][:selling_price_per_piece] )
+    
+    @employee = Employee.find_by_id params[:employee_id]
+     
+    @sales_entry = @sales_order.add_sales_entry_service(@service , @selling_price_per_piece)
+    @sales_entry.add_employee( @employee )
+    
+    # ActiveRecord::Base.transaction do
+    #    @transaction_activity = TransactionActivity.create_setup_payment( admin_fee, initial_savings,
+    #              deposit, current_user, @group_loan_membership )
+    #  end
+   
+    @has_no_errors  = @sales_entry.errors.messages.length == 0
+  end
+  
   
 =begin
   EDIT SALES ENTRY
@@ -68,8 +100,7 @@ class SalesEntriesController < ApplicationController
     @sales_order = SalesOrder.find_by_id params[:sales_order_id]
     @sales_entry = @sales_order.active_sales_entries.where(:id => params[:object_to_destroy_id]).first
     
-    @sales_order.delete_sales_entry( @sales_entry )   
-    
+    @sales_order.delete_sales_entry( @sales_entry )    
   end
   
 end

@@ -226,8 +226,12 @@ puts "Total rush_b_1665_bsf sales order: #{vehicle.sales_orders.count }"
   CREATING SERVICES 
 =end
 
+
+puts "Before creating services"
 lubricant_replacement = Service.create :name => "Lubricant Replacement"
+lubricant_replacement.set_price( BigDecimal('100000'))
 tire_replacement = Service.create :name => "Tire replacement"
+tire_replacement.set_price( BigDecimal("200000"))
 
 
 
@@ -235,9 +239,11 @@ customer = willy
 vehicle = rush_b_1665_bsf 
 sales_order =  SalesOrder.create_sales_order( admin, customer, vehicle )  
 
-lubricant_replacement_sales_entry   = sales_order.add_sales_entry_service(lubricant_replacement  )  
-tire_replacement_sales_entry  = sales_order.add_sales_entry_service(tire_replacement )
+puts "About to create service"
+lubricant_replacement_sales_entry   = sales_order.add_sales_entry_service(lubricant_replacement, BigDecimal("40000")  )  
+tire_replacement_sales_entry  = sales_order.add_sales_entry_service(tire_replacement , BigDecimal('500000'))
 
+puts "Done adding service"
 
 lubricant_replacement_sales_entry.add_employee( joko )
 tire_replacement_sales_entry.add_employee( joni ) 

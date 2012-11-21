@@ -16,15 +16,23 @@
 				<%= render :partial => "sales_entries/purchased_items" , :locals => {
 					:sales_order => @sales_order
 				}%> 
+				
+				<%= render :partial => "sales_entries/sales_order/total_purchase" , :locals => {
+					:sales_order => @sales_order
+				}%>
 			</div> <!-- /.span8 -->
 			
 			
 			<div class="span4">
-				<%= render :partial => "sales_entries/sales_entry_trigger_form", :locals => {
+				
+				<%= render :partial => "sales_entries/entry_creator" , :locals => {
+					:sales_order => @sales_order 
+				}%>
+				<%#= render :partial => "sales_entries/sales_entry_trigger_form", :locals => {
 					:sales_order => @sales_order 
 				} %> 
-				<div id='add_product_form_wrapper'> 
-				</div> 
+				<!-- <div id='add_product_form_wrapper'> 
+						</div>  -->
 			</div> <!-- /.span4 -->
 		</div> <!-- /.row -->
 		

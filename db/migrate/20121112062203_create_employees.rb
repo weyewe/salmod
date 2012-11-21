@@ -11,6 +11,7 @@ class CreateEmployees < ActiveRecord::Migration
       t.integer :creator_id 
       t.integer :year
       t.integer :month 
+      t.boolean :is_deleted , :default => false 
       
       t.timestamps
     end

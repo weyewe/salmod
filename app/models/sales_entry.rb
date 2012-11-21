@@ -12,9 +12,14 @@ class SalesEntry < ActiveRecord::Base
     self.save 
   end
   
-  def delete
+  def delete 
     self.is_deleted = true 
-    self.save 
+    self.save  
+    
+    if self.is_service?
+      service_item = self.service_item
+      service_item.delete 
+    end
   end
   
   def deduct_stock(employee)

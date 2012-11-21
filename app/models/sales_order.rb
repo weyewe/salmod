@@ -108,17 +108,27 @@ class SalesOrder < ActiveRecord::Base
   
   
   
-  def add_sales_entry_service(service_object) 
-    sales_entry = self.sales_entries.create(
-      :entry_id => service_object.id ,   
-      :entry_case => SALES_ENTRY_CASE[:service] ,
-      :quantity => 1 , 
-      :selling_price_per_piece => service_object.recommended_selling_price
-    )
+  def add_sales_entry_service(service_object, price )
+    new_object = SalesEntry.new 
+    new_object.entry_id = service_object.id ,   
+    new_object.entry_case = SALES_ENTRY_CASE[:service] ,
+    new_object.quantity = 1 , 
+    new_object.selling_price_per_piece = price
+    new_object.sales_order_id = self.id 
+    new_object.total_sales_price = price
     
-    sales_entry.generate_service_item 
-  
-    return sales_entry
+    
+    
+    
+    if price.nil? or price <= BigDecimal('0')
+      new_object.errors.add(:selling_price_per_piece , "Harga tidak boleh kurang atau sama dengan  0" ) 
+      return new_object
+    end 
+    
+    new_object.save 
+    new_object.generate_service_item 
+    
+    return new_object
   end
  
   def delete_sales_entry( sales_entry ) 
@@ -126,10 +136,19 @@ class SalesOrder < ActiveRecord::Base
       return nil
     end 
     
-    SalesEntry.where(:id => sales_entry.id, :sales_order_id => self.id).each {|x| x.delete }
+    sales_entry = SalesEntry.find(:first, :conditions => {
+      :id => sales_entry.id, :sales_order_id => self.id
+    })
+    
+    sales_entry.delete
+      
   end
   
   # on sales order confirm, deduct stock level 
+  
+  def total_amount_to_be_paid
+    self.active_sales_entries.sum("total_sales_price")
+  end
   
   def confirm_sales( employee)  
     ActiveRecord::Base.transaction do

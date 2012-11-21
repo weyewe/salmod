@@ -1,9 +1,12 @@
+<% entry_object = sales_entry.item %>
 <tr id='entry-<%= sales_entry.id %>'>
 	<td class='identifier'>
-		<%= sales_entry.item.name %>
+		<%= entry_object.name %> 
 		
+		<% if sales_entry.is_service? %>
+			<%= " : #{sales_entry.service_item.selected_employee.name }"%>
+		<% end %>
 		
-		<!-- <a href="javascript:;"><i class="icon-remove"></i></a> -->
 	</td>
 
 	<td>
