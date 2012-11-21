@@ -125,4 +125,28 @@ class SalesEntry < ActiveRecord::Base
     
     return self
   end
+  
+  
+  def add_employee(employee)
+    service_item = self.service_item 
+    service_item.add_employee_participation( employee )
+  end
+  
+  def update_service( price, employee ) 
+    
+    if not price.present? or price <=  BigDecimal('0')
+      self.errors.add(:selling_price_per_piece , "Harga jual harus lebih besar dari 0 rupiah" ) 
+      return self
+    end
+     
+    self.selling_price_per_piece = price
+    self.total_sales_price =price
+    self.save
+    
+    if not employee.nil? and not employee.is_deleted 
+      self.add_employee(employee) 
+    end  
+    
+    return self 
+  end
 end

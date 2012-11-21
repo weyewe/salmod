@@ -91,6 +91,19 @@ class SalesEntriesController < ApplicationController
     @item = @sales_entry.item
   end
   
+  def update_sales_entry_service
+    @sales_order = SalesOrder.find_by_id params[:sales_order_id]
+    @sales_entry = @sales_order.active_sales_entries.where(:id => params[:id]).first
+    
+    @service = Service.find_by_id params[:service_id] 
+    @selling_price_per_piece =  BigDecimal( params[:sales_entry][:selling_price_per_piece] ) 
+    @employee = Employee.find_by_id params[:employee_id]
+     
+    @new_object  =  @sales_entry.update_service(  @selling_price_per_piece, @employee )  
+    
+    @has_no_errors  = @sales_entry.errors.messages.length == 0
+  end
+  
   
 =begin
   DELETE SALES ENTRY 

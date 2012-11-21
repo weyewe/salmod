@@ -41,7 +41,9 @@ Salmod::Application.routes.draw do
   Editing sales entry 
 =end
   match 'update_sales_entry/:sales_order_id/sales_entry/:id' => 'sales_entries#update_sales_entry', :as => :update_sales_entry, :method => :post 
-
+  match 'update_sales_entry_service/:sales_order_id/sales_entry/:id' => 'sales_entries#update_sales_entry_service', :as => :update_sales_entry_service, :method => :post 
+  
+   
 =begin
   DELETE Sales Entry
 =end
