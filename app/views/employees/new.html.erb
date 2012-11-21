@@ -1,6 +1,6 @@
 <%= render :partial => "layouts/masthead" ,:locals => {
-	:title => "Customer",
-	:description => "Add info for customer database"
+	:title => "Employee",
+	:description => "Add info to employee database"
 }%>
 
 <div id="content">
@@ -13,15 +13,27 @@
 			<div class="span8">
 				 
 				
-				<%= render :partial => "customers/new_object_form", :locals => {
+				<%= render :partial => "employees/new_object_form", :locals => {
 					:new_object => @new_object , 
-					:url => customers_url
+					:url => employees_url 
 				}%>
-
-
-				
-				
-				
+ 
+				<table class="table table-bordered table-striped table-highlight" id='tableview'>
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Contact</th> 
+							<th>Address</th>
+						</tr>
+					</thead>
+					<tbody> 
+						<% @objects.each do |object| %>
+							<%= render :partial =>  'employees/entry', :locals => {
+								:object => object 
+							} %> 
+						<% end %>
+					</tbody>
+				</table>
 			 
 				
 			</div> <!-- /.span8 -->

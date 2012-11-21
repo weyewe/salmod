@@ -17,22 +17,34 @@
 					:sales_order => @sales_order
 				}%> 
 				
+				
+				
+				
+				
 				<%= render :partial => "sales_entries/sales_order/total_purchase" , :locals => {
 					:sales_order => @sales_order
 				}%>
+				
+				
+				
 			</div> <!-- /.span8 -->
 			
 			
 			<div class="span4">
 				
+				
+				<a  class="btn btn btn-primary">Confirm</a>	 
+				<a  class="btn btn btn-tertiary">Cancel</a>
+				
+				<hr />
+				
 				<%= render :partial => "sales_entries/entry_creator" , :locals => {
 					:sales_order => @sales_order 
 				}%>
-				<%#= render :partial => "sales_entries/sales_entry_trigger_form", :locals => {
-					:sales_order => @sales_order 
-				} %> 
-				<!-- <div id='add_product_form_wrapper'> 
-						</div>  -->
+				
+				
+				
+		 
 			</div> <!-- /.span4 -->
 		</div> <!-- /.row -->
 		

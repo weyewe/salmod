@@ -25,6 +25,9 @@ Salmod::Application.routes.draw do
   resources :sales_orders do
     resources :sales_entries 
   end
+  
+  # employee management 
+  resources :employees
 
   match 'generate_sales_order'  => 'sales_orders#generate_sales_order' , :as => :generate_sales_order, :method => :post 
   match 'search_vehicle'  => 'vehicles#search_vehicle' , :as => :search_vehicle
@@ -50,6 +53,8 @@ Salmod::Application.routes.draw do
   match 'delete_sales_entry_from_sales_order/:sales_order_id' => 'sales_entries#delete_sales_entry_from_sales_order', :as => :delete_sales_entry_from_sales_order, :method => :post 
 
   
+  
+
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -4,6 +4,8 @@ class Employee < ActiveRecord::Base
   has_many :service_subcriptions 
   
   after_create :add_employee_code
+  validates_presence_of :name 
+  validates_uniqueness_of :name , :case_sensitive => false 
   
   
   def add_employee_code
