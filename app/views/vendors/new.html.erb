@@ -1,0 +1,50 @@
+<%= render :partial => "layouts/masthead" ,:locals => {
+	:title => "Vendor",
+	:description => "Tambahkan Vendor ke Database"
+}%>
+
+<div id="content">
+
+	<div class="container">
+		
+		
+		<div class="row">
+			
+			<div class="span8">
+				 
+				
+				<%= render :partial => "vendors/new_object_form", :locals => {
+					:new_object => @new_object , 
+					:url => vendors_url
+				}%>
+
+
+				
+				
+				
+			 
+				
+			</div> <!-- /.span8 -->
+			
+			
+			<div class="span4">
+				
+						
+				<a href="javascript:;" class="btn btn-large btn-primary btn-block btn-big-block">Tree View</a>	
+				
+				
+				<a href="javascript:;" class="btn btn-large btn-tertiary btn-block btn-big-block">Contact Support</a>
+				
+				
+				<div>
+				</div> <!-- /.table wrapper -->
+						
+				
+			</div> <!-- /.span4 -->
+			
+		</div> <!-- /.row -->
+		
+	
+	</div> <!-- /.container -->
+
+</div> <!-- /#content -->

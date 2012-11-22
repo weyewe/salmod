@@ -13,7 +13,6 @@ class CreateSalesOrders < ActiveRecord::Migration
       # t.integer :year 
       # t.integer :month 
       # t.integer :yday 
-      t.boolean :is_deleted , :default => false
       
       t.boolean :is_registered_customer  , :default => false 
       t.integer :customer_id # we can make 2 sales order: registered / non registered 

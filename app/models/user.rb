@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
   has_many :assignments
   has_many :roles, :through => :assignments
   
+  # SUBDOMAIN
+  
   
   def self.create_main_user(new_user_params) 
     new_user = User.create( :email => new_user_params[:email], 

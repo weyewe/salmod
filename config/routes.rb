@@ -25,12 +25,18 @@ Salmod::Application.routes.draw do
   resources :sales_orders do
     resources :sales_entries 
   end
+  resources :purchase_orders do
+    resources :purchase_entries  
+  end
   
   # employee management 
   resources :employees
+  resources :vendors 
 
   match 'generate_sales_order'  => 'sales_orders#generate_sales_order' , :as => :generate_sales_order, :method => :post 
   match 'search_vehicle'  => 'vehicles#search_vehicle' , :as => :search_vehicle
+  match 'search_customer' => "customers#search_customer", :as => :search_customer 
+  match 'search_vendor' => "vendors#search_vendor", :as => :search_vendor 
   
 =begin
   Adding Sales Entry
@@ -54,6 +60,28 @@ Salmod::Application.routes.draw do
 
   
   
+##################################################
+##################################################
+######### Create PURCHASE ORDER + ENTRIES 
+##################################################
+##################################################
+
+
+=begin
+  Adding Purchase Entry
+=end
+  match 'generate_purchase_entry_add_product_form' => 'purchase_entries#generate_purchase_entry_add_product_form', :as => :generate_purchase_entry_add_product_form, :method => :post 
+ 
+
+=begin
+  Editing Purchase Entry
+=end
+  match 'update_purchase_entry/:purchase_order_id/purchase_entry/:id' => 'purchase_entries#update_purchase_entry', :as => :update_purchase_entry, :method => :post
+
+=begin
+  DELETE PurchaseEntry
+=end
+  match 'delete_purchase_entry_from_purchase_order/:purchase_order_id' => 'purchase_entries#delete_purchase_entry_from_purchase_order', :as => :delete_purchase_entry_from_purchase_order, :method => :post 
 
   
   # The priority is based upon order of creation:

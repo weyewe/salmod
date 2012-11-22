@@ -1,7 +1,7 @@
 class CreateSalesEntries < ActiveRecord::Migration
   def change
     create_table :sales_entries do |t|
-      t.integer :stock_entry_id  # if it is product, the real price of that product is decided over here 
+      # t.integer :stock_entry_id  # if it is product, the real price of that product is decided over here 
       # hence, we can calculate the net trading profit  
       # what if the product is coming from 2 different stock entries? 
       

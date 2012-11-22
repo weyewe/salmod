@@ -13,6 +13,8 @@ class SalesEntry < ActiveRecord::Base
   end
   
   def delete 
+    return nil if self.sales_order.is_confirmed?
+    
     self.is_deleted = true 
     self.save  
     
@@ -108,6 +110,8 @@ class SalesEntry < ActiveRecord::Base
   UPDATE SALES ENTRY
 =end
   def update_item(quantity, price_per_piece) 
+    return nil if self.sales_order.is_confirmed?
+     
     if not quantity.present? or quantity <=  0
       self.errors.add(:quantity , "Quantity harus setidaknya 1" ) 
       return self
@@ -133,6 +137,7 @@ class SalesEntry < ActiveRecord::Base
   end
   
   def update_service( price, employee ) 
+    return nil if self.sales_order.is_confirmed?
     
     if not price.present? or price <=  BigDecimal('0')
       self.errors.add(:selling_price_per_piece , "Harga jual harus lebih besar dari 0 rupiah" ) 

@@ -87,6 +87,7 @@ GEM
     factory_girl_rails (4.1.0)
       factory_girl (~> 4.1.0)
       railties (>= 3.0.0)
+    friendly_id (4.0.5)
     girl_friday (0.11.0)
       connection_pool (~> 0.9.0)
     heroku (2.33.0)
@@ -226,6 +227,7 @@ DEPENDENCIES
   devise
   exceptional
   factory_girl_rails (~> 4.0)
+  friendly_id
   heroku
   hirefireapp
   kaminari

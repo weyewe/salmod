@@ -6,4 +6,8 @@ class Vendor < ActiveRecord::Base
   
   
   
+  def self.active_vendors
+    self.where(:is_deleted => false).order("created_at DESC")
+  end
+  
 end

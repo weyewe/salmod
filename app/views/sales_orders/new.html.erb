@@ -1,6 +1,6 @@
 <%= render :partial => "layouts/masthead" ,:locals => {
-	:title => "Sales Order",
-	:description => "Create sales order: for registered customer or unregistered"
+	:title => "Invoice",
+	:description => "Create invoice: for registered customer or unregistered"
 }%>
 
 <div id="content">
@@ -11,17 +11,30 @@
 		
 		<div class="row">
 			 
-			<div class="span8">
+			<div class="span12">
+				
+				<% if not @has_no_errors.nil? and not @has_no_errors  %>
+					<%= render :partial => "layouts/errors", :locals => { 
+						:new_object => @new_object 
+					}%>
+				<% end %>
+				
+				
 
 				<%= render :partial => "sales_orders/new_object_form", :locals => {
 					:new_object => @new_object , 
 					:url => sales_orders_url
 				}%>
 			 
-			</div> <!-- /.span8 -->
+			</div> <!-- /.span12 --> 
+		</div> <!-- /.row -->
+		
+		
+		<div class='row'>
 			
-			
-			<div class="span4">
+			<div class="span12">
+				
+				
 				
 				<%= render :partial => "sales_orders/sales_order_statistic" %>
 				
@@ -30,12 +43,9 @@
 							</div> -->
 				</div>
 				
-			</div> <!-- /.span4 -->
+			</div> <!-- /.span12 -->
 			
-		</div> <!-- /.row -->
-		
-		
-		<div class='row'>
+	 
 		</div><!--  /.row, for displaying the latest StockMigration performed -->
 		
 	
@@ -62,7 +72,6 @@
 
 <% content_for :additional_js do %> 
   <%= javascript_include_tag "jquery.tokeninput" 	%> 
-
 	<script type="text/javascript"> 
 	
   $(document).ready(function() { 
@@ -71,12 +80,25 @@
 			$search_customer_box.tokenInput( '<%= search_vehicle_url %>' , {
 				propertyToSearch: "name",
 				tokenLimit: 1, 
-				onAdd: function (item) { 
+				onAdd: function (item){ 
 				} ,
 				onDelete: function(item){
-			
 				}
 			}); 
+			
+			var $search_customer_box = $("#search_customer_id"); 
+			
+			$search_customer_box.tokenInput( '<%= search_customer_url %>' , {
+				propertyToSearch: "name",
+				tokenLimit: 1, 
+				onAdd: function (item){ 
+				} ,
+				onDelete: function(item){
+				}
+			});
+		 
+			
+			
   });
 
   </script>

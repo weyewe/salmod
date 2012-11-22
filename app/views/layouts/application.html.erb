@@ -86,7 +86,7 @@
 		                </li>
 					</ul> 
 				</li>
-				<li><%= link_to "Logout", root_url %> </li>
+				<li><%= link_to "Logout", destroy_user_session_url %> </li>
 			</ul>
 			
 		</div> <!-- /#top-nav -->
@@ -128,7 +128,11 @@
 					</a>	
 				
 					<ul class="dropdown-menu">
-						<li><a href="./elements.html"><i class="icon-plus-sign"></i> Store</a></li>
+						<li>
+							<%= link_to '#' do %>
+								<i class="icon-plus-sign"></i>Store
+							<% end %>
+						</li>
 						<li>
 							<%= link_to new_employee_url  do %>
 								<i class="icon-user"></i>
@@ -136,7 +140,11 @@
 							<% end %>
 						</li>
 						<!-- <li><a href="./jqueryui.html">Company</a></li> -->
-						<li><a href="./charts.html"> <i class="icon-eye-open"></i> Employee Performance</a></li>
+						<!-- <li>
+									<%#= link_to '#' do %>
+										<i class="icon-eye-open"></i>Employee Performance
+									<%# end %>
+								</li> -->
 						<!-- <li><a href="./bonus.html">Bonus Elements</a></li> -->
 						<!-- <li class="dropdown-submenu">
 				                  <a tabindex="-1" href="#">Dropdown menu</a>
@@ -157,10 +165,24 @@
 					</a>	
 				
 					<ul class="dropdown-menu">
-						<li><a href="./faq.html"><i class="icon-folder-close"></i>Vendor</a></li>
-						<li><a href="./faq.html"><i class="icon-th-list"></i>  Purchase Order</a></li>
-						<li><a href="./gallery.html"><i class="icon-remove"></i>Purchase Return</a></li>
-						<li><a href="./pricing.html"> <i class="icon-flag"></i>Purchase Allowance</a></li> 
+						<li>
+							<%= link_to new_vendor_url do %>
+								<i class="icon-folder-open"></i>Vendor
+							<% end %> 
+						</li>
+						<li>
+							
+							<%= link_to new_purchase_order_url do %>
+								<i class="icon-th-list"></i>Purchase Order
+							<% end %>
+						</li>
+						<li>
+							<%= link_to '#' do %>
+								<i class="icon-remove"></i>Purchase Return
+							<% end %>
+							
+						</li>
+						<!-- <li><a href="./pricing.html"> <i class="icon-flag"></i>Purchase Allowance</a></li>  -->
 					</ul>    				
 				</li>
 				
@@ -191,12 +213,11 @@
 							<%= link_to new_stock_migration_url do %>
 								<i class="icon-star"></i>Stock Adjustment
 							<% end %>
-						<!-- <li><a href="./settings.html"><i class="icon-star"></i>Stock Adjustment</a></li> -->
 						</li>
-						<li> <a href="./reports.html"><i class="icon-trash"></i>Scrap Item</a></li>
-						<li><a href="./settings.html"><i class="icon-random"></i>Warehouse Mutation</a></li>
+						<!-- <li> <a href="./reports.html"><i class="icon-trash"></i>Scrap Item</a></li> -->
+						<!-- <li><a href="./settings.html"><i class="icon-random"></i>Warehouse Mutation</a></li> -->
 						
-						<li><a href="./settings.html"><i class="icon-money"></i>Price Book</a></li>
+						<!-- <li><a href="./settings.html"><i class="icon-money"></i>Price Book</a></li> -->
 					
 						
 						
@@ -219,11 +240,15 @@
 						</li>
 						<li>
 							<%= link_to new_sales_order_url do %>
-								<i class="icon-shopping-cart"></i>Sales Order
+								<i class="icon-shopping-cart"></i>Invoice
 							<% end %>
 						</li>
-						<li><a href="./signup.html"><i class="icon-wrench"></i> Sales Return</a></li>
-						<li><a href="./error.html"><i class="icon-share-alt"></i> Sales Allowance</a></li>
+						<li>
+							<%= link_to '#' do %>
+								<i class="icon-wrench"></i>Sales Return
+							<% end %>							
+						</li>
+						<!-- <li><a href="./error.html"><i class="icon-share-alt"></i> Sales Allowance</a></li> -->
 						<!-- <li><a href="./skins.html">Skins</a></li>
 										<li><a href="./sticky.html">Sticky Footer</a></li> -->
 					</ul>    				

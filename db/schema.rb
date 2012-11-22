@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121114064127) do
+ActiveRecord::Schema.define(:version => 20121122064852) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -59,6 +59,17 @@ ActiveRecord::Schema.define(:version => 20121114064127) do
     t.datetime "updated_at",                      :null => false
   end
 
+  create_table "friendly_id_slugs", :force => true do |t|
+    t.string   "slug",                         :null => false
+    t.integer  "sluggable_id",                 :null => false
+    t.string   "sluggable_type", :limit => 40
+    t.datetime "created_at"
+  end
+
+  add_index "friendly_id_slugs", ["slug", "sluggable_type"], :name => "index_friendly_id_slugs_on_slug_and_sluggable_type", :unique => true
+  add_index "friendly_id_slugs", ["sluggable_id"], :name => "index_friendly_id_slugs_on_sluggable_id"
+  add_index "friendly_id_slugs", ["sluggable_type"], :name => "index_friendly_id_slugs_on_sluggable_type"
+
   create_table "items", :force => true do |t|
     t.integer  "ready",                                                    :default => 0
     t.integer  "scrap",                                                    :default => 0
@@ -79,9 +90,31 @@ ActiveRecord::Schema.define(:version => 20121114064127) do
     t.datetime "updated_at",     :null => false
   end
 
+  create_table "purchase_entries", :force => true do |t|
+    t.integer  "purchase_order_id"
+    t.integer  "item_id"
+    t.integer  "quantity"
+    t.decimal  "price_per_piece",      :precision => 11, :scale => 2, :default => 0.0
+    t.decimal  "total_purchase_price", :precision => 11, :scale => 2, :default => 0.0
+    t.boolean  "is_deleted",                                          :default => false
+    t.integer  "sales_order_id"
+    t.datetime "created_at",                                                             :null => false
+    t.datetime "updated_at",                                                             :null => false
+  end
+
   create_table "purchase_orders", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "vendor_id"
+    t.integer  "creator_id"
+    t.string   "code"
+    t.integer  "year"
+    t.integer  "month"
+    t.boolean  "is_deleted",         :default => false
+    t.boolean  "is_confirmed",       :default => false
+    t.integer  "confirmator_id"
+    t.boolean  "is_paid",            :default => false
+    t.integer  "paid_declarator_id"
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
   end
 
   create_table "roles", :force => true do |t|
@@ -91,7 +124,6 @@ ActiveRecord::Schema.define(:version => 20121114064127) do
   end
 
   create_table "sales_entries", :force => true do |t|
-    t.integer  "stock_entry_id"
     t.integer  "entry_id"
     t.integer  "entry_case",                                             :default => 2
     t.integer  "quantity"
@@ -107,13 +139,13 @@ ActiveRecord::Schema.define(:version => 20121114064127) do
   create_table "sales_orders", :force => true do |t|
     t.string   "code"
     t.integer  "creator_id"
-    t.boolean  "is_deleted",             :default => false
     t.boolean  "is_registered_customer", :default => false
     t.integer  "customer_id"
     t.boolean  "is_registered_vehicle",  :default => false
     t.integer  "vehicle_id"
     t.integer  "year"
     t.integer  "month"
+    t.boolean  "is_deleted",             :default => false
     t.boolean  "is_confirmed",           :default => false
     t.integer  "confirmator_id"
     t.boolean  "is_paid",                :default => false
@@ -224,8 +256,9 @@ ActiveRecord::Schema.define(:version => 20121114064127) do
     t.string   "email"
     t.string   "bbm_pin"
     t.text     "address"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.boolean  "is_deleted",     :default => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
   end
 
   create_table "warehouses", :force => true do |t|

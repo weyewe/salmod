@@ -7,7 +7,7 @@ gem 'rails', '3.2.8'
 
 gem 'pg'
 
-
+gem 'friendly_id'
 gem 'devise'
 gem 'transloadit-rails' , ">= 1.0.2"
 gem "daemons"

@@ -3,7 +3,7 @@ class SalesEntriesController < ApplicationController
     @sales_order = SalesOrder.find_by_id params[:sales_order_id]
     
     
-    add_breadcrumb "Create Sales Order", 'new_sales_order_url'
+    add_breadcrumb "Create Invoice", 'new_sales_order_url'
     set_breadcrumb_for @group_loan, 'new_sales_order_sales_entry_url' + "(#{@sales_order.id})", 
                 "#{@sales_order.code}"
   end

@@ -26,12 +26,27 @@ class SalesOrder < ActiveRecord::Base
                         
     a.year = year
     a.month = month 
+    
+    if not customer.nil? and not vehicle.nil? 
+      
+      # the vehicle must belong to customer 
+      if vehicle.customer_id == customer.id 
+        a.customer_id = customer.id  
+        a.vehicle_id = vehicle.id 
+      else
+        a.errors.add(:vehicle_id , "Customer #{customer.name} tidak memiliki kendaraan #{vehicle.id_code}" ) 
+        return a
+      end
+    end
+    
+    
     if not customer.nil?
       a.customer_id = customer.id   
     end
     
-    if not vehicle.nil?
-      a.vehicle_id = vehicle.id   
+    if customer.nil? and not vehicle.nil? 
+      a.vehicle_id = vehicle.id 
+      a.customer_id   = vehicle.customer_id 
     end
     
     a.creator_id = employee.id 
@@ -47,7 +62,6 @@ class SalesOrder < ActiveRecord::Base
   
   def active_sales_entries
     self.sales_entries.where(:is_deleted => false ).order("created_at ASC")
-    
   end
   
   def sales_entry_for_item( item)
@@ -151,6 +165,8 @@ class SalesOrder < ActiveRecord::Base
   end
   
   def confirm_sales( employee)  
+    return nil if self.is_confirmed? 
+    
     ActiveRecord::Base.transaction do
       
       self.active_sales_entries.each do |sales_entry|
