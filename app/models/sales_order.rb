@@ -174,13 +174,22 @@ class SalesOrder < ActiveRecord::Base
         if sales_entry.entry_case  ==  SALES_ENTRY_CASE[:item]
           sales_entry.deduct_stock(employee)
         elsif sales_entry.entry_case  ==  SALES_ENTRY_CASE[:service]
-          # sales_entry.confirm_service_appointment
+          sales_entry.confirm_service_item
         end
       end
       
       self.is_confirmed = true 
       self.confirmator_id = employee.id 
     end 
+  end
+  
+  def delete(employee)
+    return nil if self.is_confirmed? 
+    
+    self.is_deleted = true 
+    self.deleter_id = employee.id 
+    self.save 
+    
   end
   
   

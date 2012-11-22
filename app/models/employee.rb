@@ -26,4 +26,8 @@ class Employee < ActiveRecord::Base
   def self.active_employees
     Employee.where(:is_deleted => false ) 
   end
+  
+  def confirmed_services
+    self.service_items.where(:is_confirmed => true , :is_deleted => false )
+  end
 end

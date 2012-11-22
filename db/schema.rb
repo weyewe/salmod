@@ -158,6 +158,7 @@ ActiveRecord::Schema.define(:version => 20121122064852) do
     t.integer  "service_id"
     t.integer  "sales_entry_id"
     t.boolean  "is_deleted",     :default => false
+    t.boolean  "is_confirmed",   :default => false
     t.datetime "created_at",                        :null => false
     t.datetime "updated_at",                        :null => false
   end

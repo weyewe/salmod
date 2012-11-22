@@ -31,10 +31,17 @@
 			
 			
 			<div class="span4">
+				<% if not @sales_order.is_confirmed? %>
+					<%= render :partial => 'sales_entries/action', :locals => {
+						:sales_order => @sales_order 
+					} %>
+				<% else %>
+					<%= render :partial => 'sales_entries/post_confirm_action', :locals => {
+						:sales_order => @sales_order 
+					} %>
+				<% end %>
 				
-				
-				<a  class="btn btn btn-primary">Confirm</a>	 
-				<a  class="btn btn btn-tertiary">Cancel</a>
+			
 				
 				<hr />
 				
@@ -73,6 +80,9 @@
   <% end %>
 </div>
 
+
+
+ 
 
 <% content_for :additional_js do %> 
 	<%= javascript_include_tag "jquery.tokeninput", 

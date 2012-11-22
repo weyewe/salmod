@@ -28,6 +28,7 @@ class CreateSalesOrders < ActiveRecord::Migration
       t.integer :year
       t.integer :month 
       t.boolean :is_deleted , :default => false 
+      t.integer :deleter_id 
       
       t.boolean :is_confirmed , :default => false 
       t.integer :confirmator_id  

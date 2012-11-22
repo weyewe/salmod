@@ -5,7 +5,9 @@
 			<th> Quantity </th>
 			<th> Unit Price  </th>
 			<th> Total Price </th>
-			<th style='text-align:center;' colspan='2'>Action</th>
+			<% if not sales_order.is_confirmed? %>
+				<th style='text-align:center;' colspan='2'>Action</th>
+			<% end %>
 		</tr>
 	</thead>
 	<tbody>

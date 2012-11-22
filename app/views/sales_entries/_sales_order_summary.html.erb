@@ -1,4 +1,4 @@
-<table class="table table-bordered table-striped table-highlight" id='table_form'>
+<table class="table table-bordered table-striped table-highlight" id='order_summary'>
 	<thead>
 		<tr>
 			<th colspan='2' style='text-align:center;'>Invoice No.: <b><%= sales_order.code %></b></th>  
@@ -14,8 +14,10 @@
 						<span class="label label-success"><%= sales_order.customer.name %></span>
 					<% end %>
 					
-					<%= link_to root_url, :class =>"edit_entry", :style => "cursor:pointer; text-decoration:none;" do %>
-						<i class='icon-edit'></i>Edit
+					<% if not sales_order.is_confirmed? %>
+						<%= link_to root_url, :class =>"edit_entry", :style => "cursor:pointer; text-decoration:none;" do %>
+							<i class='icon-edit'></i>Edit
+						<% end %>
 					<% end %>
 			</td>
 			<td> 
@@ -27,8 +29,10 @@
 						<span class="label label-success"><%= sales_order.vehicle.id_code %></span>
 					<% end %>
 
-					<%= link_to root_url, :class =>"edit_entry", :style => "cursor:pointer; text-decoration:none;" do %>
-						<i class='icon-edit'></i>Edit
+					<% if not sales_order.is_confirmed? %>
+						<%= link_to root_url, :class =>"edit_entry", :style => "cursor:pointer; text-decoration:none;" do %>
+							<i class='icon-edit'></i>Edit
+						<% end %>
 					<% end %>
 			</td>
 		</tr>

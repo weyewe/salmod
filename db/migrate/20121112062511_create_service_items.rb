@@ -6,6 +6,8 @@ class CreateServiceItems < ActiveRecord::Migration
       # the price info is in the member 
       
       t.boolean :is_deleted, :default => false 
+      
+      t.boolean :is_confirmed, :default => false 
 
       t.timestamps
     end

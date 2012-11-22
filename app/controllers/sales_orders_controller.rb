@@ -19,12 +19,7 @@ class SalesOrdersController < ApplicationController
       end
     end
     
-    
-    
-    
-    
-    puts "Total errors: #{@errors.length}"
-    @new_object.errors.each{|attr,err| puts "#{attr} - #{err}" }
+     
     @has_no_errors  = @errors.length == 0
     
     puts "Middle Total errors: #{@errors.length}"
@@ -41,12 +36,19 @@ class SalesOrdersController < ApplicationController
       return 
     end
   end
-  
-  # will create the sales order
-  def generate_sales_order
-  end
+   
   
   def confirm_sales_order
+    @sales_order = SalesOrder.find_by_id params[:sales_order_id]
+    # add some defensive programming.. current user has role admin, and current_user is indeed belongs to the company 
+    # @sales_order.confirm_sales( current_user  ) 
+ 
+  end
+  
+  def delete_sales_order
+    
+    
+    redirect_to new_sales_order_url 
   end
    
   

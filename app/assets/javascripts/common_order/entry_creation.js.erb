@@ -79,5 +79,60 @@ $(document).ready(function(){
 		return false; 
 	});
 	
+	$("#confirm").live('click', function(){  
+		var yes_value = "Yes"; 
+		var cancel_value = 'false';
+		
+		$.msgbox("Yakin untuk konfirmasi sales order?"  , {
+		  type: "confirm",
+		  buttons : [
+		    {type: "submit", value: yes_value}, 
+		    {type: "cancel", value: "Cancel"}
+		  ]
+		}, function(result) { 
+			if( result == yes_value){ 
+
+				var $form_wrapper = $("#action_button");
+				$form_wrapper.spin("large", "black"); 
+				var $form = $("#confirm_order form");
+				var post_url = $form.attr('action');
+
+		    $.ajax({
+					url: post_url,
+					type: "POST",
+					data: $form.serialize(),
+					dataType: 'script',
+					success: function(response){ 
+						// it is live.. ajax-form class
+					}
+				});
+			}
+		}); 
+		return false; 
+	});
+	
+	
+	$("#delete").live('click', function(){  
+		var yes_value = "Yes"; 
+		var cancel_value = 'false';
+		
+		$.msgbox("Yakin untuk hapus Invoice?"  , {
+		  type: "confirm",
+		  buttons : [
+		    {type: "submit", value: yes_value}, 
+		    {type: "cancel", value: "Cancel"}
+		  ]
+		}, function(result) { 
+			if( result == yes_value){ 
+
+			 	var $form =  $("#delete_order form");
+				$form.trigger("submit");
+
+		   
+			}
+		}); 
+		return false; 
+	});
+	
 	
 });

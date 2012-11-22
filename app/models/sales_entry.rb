@@ -154,4 +154,16 @@ class SalesEntry < ActiveRecord::Base
     
     return self 
   end
+  
+=begin
+  ON SALES ORDER CONFIRMATION
+=end
+  def confirm_service_item
+    if self.service_item.nil?
+      return nil
+    end
+    service_item = self.service_item 
+    service_item.is_confirmed = true 
+    service_item.save 
+  end
 end

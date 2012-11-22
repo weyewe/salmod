@@ -64,7 +64,7 @@ Salmod::Application.configure do
                                 jquery.msgbox.css 
                                 jquery.msgbox.min.js
                                 
-                                sales_entry_creation.js
+                                common_order/entry_creation.js
                   )
 
   # Disable delivery errors, bad email addresses will be ignored
