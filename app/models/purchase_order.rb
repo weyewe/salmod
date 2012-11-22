@@ -104,4 +104,21 @@ class PurchaseOrder < ActiveRecord::Base
   end
   
   
+  def confirm_purchase( employee)  
+    return nil if self.is_confirmed? 
+    return nil if self.active_purchase_entries.count == 0 
+    
+    ActiveRecord::Base.transaction do
+      
+      self.active_purchase_entries.each do |purchase_entry| 
+        purchase_entry.create_stock_entry(employee) 
+      end
+      
+      self.is_confirmed = true 
+      self.confirmator_id = employee.id 
+      self.save
+    end 
+  end
+  
+  
 end

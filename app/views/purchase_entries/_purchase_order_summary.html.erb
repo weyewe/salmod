@@ -10,8 +10,10 @@
 			   Vendor:  
 						<span class="label label-success"><%= purchase_order.vendor.name %></span> 
 					
-					<%= link_to root_url, :class =>"edit_entry", :style => "cursor:pointer; text-decoration:none;" do %>
-						<i class='icon-edit'></i>Edit
+					<% if not purchase_order.is_confirmed? %>
+						<%= link_to root_url, :class =>"edit_entry", :style => "cursor:pointer; text-decoration:none;" do %>
+							<i class='icon-edit'></i>Edit
+						<% end %>
 					<% end %>
 			</td>
 	 

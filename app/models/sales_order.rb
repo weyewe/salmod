@@ -91,6 +91,8 @@ class SalesOrder < ActiveRecord::Base
     end
     
     
+    
+    
     puts "Gonna create new sales entry\n"*10
     
     # rule for sales entry creation: max stock?  no indent?. just sell whatever we have now 
@@ -105,7 +107,12 @@ class SalesOrder < ActiveRecord::Base
     
     
     if not quantity.present? or quantity <=  0
-      new_object.errors.add(:quantity , "Quantity harus setidaknya 1" ) 
+      new_object.errors.add(:quantity , "Quantity harus setidaknya 1. Ready stock:  #{item.ready}") 
+      return new_object
+    end
+    
+    if quantity > item.ready
+      new_object.errors.add(:quantity , "Quantity harus setidaknya 1. Ready stock:  #{item.ready}" ) 
       return new_object
     end
      
@@ -166,6 +173,7 @@ class SalesOrder < ActiveRecord::Base
   
   def confirm_sales( employee)  
     return nil if self.is_confirmed? 
+    return nil if self.active_sales_entries.count ==0 
     
     ActiveRecord::Base.transaction do
       
@@ -180,6 +188,7 @@ class SalesOrder < ActiveRecord::Base
       
       self.is_confirmed = true 
       self.confirmator_id = employee.id 
+      self.save
     end 
   end
   

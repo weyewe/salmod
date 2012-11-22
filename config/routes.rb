@@ -88,6 +88,13 @@ Salmod::Application.routes.draw do
 =end
   match 'delete_purchase_entry_from_purchase_order/:purchase_order_id' => 'purchase_entries#delete_purchase_entry_from_purchase_order', :as => :delete_purchase_entry_from_purchase_order, :method => :post 
 
+
+=begin
+  CONFIRM  PURCHASE ORDER
+=end
+  match 'confirm_purchase_order/:purchase_order_id' => "purchase_orders#confirm_purchase_order", :as => :confirm_purchase_order, :method => :post 
+  match 'delete_purchase_order/:purchase_order_id' => "purchase_orders#delete_purchase_order", :as => :delete_purchase_order, :method => :post 
+
    
 ##################################################
 ##################################################

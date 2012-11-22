@@ -146,6 +146,7 @@ ActiveRecord::Schema.define(:version => 20121122064852) do
     t.integer  "year"
     t.integer  "month"
     t.boolean  "is_deleted",             :default => false
+    t.integer  "deleter_id"
     t.boolean  "is_confirmed",           :default => false
     t.integer  "confirmator_id"
     t.boolean  "is_paid",                :default => false

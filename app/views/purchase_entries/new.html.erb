@@ -31,16 +31,27 @@
 			
 			
 			<div class="span4">
-				<%= render :partial => 'purchase_entries/action' %>
+				
+				<% if not @purchase_order.is_confirmed? %>
+					<%= render :partial => 'purchase_entries/action', :locals => {
+						:purchase_order => @purchase_order 
+					} %>
+				<% else %>
+					<%= render :partial => 'purchase_entries/post_confirm_action', :locals => {
+						:purchase_order => @purchase_order 
+					} %>
+				<% end %>
+				 
 				
 			
 				
 				<hr />
 				
-				<%= render :partial => "purchase_entries/entry_creator" , :locals => {
-					:purchase_order => @purchase_order 
-				}%>
-				
+				<% if not @purchase_order.is_confirmed? %> 
+					<%= render :partial => "purchase_entries/entry_creator" , :locals => {
+						:purchase_order => @purchase_order 
+					}%>
+				<% end %>
 				
 				
 		 

@@ -13,11 +13,11 @@
 </table>
 
 <div class="hidden" id="confirm_order">
-  <%= form_for SalesEntry.new, :url => confirm_sales_order_url(@sales_order)  do |f| %> 
+  <%= form_for SalesEntry.new, :url => confirm_sales_order_url(sales_order)  do |f| %> 
   <% end %>
 </div>
 
 <div class="hidden" id="delete_order">
-  <%= form_for SalesEntry.new, :url => delete_sales_order_url(@sales_order)  do |f| %> 
+  <%= form_for SalesEntry.new, :url => delete_sales_order_url(sales_order)  do |f| %> 
   <% end %>
 </div>

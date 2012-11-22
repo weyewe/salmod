@@ -38,5 +38,25 @@ class PurchaseEntry < ActiveRecord::Base
     return self
   end
   
+  def create_stock_entry(employee)
+    new_stock_entry = StockEntry.new 
+    new_stock_entry.creator_id = employee.id
+    new_stock_entry.quantity = quantity
+    new_stock_entry.base_price_per_piece  = price_per_piece
+    
+    new_stock_entry.item_id  = item.id 
+    
+    new_stock_entry.entry_case =  STOCK_ENTRY_CASE[:purchase]
+    new_stock_entry.source_document = self.to_s 
+    new_stock_entry.source_document_id = self.id 
+    new_stock_entry.save 
+    
+    # update the summary? 
+    item.ready += new_stock_entry.quantity
+    item.save 
+    
+    item.recalculate_average_cost_post_stock_entry_addition( new_stock_entry )
+  end
+  
   
 end
