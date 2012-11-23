@@ -1,5 +1,5 @@
 class Item < ActiveRecord::Base
-  attr_accessible :name
+  attr_accessible :name, :recommended_selling_price
   has_many :stock_entry 
   
   belongs_to :category 
@@ -21,6 +21,7 @@ class Item < ActiveRecord::Base
     end
     
     item.category_id = category.id 
+    item.recommended_selling_price = BigDecimal(item_params[:recommended_selling_price])
     item.save
     return item 
   end

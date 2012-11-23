@@ -11,9 +11,12 @@
 	<%= f.input :category_id, :hint => "Item Category", :label => "Category" do %>
      <%= f.select :category_id, 
          Category.all_selectable_categories %>
-   <% end %>
+  <% end %>
 
   
+	<%= f.input :recommended_selling_price ,
+				:label =>"Harga Jual",  
+				:as => :string %>
 
 
   <div class="form-actions">
