@@ -54,6 +54,7 @@ bangjay = Vendor.create :name => "Bangjay",
                         :contact_person => "Rudi",
                         :mobile => "0819 323 27 141"
                         
+puts " about to create inventory item "
 # Create Inventory Item 
 shell_lubricant = Item.create_by_category( lubricant, :name => "Shell Formula 1 Lubricant 5L") 
 pertamina_lubricant = Item.create_by_category( lubricant, :name => "Pertamina Top Gun 4L")
@@ -240,13 +241,16 @@ vehicle = rush_b_1665_bsf
 sales_order =  SalesOrder.create_sales_order( admin, customer, vehicle )  
 
 puts "About to create service"
-lubricant_replacement_sales_entry   = sales_order.add_sales_entry_service(lubricant_replacement, BigDecimal("40000")  )  
+lubricant_replacement_sales_entry   = sales_order.add_sales_entry_service(lubricant_replacement, BigDecimal("40000")  ) 
+
+# lubricant_replacement_sales_entry.service_item.add_item( item_list ) 
+
 tire_replacement_sales_entry  = sales_order.add_sales_entry_service(tire_replacement , BigDecimal('500000'))
 
 puts "Done adding service"
 
-lubricant_replacement_sales_entry.add_employee( joko )
-tire_replacement_sales_entry.add_employee( joni ) 
+lubricant_replacement_sales_entry.add_employees( [joko] )
+tire_replacement_sales_entry.add_employees( [joni] ) 
  
 sales_order.confirm_sales( admin ) # will create stock entry, update the item's stock summary
 

@@ -49,17 +49,15 @@ class SalesEntriesController < ApplicationController
   def create_service_sales_entry
     @sales_order = SalesOrder.find_by_id params[:sales_order_id]
     @service = Service.find_by_id params[:service_id] 
+    # @vehicle = Vehicle.find_by_id params[:search_vehicle_id]
     @selling_price_per_piece =  BigDecimal( params[:sales_entry][:selling_price_per_piece] )
     
-    @employee = Employee.find_by_id params[:employee_id]
+    # @employee = Employee.find_by_id params[:employee_id]
+    @employee_list = Employee.where(:id => params[:employee_id] )
      
-    @sales_entry = @sales_order.add_sales_entry_service(@service , @selling_price_per_piece)
-    @sales_entry.add_employee( @employee )
-    
-    # ActiveRecord::Base.transaction do
-    #    @transaction_activity = TransactionActivity.create_setup_payment( admin_fee, initial_savings,
-    #              deposit, current_user, @group_loan_membership )
-    #  end
+    @sales_entry = @sales_order.add_sales_entry_service(@service , @selling_price_per_piece )
+    @sales_entry.add_employees( @employee_list )
+     
    
     @has_no_errors  = @sales_entry.errors.messages.length == 0
   end
@@ -98,7 +96,9 @@ class SalesEntriesController < ApplicationController
     @service = Service.find_by_id params[:service_id] 
     @selling_price_per_piece =  BigDecimal( params[:sales_entry][:selling_price_per_piece] ) 
     
-    @employee = Employee.find_by_id params[:employee_id]
+   @employee_list = Employee.where(:id => params[:employee_id] )
+    
+     @sales_entry.add_employees( @employee_list )
      
     @new_object  =  @sales_entry.update_service(  @selling_price_per_piece, @employee )  
     @new_object.reload
@@ -116,6 +116,20 @@ class SalesEntriesController < ApplicationController
     @sales_entry = @sales_order.active_sales_entries.where(:id => params[:object_to_destroy_id]).first
     
     @sales_order.delete_sales_entry( @sales_entry )    
+  end
+  
+=begin
+  ADD DETAIL TO SERVICE: VEHICLE + ITEM USED 
+=end
+  
+  def generate_form_to_add_service_sales_entry_details
+    @sales_entry = SalesEntry.find_by_id params[:sales_entry_id]
+    @sales_order = @sales_entry.sales_order 
+  end
+  
+  def create_service_sales_entry_details
+    @sales_entry = SalesEntry.find_by_id params[:sales_entry_id]
+    @sales_order = @sales_entry.sales_order
   end
   
 end

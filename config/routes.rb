@@ -65,6 +65,11 @@ Salmod::Application.routes.draw do
   match 'confirm_sales_order/:sales_order_id' => "sales_orders#confirm_sales_order", :as => :confirm_sales_order, :method => :post 
   match 'delete_sales_order/:sales_order_id' => "sales_orders#delete_sales_order", :as => :delete_sales_order, :method => :post 
   
+=begin
+  Special for Service: add vehicle and items 
+=end
+  match 'generate_form_to_add_service_sales_entry_details/:sales_entry_id' => 'sales_entries#generate_form_to_add_service_sales_entry_details', :as => :generate_form_to_add_service_sales_entry_details
+  match 'create_service_sales_entry_details/:sales_entry_id' => 'sales_entries#create_service_sales_entry_details', :as => :create_service_sales_entry_details, :method => :post 
 ##################################################
 ##################################################
 ######### Create PURCHASE ORDER + ENTRIES 

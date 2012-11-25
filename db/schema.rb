@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121122064852) do
+ActiveRecord::Schema.define(:version => 20121124160142) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -117,6 +117,13 @@ ActiveRecord::Schema.define(:version => 20121122064852) do
     t.datetime "updated_at",                            :null => false
   end
 
+  create_table "replacement_items", :force => true do |t|
+    t.integer  "service_item_id"
+    t.integer  "replacement_item_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
   create_table "roles", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
@@ -158,6 +165,7 @@ ActiveRecord::Schema.define(:version => 20121122064852) do
   create_table "service_items", :force => true do |t|
     t.integer  "service_id"
     t.integer  "sales_entry_id"
+    t.integer  "vehicle_id"
     t.boolean  "is_deleted",     :default => false
     t.boolean  "is_confirmed",   :default => false
     t.datetime "created_at",                        :null => false
@@ -176,6 +184,8 @@ ActiveRecord::Schema.define(:version => 20121122064852) do
     t.string   "name"
     t.boolean  "is_deleted",                                               :default => false
     t.decimal  "recommended_selling_price", :precision => 11, :scale => 2, :default => 0.0
+    t.integer  "number_of_employee"
+    t.decimal  "commission_per_employee",   :precision => 11, :scale => 2, :default => 0.0
     t.datetime "created_at",                                                                  :null => false
     t.datetime "updated_at",                                                                  :null => false
   end

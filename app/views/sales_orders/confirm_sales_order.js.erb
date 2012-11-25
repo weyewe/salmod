@@ -28,6 +28,7 @@ $(document).ready(function(){
 		$.msgbox("Berhasil Konfirmasi Invoice: <%= @sales_order.code %>", 
 						{type: "info"});
 						 
+		$("#entry_creator_wrapper").remove();
 		
 		
 	<% else %> 

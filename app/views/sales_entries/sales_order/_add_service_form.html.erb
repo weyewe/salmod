@@ -11,13 +11,26 @@
 					</tr>
 				</thead>
 				<tbody>
-				 
+					<!-- <tr>
+						<td>
+							<div class="control-group string optional">
+								<label class="string optional control-label" for="employee_id">Vehicle</label>
+								<div class="controls">
+									<%= text_field_tag 'search_vehicle_id' %>
+								</div>
+							</div>
+						</td>
+					</tr> -->
+					
 					<tr>
 						<td>
 							<div class="control-group string optional">
 								<label class="string optional control-label" for="employee_id">Staff</label>
 								<div class="controls">
-									<%= select_tag 'employee_id', options_for_select(employees.collect{ |e| [e.name, e.id] }) %>
+									<%= select_tag 'employee_id', 
+														options_for_select(employees.collect{ |e| [e.name, e.id] }), 
+														:multiple => true 
+									 			%>
 								</div>
 							</div>
 						</td>

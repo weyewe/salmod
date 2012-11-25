@@ -21,6 +21,17 @@ $(document).ready(function(){
 	}else {
 		$add_service_form.replaceWith('<%= new_form %>');
 	}
+	
+	// var $search_vehicle_box = $("#search_vehicle_id"); 
+	// 
+	// $search_vehicle_box.tokenInput( '<%= search_vehicle_url %>' , {
+	// 	propertyToSearch: "name",
+	// 	tokenLimit: 1, 
+	// 	onAdd: function (item){ 
+	// 	} ,
+	// 	onDelete: function(item){
+	// 	}
+	// });
 
 	jQuery('.prevent_double_submit').preventDoubleSubmit();
 });

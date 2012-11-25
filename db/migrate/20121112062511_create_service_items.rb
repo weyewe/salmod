@@ -5,6 +5,8 @@ class CreateServiceItems < ActiveRecord::Migration
       t.integer :sales_entry_id
       # the price info is in the member 
       
+      t.integer :vehicle_id 
+      
       t.boolean :is_deleted, :default => false 
       
       t.boolean :is_confirmed, :default => false 

@@ -75,9 +75,9 @@
 	<script type="text/javascript"> 
 	
   $(document).ready(function() { 
-			var $search_customer_box = $("#search_vehicle_id"); 
+			var $search_vehicle_box = $("#search_vehicle_id"); 
 			
-			$search_customer_box.tokenInput( '<%= search_vehicle_url %>' , {
+			$search_vehicle_box.tokenInput( '<%= search_vehicle_url %>' , {
 				propertyToSearch: "name",
 				tokenLimit: 1, 
 				onAdd: function (item){ 

@@ -81,22 +81,21 @@ class SalesEntry < ActiveRecord::Base
   end
   
   
-  def generate_service_item
+  def generate_service_item 
     if self.entry_case != SALES_ENTRY_CASE[:service]
       return nil 
     end
     
-    ServiceItem.create :service_id => self.entry_id, :sales_entry_id => self.id 
+    ServiceItem.create :service_id => self.entry_id, :sales_entry_id => self.id  
   end
+   
   
-  def add_employee( employee )
-    if self.entry_case !=  SALES_ENTRY_CASE[:service]
-      return nil 
-    end
-    
+  def add_employees( employee_list )  
+    return nil if self.entry_case !=  SALES_ENTRY_CASE[:service]
+    return nil if employee_list.length == 0  
     
     service_item = self.service_item 
-    service_item.add_employee_participation( employee )  
+    service_item.add_employees_participation( employee_list )
   end
   
 =begin

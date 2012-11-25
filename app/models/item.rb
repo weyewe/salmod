@@ -4,6 +4,9 @@ class Item < ActiveRecord::Base
   
   belongs_to :category 
   
+  has_many :service_items, :through => :replacement_items 
+  has_many :replacement_items
+  
   validates_uniqueness_of :name
   validates_presence_of :name 
   
@@ -21,7 +24,7 @@ class Item < ActiveRecord::Base
     end
     
     item.category_id = category.id 
-    item.recommended_selling_price = BigDecimal(item_params[:recommended_selling_price])
+    item.recommended_selling_price = BigDecimal("#{item_params[:recommended_selling_price]}")
     item.save
     return item 
   end

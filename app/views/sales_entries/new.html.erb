@@ -45,9 +45,11 @@
 				
 				<hr />
 				
-				<%= render :partial => "sales_entries/entry_creator" , :locals => {
-					:sales_order => @sales_order 
-				}%>
+				<% if not @sales_order.is_confirmed? %>
+					<%= render :partial => "sales_entries/entry_creator" , :locals => {
+						:sales_order => @sales_order 
+					}%>
+				<% end %>
 				
 				
 				
@@ -147,5 +149,5 @@
 <% end %>
 
 <% content_for :additional_css do %> 
-  <%= stylesheet_link_tag "token-input", "token-input-facebook" 	%> 
+  <%= stylesheet_link_tag "token-input"  	%> 
 <% end %>

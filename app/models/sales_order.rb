@@ -20,7 +20,7 @@ class SalesOrder < ActiveRecord::Base
     month = DateTime.now.month  
     total_sales_orders_created_this_month = SalesOrder.where(:year => year.to_i, :month => month.to_i).count  
 
-    code =  'SO/' + year.to_s + '/' + 
+    code =  'SI/' + year.to_s + '/' + 
                         month.to_s + '/' + 
                         (total_sales_orders_created_this_month + 1 ).to_s 
                         
@@ -86,7 +86,7 @@ class SalesOrder < ActiveRecord::Base
     puts "sales_order.id #{self.id}"
     puts "total sales entries: #{self.active_sales_entries.count}"
     if not past_item.nil?  and past_item.is_product? 
-      past_item.errors.add(:duplicate_entry , "There is exact item in the sales order list" ) 
+      past_item.errors.add(:duplicate_entry , "There is exact item in the sales invoice list" ) 
       return past_item 
     end
     
@@ -129,7 +129,7 @@ class SalesOrder < ActiveRecord::Base
   
   
   
-  def add_sales_entry_service(service_object, price )
+  def add_sales_entry_service(service_object, price  )
     new_object = SalesEntry.new 
     new_object.entry_id = service_object.id ,   
     new_object.entry_case = SALES_ENTRY_CASE[:service] ,

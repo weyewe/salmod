@@ -1,3 +1,4 @@
+<% service_item = new_object.service_item %>
 <%= simple_form_for( new_object, :url => url,
       :method => :post , 
       :html => {:class => " prevent_double_submit ajax-form",
@@ -17,7 +18,10 @@
 							<div class="control-group string optional">
 								<label class="string optional control-label" for="employee_id">Staff</label>
 								<div class="controls">
-									<%= select_tag 'employee_id', options_for_select(employees.collect{ |e| [e.name, e.id] }) %>
+									<%= select_tag 'employee_id', 
+										options_for_select(employees.collect{ |e| [e.name, e.id] },
+										:selected => service_item.selected_employees_id_list ),
+										:multiple => true  %>
 								</div>
 							</div>
 						</td>

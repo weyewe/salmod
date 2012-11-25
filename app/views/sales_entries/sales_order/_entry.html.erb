@@ -4,7 +4,30 @@
 		<%= entry_object.name %> 
 		
 		<% if sales_entry.is_service? %>
-			<%= " : #{sales_entry.service_item.selected_employee.name }"%>
+			<% employees = sales_entry.service_item.employees%> 
+			<% if employees.length != 0 %>
+				<ul>
+					Karyawan:
+					<% employees.each do |employee| %>
+						<li><%= employee.name %></li>
+					<% end %>
+			 
+				</ul>
+			<% end %>
+			
+			<ul>
+				Kendaraan:
+				<li>
+					B1725BAD
+				</li>
+				
+				
+				
+				<%= link_to generate_form_to_add_service_sales_entry_details_url(  sales_entry), 
+					:class =>"edit_entry modal-toggler", :style => "cursor:pointer; text-decoration:none;" do %>
+					<i class='icon-edit'></i>Edit
+				<% end %>
+			</ul>
 		<% end %>
 		
 	</td>

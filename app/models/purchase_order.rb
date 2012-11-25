@@ -21,7 +21,7 @@ class PurchaseOrder < ActiveRecord::Base
     month = DateTime.now.month  
     total_created_this_month = PurchaseOrder.where(:year => year.to_i, :month => month.to_i).count  
 
-    code =  'PO/' + year.to_s + '/' + 
+    code =  'PI/' + year.to_s + '/' + 
                         month.to_s + '/' + 
                         (total_created_this_month + 1 ).to_s 
                         
@@ -53,7 +53,7 @@ class PurchaseOrder < ActiveRecord::Base
     past_item = self.purchase_entry_for_item(item)   
     
     if not past_item.nil?  
-      past_item.errors.add(:duplicate_entry , "There is exact item in the sales order list" ) 
+      past_item.errors.add(:duplicate_entry , "There is exact item in the sales invoice list" ) 
       return past_item 
     end
     
