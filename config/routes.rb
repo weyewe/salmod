@@ -132,4 +132,12 @@ Salmod::Application.routes.draw do
   match 'update_category/:category_id' => 'categories#update_category', :as => :update_category , :method => :post 
   match 'delete_category' => 'categories#delete_category', :as => :delete_category , :method => :post
   
+##################################################
+##################################################
+######### ITEM
+##################################################
+##################################################
+  match 'update_item/:item_id' => 'items#update_item', :as => :update_item , :method => :post 
+  match 'delete_item' => 'items#delete_item', :as => :delete_item , :method => :post
+  
 end

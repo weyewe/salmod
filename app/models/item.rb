@@ -1,5 +1,5 @@
 class Item < ActiveRecord::Base
-  attr_accessible :name, :recommended_selling_price
+  attr_accessible :name, :recommended_selling_price, :category_id
   has_many :stock_entry 
   
   belongs_to :category 
@@ -44,6 +44,11 @@ class Item < ActiveRecord::Base
     end
     self.save 
     
+  end
+  
+  def delete
+    self.is_deleted = true
+    self.save 
   end
   
 end
