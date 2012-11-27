@@ -140,4 +140,11 @@ Salmod::Application.routes.draw do
   match 'update_item/:item_id' => 'items#update_item', :as => :update_item , :method => :post 
   match 'delete_item' => 'items#delete_item', :as => :delete_item , :method => :post
   
+##################################################
+##################################################
+######### SERVICE
+##################################################
+##################################################
+  match 'update_service/:service_id' => 'services#update_service', :as => :update_service , :method => :post 
+  match 'delete_service' => 'services#delete_service', :as => :delete_service , :method => :post
 end

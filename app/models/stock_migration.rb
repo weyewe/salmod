@@ -44,10 +44,10 @@ class StockMigration < ActiveRecord::Base
     new_stock_entry.save 
     
     # update the summary? 
-    item.ready += new_stock_entry.quantity
-    item.save 
+    # item.ready += new_stock_entry.quantity
+    # item.save 
     
-    item.recalculate_average_cost_post_stock_entry_addition( new_stock_entry ) 
+    item.add_stock_and_recalculate_average_cost_post_stock_entry_addition( new_stock_entry ) 
     
     
     return new_stock_entry  
