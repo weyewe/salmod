@@ -177,6 +177,10 @@ class SalesOrder < ActiveRecord::Base
     return nil if self.is_confirmed? 
     return nil if self.active_sales_entries.count ==0 
     
+     # check whether there is enough item for all sales entry 
+     # if not, cancel the transaction, and tell them: which item that is not available 
+     # | Item Name| Requested | Available |  
+    
     ActiveRecord::Base.transaction do
       
       self.active_sales_entries.each do |sales_entry|

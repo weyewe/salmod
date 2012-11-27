@@ -11,7 +11,7 @@
 		
 		<div class="row">
 			 
-			<div class="span12">
+			<div class="span8">
 				
 				<% if not @has_no_errors.nil? and not @has_no_errors  %>
 					<%= render :partial => "layouts/errors", :locals => { 
@@ -25,30 +25,17 @@
 					:new_object => @new_object , 
 					:url => purchase_orders_url
 				}%>
+				<%= render :partial => "purchase_orders/purchase_order_statistic" %>
 			 
-			</div> <!-- /.span12 --> 
+			</div> <!-- /.span8 --> 
+			
+			<div class='span4'>
+				Search Purchase Invoice <hr />
+				All Purchase Invoices <hr />  
+			</div>
 		</div> <!-- /.row -->
 		
-		
-		<div class='row'>
-			
-			<div class="span12">
-				
-				
-				
-				<%= render :partial => "purchase_orders/purchase_order_statistic" %>
-				
-				<div id="item_info_wrapper">
-					<!-- <div id='item_info'>
-							</div> -->
-				</div>
-				
-			</div> <!-- /.span12 -->
-			
-	 
-		</div><!--  /.row, for displaying the latest StockMigration performed -->
-		
-	
+		 
 	</div> <!-- /.container -->
 
 </div> <!-- /#content -->

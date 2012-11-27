@@ -181,8 +181,12 @@ class SalesEntry < ActiveRecord::Base
     if self.service_item.nil?
       return nil
     end
+     
     service_item = self.service_item 
+    # manifest the commission per employee
+    service_item.commission_per_employee = service_item.service.commission_per_employee
     service_item.is_confirmed = true 
+    service_item.confirmed_datetime = DateTime.now 
     service_item.save 
   end
 end

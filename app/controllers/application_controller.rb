@@ -38,6 +38,22 @@ class ApplicationController < ActionController::Base
     
   end
   
+  def parse_period_range(service_period_range)
+    puts "the content: #{service_period_range}\n"*10
+    return nil if params[:service_period_range].nil?
+    
+    array = service_period_range.split("-").map{|x| x.gsub(' ','')}
+    
+    start_date = parse_date(array[0])
+    end_date   = parse_date(array[1])
+    return [start_date, end_date ] 
+  end
+  
+  def parse_date(date)
+    date_array = date.split("/")
+    return Date.new(date_array[2].to_i,date_array[1].to_i,date_array[0].to_i ) 
+  end
+  
   
   def set_breadcrumb_for object, destination_path, opening_words 
     add_breadcrumb "#{opening_words}", destination_path

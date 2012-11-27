@@ -30,4 +30,15 @@ class Employee < ActiveRecord::Base
   def confirmed_services
     self.service_items.where(:is_confirmed => true , :is_deleted => false )
   end
+  
+  def confirmed_services_within_period(start_date, end_date) 
+    # start_date and end_date is in UTC 
+    # bring it to local time 
+    start_date_utc =  start_date.to_time_in_current_zone.utc 
+    end_date_utc   =  end_date.to_time_in_current_zone.utc 
+    
+    # bring this to local time 
+    self.confirmed_services.where(:confirmed_datetime => start_date..end_date  ) 
+    
+  end
 end

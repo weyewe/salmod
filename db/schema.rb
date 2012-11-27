@@ -167,10 +167,12 @@ ActiveRecord::Schema.define(:version => 20121124160142) do
     t.integer  "service_id"
     t.integer  "sales_entry_id"
     t.integer  "vehicle_id"
-    t.boolean  "is_deleted",     :default => false
-    t.boolean  "is_confirmed",   :default => false
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
+    t.boolean  "is_deleted",                                             :default => false
+    t.boolean  "is_confirmed",                                           :default => false
+    t.decimal  "commission_per_employee", :precision => 11, :scale => 2, :default => 0.0
+    t.datetime "confirmed_datetime"
+    t.datetime "created_at",                                                                :null => false
+    t.datetime "updated_at",                                                                :null => false
   end
 
   create_table "service_subcriptions", :force => true do |t|

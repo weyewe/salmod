@@ -10,6 +10,9 @@ class CreateServiceItems < ActiveRecord::Migration
       t.boolean :is_deleted, :default => false 
       
       t.boolean :is_confirmed, :default => false 
+      
+      t.decimal :commission_per_employee , :precision => 11, :scale => 2 , :default => 0
+      t.datetime :confirmed_datetime 
 
       t.timestamps
     end

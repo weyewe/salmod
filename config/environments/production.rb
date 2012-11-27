@@ -65,6 +65,9 @@ Salmod::Application.configure do
                                 jquery.msgbox.min.js
                                 
                                 common_order/entry_creation.js
+                                date.js 
+                                daterangepicker.js 
+                                daterangepicker.css
                   )
 
   # Disable delivery errors, bad email addresses will be ignored
