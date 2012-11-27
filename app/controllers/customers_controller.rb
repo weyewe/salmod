@@ -29,4 +29,19 @@ class CustomersController < ApplicationController
       format.json { render :json => @objects }
     end
   end
+  
+  def edit
+    @customer = Customer.find_by_id params[:id] 
+  end
+  
+  def update_customer
+    @customer = Customer.find_by_id params[:customer_id] 
+    @customer.update_attributes( params[:customer])
+    @has_no_errors  = @customer.errors.messages.length == 0
+  end
+  
+  def delete_customer
+    @customer = Customer.find_by_id params[:object_to_destroy_id]
+    @customer.delete 
+  end
 end
