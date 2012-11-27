@@ -18,6 +18,10 @@ gem "kaminari"
 gem 'valid_email'
 gem 'acts_as_commentable_with_threading', 
   :git => 'https://github.com/elight/acts_as_commentable_with_threading.git'
+  
+gem 'prawn', 
+  :git => 'https://github.com/prawnpdf/prawn.git'
+# gem "pdfkit" 
 
 gem "squeel" 
 gem 'acts_as_decimal'
@@ -37,7 +41,6 @@ gem 'awesome_nested_set'
 gem "cancan"
 
 
-gem 'pdfkit'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

@@ -8,7 +8,7 @@ class ServiceItem < ActiveRecord::Base
   
   belongs_to :sales_entry 
   belongs_to :service 
-  
+  belongs_to :vehicle
   
   
   # only 1 employee per service 
@@ -41,7 +41,7 @@ class ServiceItem < ActiveRecord::Base
   
  
   
-  def create_replacement_items( item_id_list  ) 
+  def create_replacement_items( item_list   ) 
     # ensure that all the items belongs to the company 
      service_object = self.service 
      
@@ -52,7 +52,7 @@ class ServiceItem < ActiveRecord::Base
      
      # create new 
      item_list.each do |item|  
-       ReplacementItem.create(:service_id=> self.service_id , :item_id => item.id )
+       ReplacementItem.create(:service_item_id=> self.id , :item_id => item.id )
      end 
   end
   

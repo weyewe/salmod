@@ -70,6 +70,11 @@ Salmod::Application.routes.draw do
 =end
   match 'generate_form_to_add_service_sales_entry_details/:sales_entry_id' => 'sales_entries#generate_form_to_add_service_sales_entry_details', :as => :generate_form_to_add_service_sales_entry_details
   match 'create_service_sales_entry_details/:sales_entry_id' => 'sales_entries#create_service_sales_entry_details', :as => :create_service_sales_entry_details, :method => :post 
+
+=begin
+  Printing Sales Invoice
+=end
+  match 'print_sales_invoice/:sales_order_id' => 'sales_orders#print_sales_invoice', :as => :print_sales_invoice
 ##################################################
 ##################################################
 ######### Create PURCHASE ORDER + ENTRIES 

@@ -37,7 +37,13 @@ class SalesEntry < ActiveRecord::Base
       # create stock entry to deduct it 
       unfulfilled_quantity = requested_quantity - supplied_quantity 
       
-      stock_entry =  StockEntry.first_available_stock
+      stock_entry =  StockEntry.first_available_stock(self.item )
+      
+      #  stock_entry.nil? raise error  # later.. 
+      if stock_entry.nil?
+        raise ActiveRecord::Rollback, "Can't be executed. No Item in the stock" 
+      end
+      
       available_quantity = stock_entry.available_quantity 
       
       served_quantity = 0 
@@ -155,8 +161,22 @@ class SalesEntry < ActiveRecord::Base
   end
   
 =begin
+  Update Service Details
+=end
+  def update_service_details(vehicle, item_list )
+    return nil if not self.is_service?
+    
+    service_item = self.service_item
+    service_item.vehicle_id = vehicle.id 
+    service_item.save 
+    
+    service_item.create_replacement_items( item_list   )  
+  end
+  
+=begin
   ON SALES ORDER CONFIRMATION
 =end
+
   def confirm_service_item
     if self.service_item.nil?
       return nil

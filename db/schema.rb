@@ -119,9 +119,9 @@ ActiveRecord::Schema.define(:version => 20121124160142) do
 
   create_table "replacement_items", :force => true do |t|
     t.integer  "service_item_id"
-    t.integer  "replacement_item_id"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.integer  "item_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "roles", :force => true do |t|
@@ -156,6 +156,7 @@ ActiveRecord::Schema.define(:version => 20121124160142) do
     t.integer  "deleter_id"
     t.boolean  "is_confirmed",           :default => false
     t.integer  "confirmator_id"
+    t.datetime "confirmed_datetime"
     t.boolean  "is_paid",                :default => false
     t.integer  "paid_declarator_id"
     t.datetime "created_at",                                :null => false

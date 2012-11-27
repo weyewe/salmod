@@ -129,7 +129,14 @@ class SalesEntriesController < ApplicationController
   
   def create_service_sales_entry_details
     @sales_entry = SalesEntry.find_by_id params[:sales_entry_id]
-    @sales_order = @sales_entry.sales_order
+    @sales_order = @sales_entry.sales_order 
+    @vehicle = Vehicle.find_by_id params[:service_details_search_vehicle_id]
+    @item_list = Item.where(:id =>params[:service_details_search_item_id] ) 
+    
+    
+    @sales_entry.update_service_details(  @vehicle, @item_list )
+    @service = @sales_entry.service_item.service 
+    @sales_entry.reload 
   end
   
 end

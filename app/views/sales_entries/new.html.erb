@@ -123,26 +123,26 @@
 				var $service_form = $search_service_box.parents("form");
 
 				var search_service_url = $("#search_service_url").val(); 
-				    $search_service_box.tokenInput( search_service_url , {
-						propertyToSearch: "name",
-						tokenLimit: 1, 
-				        onAdd: function (item) {
-								$service_form.spin("large", "black"); 
-								$("#selected_service_id").attr( 'value',  item['id'] );
+		    $search_service_box.tokenInput( search_service_url , {
+					propertyToSearch: "name",
+					tokenLimit: 1, 
+			        onAdd: function (item) {
+							$service_form.spin("large", "black"); 
+							$("#selected_service_id").attr( 'value',  item['id'] );
 
-								$.ajax({
-								      url: $service_form.attr("action"),
-								      type: "POST",
-								      data: $service_form.serialize(),
-								      dataType: 'script',
-								      success: function(response){ 
+							$.ajax({
+							      url: $service_form.attr("action"),
+							      type: "POST",
+							      data: $service_form.serialize(),
+							      dataType: 'script',
+							      success: function(response){ 
 
-								      }
-								    }); 
-				        } ,
-						onDelete: function(item){
-							$("#add_service_form").remove();
-						}
+							      }
+							    }); 
+			        } ,
+					onDelete: function(item){
+						$("#add_service_form").remove();
+					}
 				}); 
 		});
  	</script>

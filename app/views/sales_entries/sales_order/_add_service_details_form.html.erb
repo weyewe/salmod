@@ -1,7 +1,10 @@
+<% service_item = new_object.service_item %> 
+<% replacement_items = service_item.replacement_items %>
+
 <%= simple_form_for( new_object, :url => url,
       :method => :post , 
       :html => {:class => " prevent_double_submit ajax-form",
-        :id => "add_service_form"}) do |f| %> 
+        :id => "add_service_details_form"}) do |f| %> 
 	<%=	 hidden_field_tag 'service_id', "#{service.id}" %> 
 
 			<table class="table table-bordered table-striped table-highlight">
@@ -33,6 +36,8 @@
 						</td>
 					</tr> 
 					
+			 
+					
 					<tr>
 						<td style='text-align:center;'><%= f.submit  "Save Service Details", :class =>"btn" %></td>
 					</tr>
@@ -42,22 +47,29 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-	$("#service_details_search_vehicle_id").tokenInput("http://shell.loopj.com/tokeninput/tvshows.php", {
-		prePopulate: [
-		{id: 123, name: "Slurms MacKenzie"},
-		{id: 555, name: "Bob Hoskins"},
-		{id: 9000, name: "Kriss Akabusi"}
+	$("#service_details_search_vehicle_id").tokenInput('<%=	search_vehicle_url %>', {
+		prePopulate:   	[
+			<% if not service_item.vehicle.nil? %> 
+			{id: <%= service_item.vehicle.id %>, name: '<%= service_item.vehicle.id_code %>'}
+			<% end %>
 		],
-		zindex: 9999
+		zindex: 9999,
+		propertyToSearch: "name",
+		tokenLimit: 1
 	});
 	
-	$("#service_details_search_item_id").tokenInput("http://shell.loopj.com/tokeninput/tvshows.php", {
-		prePopulate: [
-		{id: 123, name: "Slurms MacKenzie"},
-		{id: 555, name: "Bob Hoskins"},
-		{id: 9000, name: "Kriss Akabusi"}
-		],
-		zindex: 9999
+	
+	var parsed_replacement_items  = <%= replacement_items.to_json %>; 
+	$("#service_details_search_item_id").tokenInput('<%=search_item_url %>', {
+		prePopulate: parsed_replacement_items,
+		// 
+		// [ 
+		// {id: 123, name: "Slurms MacKenzie"},
+		// {id: 555, name: "Bob Hoskins"},
+		// {id: 9000, name: "Kriss Akabusi"}
+		// ],
+		zindex: 9999,
+		propertyToSearch: "name" 
 	});
 	
 	

@@ -5,7 +5,7 @@
 			<table class="table table-bordered table-striped table-highlight" id='tableview'>
 				<thead>
 					<tr>
-						<th colspan='2' style='text-align:center;'>New Invoice</th>  
+						<th style='text-align:center;'>New Invoice</th>  
 					</tr>
 				</thead>
 				<tbody>
@@ -14,16 +14,11 @@
 						  	<%= f.input :customer_id, :input_html => { :class => 'search_customer', :id => "search_customer_id" }  ,
 											:label => "Customer" , :hint => "Leave empty if not registered", :as => :string  %> 
 						</td>
-						<td> 
-								<%= f.input :vehicle_id, :input_html => { :class => 'search_vehicle', :id=> 'search_vehicle_id' },
-											:label =>"Nomor Polisi", :hint => "Leave empty if not registered", :as => :string %>
+					 
 			 
-							
-							<a class=" label label-secondary" data-toggle="modal" href="#myModal">New Vehicle</a>
-						</td>
 					</tr>
 					<tr>
-						<td colspan='2' style='text-align:center;'><%= f.submit  "Confirm Invoice Details", :class =>"btn" %></td>
+						<td   style='text-align:center;'><%= f.submit  "Confirm Invoice Details", :class =>"btn" %></td>
 					</tr>
 				</tbody>
 			</table> 

@@ -17,15 +17,29 @@
 			
 			<ul>
 				Kendaraan:
-				<li>
-					B1725BAD
-				</li>
+				<% if sales_entry.service_item.vehicle.nil? %>
+					<li>N/A</li>
+				<% else %>
+					<li><%= sales_entry.service_item.vehicle.id_code %></li>
+				<% end %> 
+			</ul>
+			
+			<ul>
+				Item:
+				<% if sales_entry.service_item.replacement_items.length == 0  %>
+					<li>N/A</li>
+				<% else %>
+					<% sales_entry.service_item.items.each do |item| %> 
+						<li><%= item.name  %></li>
+					<% end %>
+				<% end %>
 				
 				
-				
-				<%= link_to generate_form_to_add_service_sales_entry_details_url(  sales_entry), 
-					:class =>"edit_entry modal-toggler", :style => "cursor:pointer; text-decoration:none;" do %>
-					<i class='icon-edit'></i>Edit
+				<% if not sales_order.is_confirmed? %>
+					<%= link_to generate_form_to_add_service_sales_entry_details_url(  sales_entry), 
+						:class =>"edit_entry modal-toggler", :style => "cursor:pointer; text-decoration:none;" do %>
+						<i class='icon-edit'></i>Edit
+					<% end %>
 				<% end %>
 			</ul>
 		<% end %>

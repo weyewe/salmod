@@ -32,6 +32,7 @@ class CreateSalesOrders < ActiveRecord::Migration
       
       t.boolean :is_confirmed , :default => false 
       t.integer :confirmator_id  
+      t.datetime :confirmed_datetime 
       
       t.boolean :is_paid, :default => false 
       t.integer :paid_declarator_id 

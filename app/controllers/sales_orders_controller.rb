@@ -47,6 +47,25 @@ class SalesOrdersController < ApplicationController
   def delete_sales_order 
     redirect_to new_sales_order_url 
   end
+  
+  
+  def print_sales_invoice
+    @sales_order = SalesOrder.find_by_id params[:sales_order_id]
+    respond_to do |format|
+      format.html # do
+       #        pdf = SalesInvoicePdf.new(@sales_order, view_context)
+       #        send_data pdf.render, filename:
+       #        "#{@sales_order.printed_sales_invoice_code}.pdf",
+       #        type: "application/pdf"
+       #      end
+      format.pdf do
+        pdf = SalesInvoicePdf.new(@sales_order, view_context,CONTINUOUS_FORM_WIDTH,FULL_CONTINUOUS_FORM_LENGTH)
+        send_data pdf.render, filename:
+        "#{@sales_order.printed_sales_invoice_code}.pdf",
+        type: "application/pdf"
+      end
+    end
+  end
    
   
 end

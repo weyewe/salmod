@@ -57,6 +57,8 @@ class SalesOrder < ActiveRecord::Base
   end
   
   
+
+  
   
   
   
@@ -179,15 +181,16 @@ class SalesOrder < ActiveRecord::Base
       
       self.active_sales_entries.each do |sales_entry|
         
-        if sales_entry.entry_case  ==  SALES_ENTRY_CASE[:item]
+        if sales_entry.is_product?
           sales_entry.deduct_stock(employee)
-        elsif sales_entry.entry_case  ==  SALES_ENTRY_CASE[:service]
+        elsif sales_entry.is_service?
           sales_entry.confirm_service_item
         end
       end
       
       self.is_confirmed = true 
-      self.confirmator_id = employee.id 
+      self.confirmator_id = employee.id
+      self.confirmed_datetime = DateTime.now  
       self.save
     end 
   end
@@ -199,6 +202,26 @@ class SalesOrder < ActiveRecord::Base
     self.deleter_id = employee.id 
     self.save 
     
+  end
+  
+  
+=begin
+  Sales Invoice Printing
+=end
+  def printed_sales_invoice_code
+    self.code.gsub('/','-')
+  end
+  
+  def calculated_vat
+    BigDecimal("0")
+  end
+  
+  def calculated_delivery_charges
+    BigDecimal("0")
+  end
+  
+  def calculated_sales_tax
+    BigDecimal('0')
   end
   
   

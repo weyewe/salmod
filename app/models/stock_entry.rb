@@ -23,9 +23,9 @@ class StockEntry < ActiveRecord::Base
     return self  
   end
 
-  def self.first_available_stock
+  def self.first_available_stock(item) 
     # FOR FIFO 
-    StockEntry.where(:is_finished => false ).order("created_at ASC").first 
+    StockEntry.where(:is_finished => false, :item_id => item.id ).order("created_at ASC").first 
   end
   
   def stock_migration
