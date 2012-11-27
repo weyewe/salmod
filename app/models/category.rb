@@ -28,5 +28,22 @@ class Category < ActiveRecord::Base
     Category.where(:is_deleted => false).order("created_at DESC")
   end
   
+  def delete
+    parent = self.parent 
+    if parent.nil?
+      # can't be deleted from the base
+      return nil
+    end
+    
+    self.is_deleted = true
+    self.save
+    
+    self.items.each do |item|
+      item.category_id = parent.id
+      item.save 
+    end
+    # what will happen to the item from this category? Go to the parent category 
+  end
+  
   
 end

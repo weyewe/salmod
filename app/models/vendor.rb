@@ -10,4 +10,9 @@ class Vendor < ActiveRecord::Base
     self.where(:is_deleted => false).order("created_at DESC")
   end
   
+  def delete
+    self.is_deleted = true
+    self.save
+  end
+  
 end

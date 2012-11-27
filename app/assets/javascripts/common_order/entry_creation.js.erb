@@ -44,16 +44,14 @@ $(document).ready(function(){
 	// 	3. if it is successful, modal is closed. msgbox is allerted, update the row 
 	// 	4. if it is not successful, modal is not closed, showing the new form with error
 	
-	$('#editEntry').modal({
+	$('#editEntry, #newEntry').modal({
 		keyboard: false,
 		backdrop: 'static' ,
 		show: false 
 	});
 	
 	
-	$(".edit_entry").live("click", function(){
-		
-		
+	$(".edit_entry").live("click", function(){ 
 		var $modal = $("#editEntry");
 		$modal.modal('show'); 
 		
@@ -78,6 +76,35 @@ $(document).ready(function(){
 		
 		return false; 
 	});
+	
+	$(".new_entry").live("click", function(){ 
+		var $modal = $("#newEntry");
+		$modal.modal('show'); 
+		
+		$(".modal_closer", $modal ).click(function(){
+			$modal.modal('hide'); 
+			$("form", $modal).remove(); 
+		});
+		
+		
+		var get_form_url =  $(this).attr("href");
+		
+		// get the edit form 
+		$.ajax({
+			url: get_form_url,
+			type: "GET",
+			// data: $form.serialize(),
+			dataType: 'script',
+			success: function(response){ 
+				// it is live.. ajax-form class
+			}
+		}); 
+		
+		return false; 
+	});
+	
+	
+	
 	
 	$("#confirm").live('click', function(){  
 		var yes_value = "Yes"; 

@@ -2,12 +2,6 @@ class ServiceItemsController < ApplicationController
   
   def service_done_by_employee
     @employee = Employee.find_by_id params[:employee_id]
-   
-    
-   
-    
-    
-    
     
     respond_to do |format|
       format.html   do

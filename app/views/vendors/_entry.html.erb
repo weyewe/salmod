@@ -1,10 +1,24 @@
+ 
 <tr id="entry-<%= object.id %>">
 	<td>
-		<%= object.name %>
+		<%= "#{object.name}" %>
+	</td>
+	<td>
+		<%= "#{object.contact_person}" %>
 	</td>
 	
 	<td>
-		<%= object.items.count %>
+		<ul>
+			<li>tel: <%= object.phone %></li>
+			<li>cell: <%= object.mobile %></li>
+			<li>bbm: <%= object.bbm_pin   %></li>
+			<li>email: <%= object.email   %> </li>
+		</ul>  
+	</td>
+	 
+
+	<td>
+		<%= object.address   %>
 	</td>
 	
 	<td>
@@ -14,9 +28,10 @@
 	</td>
 
 	<td>
-		<%= link_to edit_category_url(object), 
+		<%= link_to edit_vendor_url(object), 
 			:class =>"edit_entry modal-toggler", :style => "cursor:pointer; text-decoration:none;" do %>
 			<i class='icon-edit'></i>Edit
 		<% end %>
 	</td>
+	
 </tr>

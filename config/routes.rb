@@ -32,6 +32,7 @@ Salmod::Application.routes.draw do
   # employee management 
   resources :employees
   resources :vendors 
+  resources :services
 
   match 'generate_sales_order'  => 'sales_orders#generate_sales_order' , :as => :generate_sales_order, :method => :post 
   match 'search_vehicle'  => 'vehicles#search_vehicle' , :as => :search_vehicle
@@ -108,10 +109,27 @@ Salmod::Application.routes.draw do
    
 ##################################################
 ##################################################
-######### EMPLOYEE PERFORMANCE THROUGH SERVICE ITEMS 
+######### EMPLOYEE PERFORMANCE THROUGH SERVICE ITEMS    + EMPLOYEE
 ##################################################
 ##################################################
-   match 'service_done_by_employee/:employee_id' => 'service_items#service_done_by_employee', :as => :service_done_by_employee
+  match 'service_done_by_employee/:employee_id' => 'service_items#service_done_by_employee', :as => :service_done_by_employee
+  match 'update_employee/:employee_id' => 'employees#update_employee', :as => :update_employee , :method => :post 
+  match 'delete_employee' => 'employees#delete_employee', :as => :delete_employee , :method => :post 
    
-   
+##################################################
+##################################################
+######### VENDOR
+##################################################
+##################################################
+  match 'update_vendor/:vendor_id' => 'vendors#update_vendor', :as => :update_vendor , :method => :post 
+  match 'delete_vendor' => 'vendors#delete_vendor', :as => :delete_vendor , :method => :post 
+  
+##################################################
+##################################################
+######### CATEGORY
+##################################################
+##################################################
+  match 'update_category/:category_id' => 'categories#update_category', :as => :update_category , :method => :post 
+  match 'delete_category' => 'categories#delete_category', :as => :delete_category , :method => :post
+  
 end

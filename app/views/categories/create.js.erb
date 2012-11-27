@@ -1,19 +1,17 @@
-$(document).ready(function(){
+$(document).ready(function(){ 
 	
-	// if category creation is successful, append that category
-	// show growl notification 
-	
-	var $form = $('#new_object');
-	
+	var $modal = $("#newEntry");
+	var $form = $("form", $modal );
 	$form.spin(false);
+	 
 	
-	<% new_form = escape_javascript(  render :partial => "categories/new_object_form", :locals => {
+	<% new_form = escape_javascript(   render :partial => "categories/new_object_form", :locals => {
     :new_object => @new_object , 
 		:url => categories_url
   })%>
 
 
-	$form.replaceWith('<%= new_form %>');
+	
 
 	<% if @object.valid? %>
 		// show the growl. save. done. 
@@ -24,11 +22,16 @@ $(document).ready(function(){
 		
 		$.msgbox("Category <b><%= @object.name %></b> is created.", 
 					{type: "info"});
+		$modal.modal('hide'); 
+		$form.remove();
 	<% else %>
-		 $.msgbox("Fail to create new category.", 
+		$form.replaceWith('<%= new_form %>');
+		 $.msgbox("Gagal membuat category baru.", 
 					{type: "error"});
 	<% end %>
 	
 	// else, display error.. 
 	jQuery('.prevent_double_submit').preventDoubleSubmit();
 });
+
+ 

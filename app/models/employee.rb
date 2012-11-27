@@ -41,4 +41,9 @@ class Employee < ActiveRecord::Base
     self.confirmed_services.where(:confirmed_datetime => start_date..end_date  ) 
     
   end
+  
+  def delete
+    self.is_deleted = true 
+    self.save 
+  end
 end

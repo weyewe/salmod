@@ -3,6 +3,11 @@ class VendorsController < ApplicationController
   def new
     @objects = Vendor.active_vendors
     @new_object = Vendor.new 
+    
+    respond_to do |format|
+      format.html # show.html.erb 
+      format.js 
+    end
   end
 
   def create
@@ -12,7 +17,11 @@ class VendorsController < ApplicationController
     else
       @new_object= @object
       @objects =  Vendor.active_vendors
-      render :file => 'vendors/new'
+    end
+    
+    respond_to do |format|
+      format.html { render :file => 'vendors/new' }
+      format.js 
     end
   end
 
@@ -29,5 +38,22 @@ class VendorsController < ApplicationController
       format.json { render :json => @objects }
     end
   end 
+  
+  
+  def edit
+    @vendor = Vendor.find_by_id params[:id] 
+  end
+  
+  def update_vendor
+    @vendor = Vendor.find_by_id params[:vendor_id] 
+    @vendor.update_attributes( params[:vendor])
+    @has_no_errors  = @vendor.errors.messages.length == 0
+  end
+  
+  def delete_vendor
+    @vendor = Employee.find_by_id params[:object_to_destroy_id]
+    @vendor.delete 
+  end
+  
   
 end
