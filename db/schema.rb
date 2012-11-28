@@ -255,6 +255,7 @@ ActiveRecord::Schema.define(:version => 20121128133108) do
     t.string   "source_document"
     t.integer  "mutation_case"
     t.integer  "mutation_status",          :default => 1
+    t.integer  "item_id"
     t.datetime "created_at",                              :null => false
     t.datetime "updated_at",                              :null => false
   end

@@ -149,6 +149,11 @@ Salmod::Application.routes.draw do
   match 'delete_sales_return/:sales_return_id' => "sales_returns#delete_sales_return", :as => :delete_sales_return, :method => :post
 
 
+=begin
+  Printing Sales Invoice
+=end
+  match 'print_sales_return/:sales_return_id' => 'sales_returns#print_sales_return', :as => :print_sales_return
+  
 ####################################################################################################
 ####################################################################################################
 ############################ =>         Master Data                    #############################

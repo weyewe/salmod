@@ -6,6 +6,7 @@ class Item < ActiveRecord::Base
   
   has_many :service_items, :through => :replacement_items 
   has_many :replacement_items
+  has_many :stock_mutations
   
   validates_uniqueness_of :name
   validates_presence_of :name 

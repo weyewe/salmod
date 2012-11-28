@@ -30,5 +30,25 @@ class SalesReturnsController < ApplicationController
     end
   end
   
+  def confirm_sales_return
+    @sales_return = SalesReturn.find_by_id params[:sales_return_id]
+    # add some defensive programming.. current user has role admin, and current_user is indeed belongs to the company 
+    @sales_return.confirm_return( current_user  )  
+  end
+  
+  def print_sales_return
+    @sales_return = SalesReturn.find_by_id params[:sales_return_id]
+    respond_to do |format|
+      format.html 
+      format.pdf do
+        pdf = SalesReturnPdf.new(@sales_return, view_context,CONTINUOUS_FORM_WIDTH,FULL_CONTINUOUS_FORM_LENGTH)
+        send_data pdf.render, filename:
+        "#{@sales_return.printed_sales_return_code}.pdf",
+        type: "application/pdf"
+      end
+    end
+  end
+  
+  
   
 end

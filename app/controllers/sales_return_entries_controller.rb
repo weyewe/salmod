@@ -68,10 +68,6 @@ class SalesReturnEntriesController < ApplicationController
     @sales_return.delete_sales_return_entry( @sales_return_entry )    
   end
   
-  def confirm_sales_return
-    @sales_return = SalesReturn.find_by_id params[:sales_return_id]
-    # add some defensive programming.. current user has role admin, and current_user is indeed belongs to the company 
-    @sales_return.confirm_return( current_user  )  
-  end
+  
   
 end

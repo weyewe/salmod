@@ -40,23 +40,28 @@
 				
 				<h3><%= @confirmed_sales_returns.count %> Confirmed Sales Return Terbaru </h3>
 
-<!-- 				<table class="table table-bordered table-striped table-highlight" id='tableview'>
+				<table class="table table-bordered table-striped table-highlight" >
 					<thead>
 						<tr>
 							<th>
 								Sales Return No
 							</th> 
 							<th>
-								Jumlah
+								Pengembalian Uang
 							</th>
 						</tr>
 					</thead>
 					<tbody>
+						<% @confirmed_sales_returns.each do |sales_return| %>
+							<tr>
+								<td><%= link_to sales_return.code, new_sales_return_sales_return_entry_url(sales_return) %></td>
+								<td><%= print_money( sales_return.total_amount_to_be_reimbursed) %></td>
+							</tr>
+						<% end %>
 
-				 
 					</tbody>
-				</table> -->
-				
+				</table>
+
 			</div><!-- /.span4 --> 
 		</div> <!-- /.row -->
 		

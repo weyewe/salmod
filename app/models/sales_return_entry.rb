@@ -35,7 +35,7 @@ class SalesReturnEntry < ActiveRecord::Base
   def recover_stock(employee)
     pending_recovery_quantity = self.quantity 
     
-    sales_entry = self.sales_return.sales_entry
+    sales_entry = self.sales_entry
     sales_order = sales_entry.sales_order 
      
     
@@ -73,9 +73,9 @@ class SalesReturnEntry < ActiveRecord::Base
         :source_document_entry     =>  self.class.to_s,
         :source_document    =>  self.sales_return.class.to_s,
         :mutation_case      => MUTATION_CASE[:sales_return],
-        :mutation_status => MUTATION_STATUS[:addition]
+        :mutation_status => MUTATION_STATUS[:addition],
+        :item_id => stock_entry.item_id
       )
-      
     end
     
       

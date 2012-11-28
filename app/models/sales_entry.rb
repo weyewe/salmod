@@ -68,7 +68,8 @@ class SalesEntry < ActiveRecord::Base
         :source_document_entry     =>  self.class.to_s,
         :source_document    =>  self.sales_order.class.to_s,
         :mutation_case      => MUTATION_CASE[:sales_order],
-        :mutation_status => MUTATION_STATUS[:deduction]
+        :mutation_status => MUTATION_STATUS[:deduction],
+        :item_id => stock_entry.item_id 
       )
        
     end 
@@ -199,7 +200,7 @@ class SalesEntry < ActiveRecord::Base
   ON SALES_RETURN
 =end
   def max_returnable_quantity
-    self.quantity - self.sales_return_entries.joins(:sales_return).
+    self.quantity - self.sales_return_entries.where(:is_deleted => false) .joins(:sales_return).
                             where(:sales_return => {:is_confirmed => true}).sum('quantity')
   end
 end
