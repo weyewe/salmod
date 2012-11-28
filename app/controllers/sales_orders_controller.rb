@@ -53,6 +53,8 @@ class SalesOrdersController < ApplicationController
     end 
   end
   
+  
+  
   def confirm_sales_order
     @sales_order = SalesOrder.find_by_id params[:sales_order_id]
     # add some defensive programming.. current user has role admin, and current_user is indeed belongs to the company 

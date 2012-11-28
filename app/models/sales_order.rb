@@ -68,10 +68,9 @@ class SalesOrder < ActiveRecord::Base
   end
   
   def sales_entry_for_item( item)
-    self.sales_entries.find(:first, :conditions => {
+    self.active_sales_entries.find(:first, :conditions => {
       :entry_case => SALES_ENTRY_CASE[:item],
-      :entry_id => item.id ,
-      :is_deleted => false 
+      :entry_id => item.id  
     })  
   end 
   
@@ -227,6 +226,13 @@ class SalesOrder < ActiveRecord::Base
   
   def calculated_sales_tax
     BigDecimal('0')
+  end
+  
+=begin
+  Sales Return Creation
+=end
+  def item_id_list  
+    self.active_sales_entries.where(:entry_case => SALES_ENTRY_CASE[:item]  ).map{|x| x.entry_id} 
   end
   
   

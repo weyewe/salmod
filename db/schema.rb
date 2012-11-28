@@ -167,11 +167,11 @@ ActiveRecord::Schema.define(:version => 20121128062826) do
     t.integer  "sales_entry_id"
     t.integer  "sales_return_id"
     t.integer  "quantity"
-    t.decimal  "return_price_per_piece", :precision => 11, :scale => 2, :default => 0.0
-    t.decimal  "total_return_price",     :precision => 11, :scale => 2, :default => 0.0
-    t.boolean  "is_deleted",                                            :default => false
-    t.datetime "created_at",                                                               :null => false
-    t.datetime "updated_at",                                                               :null => false
+    t.decimal  "reimburse_price_per_piece", :precision => 11, :scale => 2, :default => 0.0
+    t.decimal  "total_reimburse_price",     :precision => 11, :scale => 2, :default => 0.0
+    t.boolean  "is_deleted",                                               :default => false
+    t.datetime "created_at",                                                                  :null => false
+    t.datetime "updated_at",                                                                  :null => false
   end
 
   create_table "sales_returns", :force => true do |t|

@@ -6,8 +6,8 @@ class CreateSalesReturnEntries < ActiveRecord::Migration
       
       t.integer :quantity
       
-      t.decimal :return_price_per_piece , :precision => 11, :scale => 2 , :default => 0  # 10^9 << max value
-      t.decimal :total_return_price , :precision => 11, :scale => 2 , :default => 0
+      t.decimal :reimburse_price_per_piece , :precision => 11, :scale => 2 , :default => 0  # 10^9 << max value
+      t.decimal :total_reimburse_price , :precision => 11, :scale => 2 , :default => 0
       t.boolean :is_deleted , :default => false 
 
       t.timestamps

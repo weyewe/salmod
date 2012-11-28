@@ -47,7 +47,7 @@
 				
 				<% if not @sales_return.is_confirmed? %>
 					<%= render :partial => "sales_return_entries/entry_creator" , :locals => {
-						:sales_return => @sales_return 
+						:sales_return   => @sales_return 
 					}%>
 				<% end %>
 				
@@ -91,9 +91,9 @@
 													"common_order/entry_creation"  	%> 
 	<script type='text/javascript'>
 		$(document).ready(function() {
-				var $search_box = $("#sales_entry_search_item_id");
+				var $search_box = $("#sales_return_application_search_item_id");
 				var $form = $search_box.parents("form"); 
-				var search_item_url = $("#search_item_url").val(); 
+				var search_item_url = $("#search_sales_order_item_url").val(); 
 		    $search_box.tokenInput( search_item_url , {
 						propertyToSearch: "name",
 						tokenLimit: 1, 
@@ -115,35 +115,6 @@
 							$("#add_product_form").remove();
 						}
 		    });
-
-		// 
-		// FOR THE SERVICE
-		// 
-				var $search_service_box = $("#sales_entry_search_service_id");
-				var $service_form = $search_service_box.parents("form");
-
-				var search_service_url = $("#search_service_url").val(); 
-		    $search_service_box.tokenInput( search_service_url , {
-					propertyToSearch: "name",
-					tokenLimit: 1, 
-			        onAdd: function (item) {
-							$service_form.spin("large", "black"); 
-							$("#selected_service_id").attr( 'value',  item['id'] );
-
-							$.ajax({
-							      url: $service_form.attr("action"),
-							      type: "POST",
-							      data: $service_form.serialize(),
-							      dataType: 'script',
-							      success: function(response){ 
-
-							      }
-							    }); 
-			        } ,
-					onDelete: function(item){
-						$("#add_service_form").remove();
-					}
-				}); 
 		});
  	</script>
 <% end %>

@@ -45,6 +45,32 @@ class ItemsController < ApplicationController
     end 
   end
   
+  def search_sales_order_item
+    search_params = params[:q]
+    @sales_order = SalesOrder.find_by_id params[:sales_order_id]
+    query = '%' + search_params + '%'
+    # on PostGre SQL, it is ignoring lower case or upper case 
+    # @objects = Item.where(
+    #              :id => @sales_order.item_id_list ,
+    #              :is_deleted => false 
+    #            ).map{|x| {:name => x.name, :id => x.id }}
+    #          
+    item_id_list =    @sales_order.item_id_list 
+    @objects = Item.where{
+          ( is_deleted.eq false) & 
+          (id.in item_id_list ) & 
+          (name =~ query) 
+    }.map{|x| {:name => x.name, :id => x.id }} 
+    
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @post }
+      format.json { render :json => @objects }
+    end
+    
+  end
+  
+  
   def edit
     @item = Item.find_by_id params[:id] 
   end

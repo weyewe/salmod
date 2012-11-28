@@ -192,4 +192,12 @@ class SalesEntry < ActiveRecord::Base
     service_item.confirmed_datetime = DateTime.now 
     service_item.save 
   end
+  
+=begin
+  ON SALES_RETURN
+=end
+  def max_returnable_quantity
+    self.quantity - self.sales_return_entries.joins(:sales_return).
+                            where(:sales_return => {:is_confirmed => true}).sum('quantity')
+  end
 end

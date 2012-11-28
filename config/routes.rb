@@ -47,6 +47,8 @@ Salmod::Application.routes.draw do
   match 'search_vendor' => "vendors#search_vendor", :as => :search_vendor 
   match 'search_sales_order' => "sales_orders#search_sales_order", :as => :search_sales_order 
   
+  match 'search_sales_order_item/:sales_order_id' => 'items#search_sales_order_item', :as => :search_sales_order_item
+  
  
   
 =begin
