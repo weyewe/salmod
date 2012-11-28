@@ -16,12 +16,12 @@ $(document).ready(function(){
 			// clean the add product form
 			$form.remove(); 
 
-			<% new_entry  = escape_javascript(  render :partial => 'sales_entries/sales_order/entry', :locals => {
-				:sales_entry => @sales_entry ,
-				:sales_order => @sales_order 
+			<% new_entry  = escape_javascript(  render :partial => 'sales_return_entries/sales_return/entry', :locals => {
+				:sales_return_entry => @sales_return_entry ,
+				:sales_return => @sales_return 
 			} )%>
 
-			$("#entry-<%= @sales_entry.id %>").replaceWith('<%= new_entry %>') 
+			$("#entry-<%= @sales_return_entry.id %>").replaceWith('<%= new_entry %>') 
 
 			$.msgbox("Berhasil update item: <%= @item.name %>", 
 						{type: "info"});
@@ -29,8 +29,8 @@ $(document).ready(function(){
 			var $modal = $("#editEntry");
 			$modal.modal('hide');
 			
-			<% new_total_purchase  = escape_javascript(  render :partial => 'sales_entries/sales_order/total_purchase', :locals => { 
-				:sales_order => @sales_order 
+			<% new_total_purchase  = escape_javascript(  render :partial => 'sales_return_entries/sales_return/total_return', :locals => { 
+				:sales_return => @sales_return
 			} )%>
 
 			$("#total_purchase").replaceWith('<%= new_total_purchase %>');
@@ -38,10 +38,11 @@ $(document).ready(function(){
 
 
 		<% elsif  not @has_no_errors %>
-			<% new_form = escape_javascript(  render :partial => "sales_entries/sales_order/edit_product_form", :locals => {
-		    :new_object => @sales_entry , 
-				:url => update_sales_entry_url(@sales_order, @sales_entry)  ,
-				:item => @item
+			<% new_form = escape_javascript(  render :partial => "sales_return_entries/sales_return/return_product_form", :locals => {
+		    :new_object => @sales_return_entry , 
+				:url => update_sales_return_entry_url(@sales_return, @sales_return_entry) ,
+				:item => @item,
+				:sales_return => @sales_return
 		  })%>
 			//replace the form, show the edit
 			$form.replaceWith("<%= new_form %>"); 

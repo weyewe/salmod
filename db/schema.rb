@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121128062826) do
+ActiveRecord::Schema.define(:version => 20121128133108) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -221,19 +221,6 @@ ActiveRecord::Schema.define(:version => 20121128062826) do
     t.datetime "updated_at",                                                                  :null => false
   end
 
-  create_table "stock_deductions", :force => true do |t|
-    t.integer  "quantity"
-    t.integer  "stock_entry_id"
-    t.integer  "creator_id"
-    t.integer  "source_document_id"
-    t.string   "source_document_entry"
-    t.integer  "source_document_entry_id"
-    t.string   "source_document"
-    t.integer  "deduction_case"
-    t.datetime "created_at",               :null => false
-    t.datetime "updated_at",               :null => false
-  end
-
   create_table "stock_entries", :force => true do |t|
     t.integer  "is_addition",                                         :default => 1
     t.integer  "creator_id"
@@ -256,6 +243,20 @@ ActiveRecord::Schema.define(:version => 20121128062826) do
     t.integer  "month"
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
+  end
+
+  create_table "stock_mutations", :force => true do |t|
+    t.integer  "quantity"
+    t.integer  "stock_entry_id"
+    t.integer  "creator_id"
+    t.integer  "source_document_id"
+    t.string   "source_document_entry"
+    t.integer  "source_document_entry_id"
+    t.string   "source_document"
+    t.integer  "mutation_case"
+    t.integer  "mutation_status",          :default => 1
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
   end
 
   create_table "towns", :force => true do |t|

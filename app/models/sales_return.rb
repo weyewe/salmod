@@ -80,8 +80,7 @@ class SalesReturn < ActiveRecord::Base
   end
   
   def add_sales_return_entry_item( item, quantity,reimburse_price_per_piece )
-    sales_entry = sales_entry_for(item)
-    return nil if sales_entry.nil? 
+    sales_entry = sales_entry_for(item) 
     
     new_sales_return_entry = SalesReturnEntry.new 
     new_sales_return_entry.sales_entry_id = sales_entry.id 
@@ -90,19 +89,56 @@ class SalesReturn < ActiveRecord::Base
     new_sales_return_entry.sales_return_id  = self.id  
     new_sales_return_entry.total_reimburse_price  = quantity * reimburse_price_per_piece
     
+    if self.has_sales_return_entry_for_item?(item ) or sales_entry.nil?
+      return new_sales_return_entry 
+    end
+    
     if quantity.nil? or quantity <= 0 or quantity > self.max_returnable_for(item)
-      a.errors.add(:quantity , "Quantity must be more than 1 and less than  #{self.max_returnable_for(item)}" ) 
-      return a
+      new_sales_return_entry.errors.add(:quantity , "Quantity must be more than 1 and less than  #{self.max_returnable_for(item)}" ) 
+      return new_sales_return_entry
     end
     
     if reimburse_price_per_piece < BigDecimal('0')
-      a.errors.add(:reimburse_price_per_piece , "Pengembalian uang tidak boleh negative" ) 
-      return a
+      new_sales_return_entry.errors.add(:reimburse_price_per_piece , "Pengembalian uang tidak boleh negative" ) 
+      return new_sales_return_entry
     end
     
     
     new_sales_return_entry.save 
     return new_sales_return_entry
+  end
+  
+  def delete_sales_return_entry(sales_return_entry)
+    if self.is_confirmed == true 
+      return nil
+    end 
+    
+    sales_return_entry = SalesReturnEntry.find(:first, :conditions => {
+      :id => sales_return_entry.id, :sales_return_id => self.id
+    })
+    
+    sales_return_entry.delete
+  end
+  
+  def confirm_return(employee)
+    return nil if self.is_confirmed? 
+    return nil if self.active_sales_entries.count ==0 
+    
+     # check whether there is enough item for all sales entry 
+     # if not, cancel the transaction, and tell them: which item that is not available 
+     # | Item Name| Requested | Available |  
+    
+    ActiveRecord::Base.transaction do
+      
+      self.active_sales_return_entries.each do |sales_return_entry|
+        sales_return_entry.recover_stock( employee ) 
+      end
+      
+      self.is_confirmed = true 
+      self.confirmator_id = employee.id
+      self.confirmed_datetime = DateTime.now  
+      self.save
+    end
   end
   
 end

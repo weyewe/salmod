@@ -13,7 +13,7 @@
 	<tbody>
 		<% sales_order.active_sales_entries.each do |sales_entry| %>
 			<% entry_object = sales_entry.item %>
-			<tr id='entry-<%= sales_entry.id %>'>
+			<tr>
 				<td class='identifier'>
 					<%= entry_object.name %> 
 

@@ -1,6 +1,6 @@
-class CreateStockDeductions < ActiveRecord::Migration
+class CreateStockMutations < ActiveRecord::Migration
   def change
-    create_table :stock_deductions do |t|
+    create_table :stock_mutations do |t|
       t.integer :quantity 
       t.integer :stock_entry_id 
       
@@ -13,7 +13,10 @@ class CreateStockDeductions < ActiveRecord::Migration
       t.string :source_document
       t.integer :source_document_id   
       
-      t.integer :deduction_case  
+      t.integer :mutation_case 
+      
+      t.integer :mutation_status, :default => MUTATION_STATUS[:deduction] 
+
       t.timestamps
     end
   end

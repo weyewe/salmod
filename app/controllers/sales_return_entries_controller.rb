@@ -30,4 +30,48 @@ class SalesReturnEntriesController < ApplicationController
     @has_no_errors  = @sales_return_entry.errors.messages.length == 0
   end
   
+=begin
+  EDIT SALES ENTRY
+=end
+  def edit
+    @sales_return = SalesReturn.find_by_id params[:sales_return_id]
+    @sales_return_entry =  @sales_return.active_sales_return_entries.where(:id => params[:id]).first
+    
+    @item = @sales_return_entry.sales_entry.item 
+  end
+  
+=begin
+  UPDATE SALES ENTRY
+=end
+
+  def update_sales_return_entry
+    @sales_return = SalesReturn.find_by_id params[:sales_return_id]
+    @sales_return_entry =  @sales_return.active_sales_return_entries.where(:id => params[:id]).first
+
+    @quantity =  params[:sales_return_entry][:quantity].to_i
+    @reimburse_price_per_piece =  BigDecimal( params[:sales_return_entry][:reimburse_price_per_piece] )
+
+    @new_object = @sales_return_entry.update_item( @quantity, @reimburse_price_per_piece)
+    @has_no_errors  = @new_object.errors.messages.length == 0  
+
+    @item = @sales_return_entry.sales_entry.item
+  end 
+  
+=begin
+  DELETE SALES ENTRY 
+=end
+
+  def delete_sales_return_entry_from_sales_return
+    @sales_return = SalesReturn.find_by_id params[:sales_return_id]
+    @sales_return_entry = @sales_return.active_sales_return_entries.where(:id => params[:object_to_destroy_id]).first
+
+    @sales_return.delete_sales_return_entry( @sales_return_entry )    
+  end
+  
+  def confirm_sales_return
+    @sales_return = SalesReturn.find_by_id params[:sales_return_id]
+    # add some defensive programming.. current user has role admin, and current_user is indeed belongs to the company 
+    @sales_return.confirm_return( current_user  )  
+  end
+  
 end

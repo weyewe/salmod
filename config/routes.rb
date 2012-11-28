@@ -126,24 +126,24 @@ Salmod::Application.routes.draw do
 
 
 =begin
-  Adding Purchase Entry
+  Adding Sales Return Entry
 =end
   match 'generate_sales_return_entry_add_product_form' => 'sales_return_entries#generate_sales_return_entry_add_product_form', :as => :generate_sales_return_entry_add_product_form, :method => :post 
 
 
 =begin
-  Editing Purchase Entry
+  Editing Sales Return Entry
 =end
   match 'update_sales_return_entry/:sales_return_id/sales_return_entry/:id' => 'sales_return_entries#update_sales_return_entry', :as => :update_sales_return_entry, :method => :post
 
 =begin
-  DELETE PurchaseEntry
+  DELETE Sales Return Entry
 =end
   match 'delete_sales_return_entry_from_sales_return/:sales_return_id' => 'sales_return_entries#delete_sales_return_entry_from_sales_return', :as => :delete_sales_return_entry_from_sales_return, :method => :post 
 
 
 =begin
-  CONFIRM  PURCHASE ORDER
+  CONFIRM  Sales Return 
 =end
   match 'confirm_sales_return/:sales_return_id' => "sales_returns#confirm_sales_return", :as => :confirm_sales_return, :method => :post 
   match 'delete_sales_return/:sales_return_id' => "sales_returns#delete_sales_return", :as => :delete_sales_return, :method => :post

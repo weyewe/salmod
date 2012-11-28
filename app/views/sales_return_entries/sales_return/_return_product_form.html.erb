@@ -1,8 +1,15 @@
 
+<% if new_object.persisted? %>
+	<% id = 'edit_object'%>
+<% else %>
+	<% id = 'new_object'%>
+<% end %>
+
+
 <%= simple_form_for( new_object, :url => url,
       :method => :post , 
       :html => {:class => " prevent_double_submit ajax-form",
-        :id => "add_product_form"}) do |f| %> 
+        :id => "#{id}"}) do |f| %> 
 	<%=	 hidden_field_tag 'item_id', "#{item.id}" %> 
 
 			<table class="table table-bordered table-striped table-highlight">
@@ -31,7 +38,17 @@
 						</td>
 					</tr>
 					<tr>
-						<td style='text-align:center;'><%= f.submit  "Return Produk", :class =>"btn" %></td>
+						<td style='text-align:center;'>
+						
+							<% if new_object.persisted? %>
+								<%#= f.button :submit , :class => "btn btn-primary", :value=> "Update Vendor" %>
+								<%= f.submit  "Update Return Produk", :class =>"btn btn btn-primary" %>
+							<% else %>
+								<%= f.submit  "Create Return Produk", :class =>"btn btn btn-primary" %>
+							<% end %>
+							
+							
+						</td>
 					</tr>
 				</tbody>
 			</table> 

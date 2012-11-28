@@ -129,8 +129,16 @@ STOCK_ENTRY_CASE = {
   
 } 
 
-STOCK_DEDUCTION_CASE = {
-  :sales_order => 1 
+MUTATION_CASE = {
+  :sales_order => 1 ,
+  
+  # from 30 onward, it is the addition case 
+  :sales_return => 30
+}
+
+MUTATION_STATUS = {
+  :deduction  => 1 ,
+  :addition => 2 
 }
 
 

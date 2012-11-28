@@ -59,7 +59,7 @@ class SalesEntry < ActiveRecord::Base
       stock_entry.update_usage(served_quantity) 
       supplied_quantity += served_quantity 
       
-      StockDeduction.create(
+      StockMutation.create(
         :quantity            => served_quantity  ,
         :stock_entry_id      =>  stock_entry.id ,
         :creator_id          =>  employee.id ,
@@ -67,7 +67,8 @@ class SalesEntry < ActiveRecord::Base
         :source_document_id  =>  self.sales_order_id  ,
         :source_document_entry     =>  self.class.to_s,
         :source_document    =>  self.sales_order.class.to_s,
-        :deduction_case      => STOCK_DEDUCTION_CASE[:sales_order]
+        :mutation_case      => MUTATION_CASE[:sales_order],
+        :mutation_status => MUTATION_STATUS[:deduction]
       )
        
     end 
@@ -119,9 +120,10 @@ class SalesEntry < ActiveRecord::Base
 =end
   def update_item(quantity, price_per_piece) 
     return nil if self.sales_order.is_confirmed?
+    item = self.item
      
-    if not quantity.present? or quantity <=  0
-      self.errors.add(:quantity , "Quantity harus setidaknya 1" ) 
+    if not quantity.present? or quantity <=  0 or quantity > item.ready 
+      self.errors.add(:quantity , "Quantity harus setidaknya 1 dan lebih kecil dari #{item.ready}" ) 
       return self
     end
      

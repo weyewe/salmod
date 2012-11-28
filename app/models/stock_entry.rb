@@ -1,7 +1,7 @@
 class StockEntry < ActiveRecord::Base
   # attr_accessible :title, :body
   belongs_to :item
-  has_many :stock_deductions 
+  has_many :stock_mutations 
   
   def available_quantity  
     quantity - used_quantity 
@@ -21,6 +21,23 @@ class StockEntry < ActiveRecord::Base
     item.save 
     
     return self  
+  end
+  
+  def recover_usage(quantity_to_be_recovered)
+    self.used_quantity -= quantity_to_be_recovered 
+     
+    if self.used_quantity != self.quantity
+      self.is_finished = false 
+    end
+    
+    self.save 
+    # update the item summary 
+    
+    item = self.item 
+    item.ready += quantity_to_be_recovered 
+    item.save 
+    
+    return self 
   end
 
   def self.first_available_stock(item) 
