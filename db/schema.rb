@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121124160142) do
+ActiveRecord::Schema.define(:version => 20121128062826) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -161,6 +161,34 @@ ActiveRecord::Schema.define(:version => 20121124160142) do
     t.integer  "paid_declarator_id"
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
+  end
+
+  create_table "sales_return_entries", :force => true do |t|
+    t.integer  "sales_entry_id"
+    t.integer  "sales_return_id"
+    t.integer  "quantity"
+    t.decimal  "return_price_per_piece", :precision => 11, :scale => 2, :default => 0.0
+    t.decimal  "total_return_price",     :precision => 11, :scale => 2, :default => 0.0
+    t.boolean  "is_deleted",                                            :default => false
+    t.datetime "created_at",                                                               :null => false
+    t.datetime "updated_at",                                                               :null => false
+  end
+
+  create_table "sales_returns", :force => true do |t|
+    t.integer  "sales_order_id"
+    t.string   "code"
+    t.integer  "creator_id"
+    t.integer  "customer_id"
+    t.integer  "year"
+    t.integer  "month"
+    t.boolean  "is_deleted",                                        :default => false
+    t.integer  "deleter_id"
+    t.boolean  "is_confirmed",                                      :default => false
+    t.integer  "confirmator_id"
+    t.datetime "confirmed_datetime"
+    t.decimal  "admin_fee",          :precision => 11, :scale => 2, :default => 0.0
+    t.datetime "created_at",                                                           :null => false
+    t.datetime "updated_at",                                                           :null => false
   end
 
   create_table "service_items", :force => true do |t|

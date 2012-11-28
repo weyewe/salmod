@@ -5,6 +5,9 @@ class SalesEntry < ActiveRecord::Base
   
   has_one :service_item 
   has_one :service, :through  => :service_item 
+  
+  has_many :sales_return_entries
+  
    
   
   def update_total_sales_price 

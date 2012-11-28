@@ -29,17 +29,23 @@ Salmod::Application.routes.draw do
     resources :purchase_entries  
   end
   
+  resources :sales_returns do 
+    resources :sales_return_entries
+  end
+  
   # employee management 
   resources :employees
   resources :vendors 
   resources :services
   resources :vehicles
+  
    
 
   match 'generate_sales_order'  => 'sales_orders#generate_sales_order' , :as => :generate_sales_order, :method => :post 
   match 'search_vehicle'  => 'vehicles#search_vehicle' , :as => :search_vehicle
   match 'search_customer' => "customers#search_customer", :as => :search_customer 
   match 'search_vendor' => "vendors#search_vendor", :as => :search_vendor 
+  match 'search_sales_order' => "sales_orders#search_sales_order", :as => :search_sales_order 
   
  
   
@@ -110,6 +116,42 @@ Salmod::Application.routes.draw do
   match 'confirm_purchase_order/:purchase_order_id' => "purchase_orders#confirm_purchase_order", :as => :confirm_purchase_order, :method => :post 
   match 'delete_purchase_order/:purchase_order_id' => "purchase_orders#delete_purchase_order", :as => :delete_purchase_order, :method => :post 
 
+##################################################
+##################################################
+######### Create SALES_RETURN + ENTRIES 
+##################################################
+##################################################
+
+
+=begin
+  Adding Purchase Entry
+=end
+  match 'generate_sales_return_entry_add_product_form' => 'sales_return_entries#generate_sales_return_entry_add_product_form', :as => :generate_sales_return_entry_add_product_form, :method => :post 
+
+
+=begin
+  Editing Purchase Entry
+=end
+  match 'update_sales_return_entry/:sales_return_id/sales_return_entry/:id' => 'sales_return_entries#update_sales_return_entry', :as => :update_sales_return_entry, :method => :post
+
+=begin
+  DELETE PurchaseEntry
+=end
+  match 'delete_sales_return_entry_from_sales_return/:sales_return_id' => 'sales_return_entries#delete_sales_return_entry_from_sales_return', :as => :delete_sales_return_entry_from_sales_return, :method => :post 
+
+
+=begin
+  CONFIRM  PURCHASE ORDER
+=end
+  match 'confirm_sales_return/:sales_return_id' => "sales_returns#confirm_sales_return", :as => :confirm_sales_return, :method => :post 
+  match 'delete_sales_return/:sales_return_id' => "sales_returns#delete_sales_return", :as => :delete_sales_return, :method => :post
+
+
+####################################################################################################
+####################################################################################################
+############################ =>         Master Data                    #############################
+####################################################################################################
+#################################################################################################### 
    
 ##################################################
 ##################################################

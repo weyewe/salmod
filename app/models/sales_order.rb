@@ -4,6 +4,7 @@ class SalesOrder < ActiveRecord::Base
   belongs_to :vehicle
   has_many :maintenances  # no, we don't go with the maintenance. stick with the MVP, willy! 
   has_many :sales_entries 
+  has_many :sales_returns 
   
   # has_many :sales_entries, :through => :stock_entry_usages  # can be service or item sold 
   # has_many :stock_entry_usages

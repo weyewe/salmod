@@ -2,8 +2,11 @@ class SalesOrdersController < ApplicationController
   
   def new
     @new_object = SalesOrder.new 
-    @pending_confirmation_sales_orders = SalesOrder.where(:is_confirmed => false, :is_deleted => false ).order("created_at ASC")
+    @pending_confirmation_sales_orders = SalesOrder.where(:is_confirmed => false, :is_deleted => false ).order("created_at DESC")
+    @confirmed_sales_orders = SalesOrder.where(:is_confirmed => true, :is_deleted => false ).order("confirmed_datetime DESC").limit(10)
   end
+  
+  
   
   
   def create
@@ -21,22 +24,34 @@ class SalesOrdersController < ApplicationController
     
      
     @has_no_errors  = @errors.length == 0
-    
-    puts "Middle Total errors: #{@errors.length}"
-    
-    if  @has_no_errors # don't call instance variable .valid? << it will kick out all the errors 
-      puts "the object is valid\n"*10
+     
+    if  @has_no_errors  
       redirect_to new_sales_order_sales_entry_url(@new_object)
       return 
-    else
-      puts "There is error\n"*10
-      puts "Last Total errors: #{@errors.length}"
+    else 
       @pending_confirmation_sales_orders = SalesOrder.where(:is_confirmed => false, :is_deleted => false ).order("created_at ASC")
       render :file => "sales_orders/new"
       return 
     end
   end
    
+  def search_sales_order
+    
+    # verify the current_user 
+    search_params = params[:q]
+    
+    query = '%' + search_params + '%'
+    # on PostGre SQL, it is ignoring lower case or upper case 
+    @objects = SalesOrder.where{ (code =~ query) & 
+                  (is_confirmed.eq true) & 
+                  (is_deleted.eq false)  }.map{|x| {:name => x.code, :id => x.id }}
+    
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @post }
+      format.json { render :json => @objects }
+    end 
+  end
   
   def confirm_sales_order
     @sales_order = SalesOrder.find_by_id params[:sales_order_id]
