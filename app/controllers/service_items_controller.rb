@@ -22,6 +22,16 @@ class ServiceItemsController < ApplicationController
     
   end
   
+  def maintenance_histories
+    @vehicle = Vehicle.find_by_id params[:vehicle_id]
+    @service_items = @vehicle.service_items.order("created_at DESC").limit(10).joins(:service)
+    
+    add_breadcrumb "Vehicle", 'new_vehicle_url'
+    set_breadcrumb_for @vehicle, 'maintenance_histories_url' + "(#{@vehicle.id})", 
+                "Maintenance History for #{@vehicle.id_code}"
+                
+  end
+  
   
   
 end

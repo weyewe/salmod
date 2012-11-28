@@ -10,6 +10,8 @@ class CreateVehicles < ActiveRecord::Migration
       # plat number => unique car identification 
       
       t.integer :customer_id # if it is registered, it will be linked back to the customer 
+      
+      t.boolean :is_deleted , :default => false 
       t.timestamps
     end
   end

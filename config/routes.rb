@@ -33,11 +33,15 @@ Salmod::Application.routes.draw do
   resources :employees
   resources :vendors 
   resources :services
+  resources :vehicles
+   
 
   match 'generate_sales_order'  => 'sales_orders#generate_sales_order' , :as => :generate_sales_order, :method => :post 
   match 'search_vehicle'  => 'vehicles#search_vehicle' , :as => :search_vehicle
   match 'search_customer' => "customers#search_customer", :as => :search_customer 
   match 'search_vendor' => "vendors#search_vendor", :as => :search_vendor 
+  
+ 
   
 =begin
   Adding Sales Entry
@@ -155,4 +159,13 @@ Salmod::Application.routes.draw do
 ##################################################
   match 'update_customer/:customer_id' => 'customers#update_customer', :as => :update_customer , :method => :post 
   match 'delete_customer' => 'customers#delete_customer', :as => :delete_customer , :method => :post
+  
+##################################################
+##################################################
+######### VEHICLE
+##################################################
+##################################################
+  match 'update_vehicle/:vehicle_id' => 'vehicles#update_vehicle', :as => :update_vehicle , :method => :post 
+  match 'delete_vehicle' => 'vehicles#delete_vehicle', :as => :delete_vehicle , :method => :post
+  match 'maintenance_histories/:vehicle_id' => 'service_items#maintenance_histories', :as => :maintenance_histories 
 end

@@ -259,6 +259,7 @@ ActiveRecord::Schema.define(:version => 20121124160142) do
     t.boolean  "is_customer_registered", :default => false
     t.string   "id_code"
     t.integer  "customer_id"
+    t.boolean  "is_deleted",             :default => false
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
   end

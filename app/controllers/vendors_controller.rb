@@ -51,7 +51,7 @@ class VendorsController < ApplicationController
   end
   
   def delete_vendor
-    @vendor = Employee.find_by_id params[:object_to_destroy_id]
+    @vendor = Vendor.find_by_id params[:object_to_destroy_id]
     @vendor.delete 
   end
   
