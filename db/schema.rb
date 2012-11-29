@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121128133108) do
+ActiveRecord::Schema.define(:version => 20121129023309) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -29,6 +29,15 @@ ActiveRecord::Schema.define(:version => 20121128133108) do
     t.boolean  "is_deleted", :default => false
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
+  end
+
+  create_table "conversion_entries", :force => true do |t|
+    t.integer  "stock_conversion_id"
+    t.integer  "item_id"
+    t.integer  "quantity"
+    t.integer  "entry_status",        :default => 1
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
   end
 
   create_table "customers", :force => true do |t|
@@ -219,6 +228,14 @@ ActiveRecord::Schema.define(:version => 20121128133108) do
     t.decimal  "commission_per_employee",   :precision => 11, :scale => 2, :default => 0.0
     t.datetime "created_at",                                                                  :null => false
     t.datetime "updated_at",                                                                  :null => false
+  end
+
+  create_table "stock_conversions", :force => true do |t|
+    t.string   "code"
+    t.integer  "mutation_status", :default => 1
+    t.boolean  "is_deleted",      :default => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
   end
 
   create_table "stock_entries", :force => true do |t|

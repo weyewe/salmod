@@ -49,6 +49,20 @@ class StockMigration < ActiveRecord::Base
     
     item.add_stock_and_recalculate_average_cost_post_stock_entry_addition( new_stock_entry ) 
     
+    # create the StockMutation
+    StockMutation.create(
+      :quantity            => quantity  ,
+      :stock_entry_id      =>  new_stock_entry.id ,
+      :creator_id          =>  employee.id ,
+      :source_document_entry_id  =>  stock_migration.id   ,
+      :source_document_id  =>  stock_migration.id  ,
+      :source_document_entry     =>  stock_migration.class.to_s,
+      :source_document    =>  stock_migration.class.to_s,
+      :mutation_case      => MUTATION_CASE[:stock_migration],
+      :mutation_status => MUTATION_STATUS[:addition],
+      :item_id => item.id
+    )
+    
     
     return new_stock_entry  
     

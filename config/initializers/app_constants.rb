@@ -130,6 +130,7 @@ STOCK_ENTRY_CASE = {
 } 
 
 MUTATION_CASE = {
+  :stock_migration => 0, 
   :sales_order => 1 ,
   
   # from 30 onward, it is the addition case 
@@ -141,6 +142,15 @@ MUTATION_STATUS = {
   :addition => 2 
 }
 
+
+CONVERSION_STATUS = {
+  :disassembly => 1, 
+  :assembly => 2 
+}
+STOCK_CONVERSION_ENTRY_STATUS ={
+  :source => 1 , 
+  :result => 2 
+}
 
 
 

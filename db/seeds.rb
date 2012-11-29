@@ -57,6 +57,7 @@ bangjay = Vendor.create :name => "Bangjay",
 puts " about to create inventory item "
 # Create Inventory Item 
 shell_lubricant = Item.create_by_category( lubricant, :name => "Shell Formula 1 Lubricant 5L") 
+shell_lubricant_eceran = Item.create_by_category( lubricant, :name => "[Eceran]Shell Formula 1 Lubricant 1L") 
 pertamina_lubricant = Item.create_by_category( lubricant, :name => "Pertamina Top Gun 4L")
 top_one_lubricant = Item.create_by_category( lubricant , :name => "Top One Indomobil 5L")
 

@@ -39,6 +39,10 @@ Salmod::Application.routes.draw do
   resources :services
   resources :vehicles
   
+  resources :stock_conversions do
+    resources :conversion_entries 
+  end
+  
    
 
   match 'generate_sales_order'  => 'sales_orders#generate_sales_order' , :as => :generate_sales_order, :method => :post 
@@ -217,4 +221,12 @@ Salmod::Application.routes.draw do
   match 'update_vehicle/:vehicle_id' => 'vehicles#update_vehicle', :as => :update_vehicle , :method => :post 
   match 'delete_vehicle' => 'vehicles#delete_vehicle', :as => :delete_vehicle , :method => :post
   match 'maintenance_histories/:vehicle_id' => 'service_items#maintenance_histories', :as => :maintenance_histories 
+  
+##################################################
+##################################################
+######### VENDOR
+##################################################
+##################################################
+  match 'update_stock_conversion/:vendor_id' => 'stock_conversions#update_stock_conversion', :as => :update_stock_conversion , :method => :post 
+  match 'delete_stock_conversion' => 'stock_conversions#delete_stock_conversion', :as => :delete_stock_conversion , :method => :post
 end

@@ -164,7 +164,6 @@ class SalesOrder < ActiveRecord::Base
     })
     
     sales_entry.delete
-      
   end
   
   # on sales order confirm, deduct stock level 
