@@ -39,7 +39,7 @@ class StockMigration < ActiveRecord::Base
     new_stock_entry.item_id  = item.id 
     
     new_stock_entry.entry_case =  STOCK_ENTRY_CASE[:initial_migration]
-    new_stock_entry.source_document = self.to_s 
+    new_stock_entry.source_document = self.class.to_s 
     new_stock_entry.source_document_id = stock_migration.id 
     new_stock_entry.save 
     

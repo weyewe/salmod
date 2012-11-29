@@ -49,9 +49,6 @@ ActiveRecord::Schema.define(:version => 20121129063706) do
     t.integer  "month"
     t.boolean  "is_deleted",          :default => false
     t.integer  "deleter_id"
-    t.boolean  "is_confirmed",        :default => false
-    t.integer  "confirmator_id"
-    t.datetime "confirmed_datetime"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
   end

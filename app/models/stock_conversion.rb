@@ -84,7 +84,9 @@ class StockConversion < ActiveRecord::Base
     new_convert_stock.year  = today_datetime.year 
     new_convert_stock.month =  today_datetime.year 
     
-    if not quantity.present? or quantity <= 0 or quantity > source_item.ready
+    
+  
+    if not quantity.present? or quantity <= 0 or quantity > source_item.ready # if it is not one to one -> quantity*source.quantity > source_item.ready 
       new_convert_stock.errors.add(:source_quantity , 
         "Jumlah Konversi harus setidaknya 1, dan tidak boleh lebih dari #{source_item.ready}" ) 
       return new_convert_stock 
@@ -93,8 +95,12 @@ class StockConversion < ActiveRecord::Base
     new_convert_stock.save  
     
     # create stock entry
-    new_convert_stock.execute_conversion(employee)   
+    new_convert_stock.execute_conversion_one_on_one(employee)   
     # create stock mutation 
+  end
+  
+  def active_conversion_entries
+    self.conversion_entries.where(:is_deleted => false )
   end
   
 end

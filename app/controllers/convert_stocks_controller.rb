@@ -14,7 +14,7 @@ class ConvertStocksController < ApplicationController
   def create 
     @stock_conversion = StockConversion.find_by_id params[:stock_conversion_id] 
     ActiveRecord::Base.transaction do 
-      @object = @stock_conversion.execute_convert_stock_one_on_one( current_user, params[:convert_stock][:source_quantity])
+      @object = @stock_conversion.execute_convert_stock_one_on_one( current_user, params[:convert_stock][:source_quantity].to_i)
     end
     
     @has_no_errors  = @object.errors.messages.length == 0
