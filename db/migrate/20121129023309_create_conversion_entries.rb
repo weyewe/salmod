@@ -6,6 +6,7 @@ class CreateConversionEntries < ActiveRecord::Migration
       
       t.integer :quantity 
       t.integer :entry_status , :default => STOCK_CONVERSION_ENTRY_STATUS[:source]
+      t.boolean :is_deleted, :default => false 
 
       t.timestamps
     end

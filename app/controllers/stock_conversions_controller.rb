@@ -8,7 +8,13 @@ class StockConversionsController < ApplicationController
     @source_item = Item.find_by_id params[:stock_conversion][:source_item_id]
     @target_item = Item.find_by_id params[:stock_conversion][:target_item_id]
     @quantity =  params[:stock_conversion][:target_quantity].to_i
-    @object = StockConversion.create_one_to_one( current_user, @source_item, @target_item, @quantity ) 
+    
+    ActiveRecord::Base.transaction do 
+      @object = StockConversion.create_one_to_one( current_user, @source_item, @target_item, @quantity ) 
+    end
+    
+    
+    
     
     
     @has_no_errors  = @object.errors.messages.length == 0

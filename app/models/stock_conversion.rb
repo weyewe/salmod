@@ -35,15 +35,16 @@ class StockConversion < ActiveRecord::Base
     new_stock_conversion.code ='SC/' + 
                                 "#{new_stock_conversion.id}/" +  
                                 "#{source_item.id}/" + 
-                                "#{target_item.id}/" +
+                                "#{target_item.id}/" 
     
     new_stock_conversion.save 
      
     new_stock_conversion.create_conversion_entry( source_item, 1 , STOCK_CONVERSION_ENTRY_STATUS[:source] ) 
     new_stock_conversion.create_conversion_entry( target_item, quantity , STOCK_CONVERSION_ENTRY_STATUS[:target] ) 
+    return new_stock_conversion
   end
   
-  def create_source_conversion_entry( item, quantity, status )
+  def create_conversion_entry( item, quantity, status )
     new_conversion_entry = ConversionEntry.new 
     new_conversion_entry.stock_conversion_id = self.id 
     new_conversion_entry.item_id = item.id 
@@ -52,5 +53,18 @@ class StockConversion < ActiveRecord::Base
     new_conversion_entry.save  
   end
   
+  def one_to_one_source
+    self.conversion_entries.where( 
+      :is_deleted => false ,
+      :entry_status => STOCK_CONVERSION_ENTRY_STATUS[:source]
+    ).first 
+  end
+  
+  def one_to_one_target
+    self.conversion_entries.where( 
+      :is_deleted => false ,
+      :entry_status => STOCK_CONVERSION_ENTRY_STATUS[:target]
+    ).first 
+  end
   
 end
