@@ -41,7 +41,10 @@ Salmod::Application.routes.draw do
   
   resources :stock_conversions do
     resources :conversion_entries 
+    resources :convert_stocks
   end
+  
+  resources :convert_stocks
   
    
 

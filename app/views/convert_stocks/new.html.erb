@@ -1,6 +1,6 @@
 <%= render :partial => "layouts/masthead" ,:locals => {
-	:title => "Customer",
-	:description => "Add info for customer database"
+	:title => "Convert Stock",
+	:description => "Convert Stock from one item to another"
 }%>
 
 <div id="content">
@@ -11,11 +11,6 @@
 		<div class="row">
 			
 			<div class="span8">
-				
-				<%= link_to new_stock_conversion_url, :class => "new_entry btn btn-primary" do %>
-					<i class="icon-plus"></i>Stock Conversion Baru
-				<% end %> 
-				<hr />
 				 
 				
 				<%#= render :partial => "customers/new_object_form", :locals => {
@@ -30,12 +25,13 @@
 							<th>ID</th>
 							<th>Source</th>
 							<th>Result</th> 
-							<th colspan='2'>Action</th>
+							<th>Past Conversion</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody> 
 						<% @objects.each do |object| %>
-							<%= render :partial =>  'stock_conversions/entry', :locals => {
+							<%= render :partial =>  'convert_stocks/entry', :locals => {
 								:object => object 
 							} %> 
 						<% end %>
