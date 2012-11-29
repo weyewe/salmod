@@ -3,6 +3,8 @@ class StockEntry < ActiveRecord::Base
   belongs_to :item
   has_many :stock_mutations 
   
+  
+  
   def available_quantity  
     quantity - used_quantity 
   end

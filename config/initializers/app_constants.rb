@@ -147,6 +147,14 @@ MUTATION_STATUS = {
   :addition => 2 
 }
 
+ITEM_STATUS = {
+  :ready => 1 , 
+  :scrap => 2, 
+  :pending_receival => 3 ,
+  :pending_delivery => 4 ,
+  :on_delivery => 5 
+}
+
 
 CONVERSION_STATUS = {
   :disassembly => 1, 

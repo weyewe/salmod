@@ -191,6 +191,8 @@
 								<i class="icon-tasks"></i>Stock Conversion 
 							<% end %>
 						</li>
+						
+						
 					</ul>    				
 				</li>
 				
@@ -218,6 +220,16 @@
 						</li> 
 						
 						<li>
+							<%= link_to new_service_url do %>
+								<i class="icon-th-list"></i>Service DB
+							<% end %>
+						</li>
+						
+						
+						
+						<li class="divider"></li>
+						
+						<li>
 							<%= link_to new_stock_migration_url do %>
 								<i class="icon-star"></i>Stock Adjustment
 							<% end %>
@@ -229,13 +241,19 @@
 							<% end %>
 						</li>
 						
-						<li class="divider"></li>
-						
 						<li>
-							<%= link_to new_service_url do %>
-								<i class="icon-th-list"></i>Service
+							<%= link_to new_convert_stock_url do %>
+								<i class="icon-trash"></i>Scrap Item
 							<% end %>
 						</li>
+						
+						<li>
+							<%= link_to new_convert_stock_url do %>
+								<i class="icon-refresh"></i>Replace Item
+							<% end %>
+						</li>
+						
+						
 						
 						<!-- <li> <a href="./reports.html"><i class="icon-trash"></i>Scrap Item</a></li> -->
 						<!-- <li><a href="./settings.html"><i class="icon-random"></i>Warehouse Mutation</a></li> -->

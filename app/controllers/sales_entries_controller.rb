@@ -131,7 +131,10 @@ class SalesEntriesController < ApplicationController
     @sales_entry = SalesEntry.find_by_id params[:sales_entry_id]
     @sales_order = @sales_entry.sales_order 
     @vehicle = Vehicle.find_by_id params[:service_details_search_vehicle_id]
-    @item_list = Item.where(:id =>params[:service_details_search_item_id] ) 
+    
+    item_id_list = params[:service_details_search_item_id] .split(',')
+    
+    @item_list = Item.where(:id => item_id_list ) 
     
     
     @sales_entry.update_service_details(  @vehicle, @item_list )

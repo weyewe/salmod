@@ -16,6 +16,8 @@ class CreateStockMutations < ActiveRecord::Migration
       t.integer :mutation_case 
       
       t.integer :mutation_status, :default => MUTATION_STATUS[:deduction] 
+      
+      t.integer :item_status, :default => ITEM_STATUS[:ready]
       t.integer :item_id 
       t.timestamps
     end

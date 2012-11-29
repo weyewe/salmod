@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121129063706) do
+ActiveRecord::Schema.define(:version => 20121129164017) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -139,6 +139,11 @@ ActiveRecord::Schema.define(:version => 20121129063706) do
     t.datetime "updated_at",                            :null => false
   end
 
+  create_table "replace_items", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "replacement_items", :force => true do |t|
     t.integer  "service_item_id"
     t.integer  "item_id"
@@ -213,6 +218,15 @@ ActiveRecord::Schema.define(:version => 20121129063706) do
     t.datetime "updated_at",                                                           :null => false
   end
 
+  create_table "scrap_items", :force => true do |t|
+    t.integer  "creator_id"
+    t.string   "code"
+    t.integer  "item_id"
+    t.integer  "quantity"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "service_items", :force => true do |t|
     t.integer  "service_id"
     t.integer  "sales_entry_id"
@@ -285,6 +299,7 @@ ActiveRecord::Schema.define(:version => 20121129063706) do
     t.string   "source_document"
     t.integer  "mutation_case"
     t.integer  "mutation_status",          :default => 1
+    t.integer  "item_status",              :default => 1
     t.integer  "item_id"
     t.datetime "created_at",                              :null => false
     t.datetime "updated_at",                              :null => false

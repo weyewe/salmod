@@ -10,7 +10,7 @@
 			<table class="table table-bordered table-striped table-highlight">
 				<thead>
 					<tr>
-						<th style='text-align:center;'>Service Details for: <%= service.name  %></th>  
+						<th style='text-align:center;'>Jimmy Service Details for: <%= service.name  %></th>  
 					</tr>
 				</thead>
 				<tbody>
@@ -47,31 +47,29 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-	$("#service_details_search_vehicle_id").tokenInput('<%=	search_vehicle_url %>', {
+	
+	 $("#service_details_search_vehicle_id").tokenInput('<%=	search_vehicle_url %>', {
 		prePopulate:   	[
-			<% if not service_item.vehicle.nil? %> 
-			{id: <%= service_item.vehicle.id %>, name: '<%= service_item.vehicle.id_code %>'}
-			<% end %>
-		],
+				<% if not service_item.vehicle.nil? %> 
+				{id: <%= service_item.vehicle.id %>, name: '<%= service_item.vehicle.id_code %>'}
+				<% end %>
+			],
 		zindex: 9999,
 		propertyToSearch: "name",
 		tokenLimit: 1
 	});
-	
-	
-	var parsed_replacement_items  = <%= replacement_items.to_json %>; 
+
+
+
 	$("#service_details_search_item_id").tokenInput('<%=search_item_url %>', {
-		prePopulate: parsed_replacement_items,
-		// 
-		// [ 
-		// {id: 123, name: "Slurms MacKenzie"},
-		// {id: 555, name: "Bob Hoskins"},
-		// {id: 9000, name: "Kriss Akabusi"}
-		// ],
+		prePopulate: [ 
+			<% replacement_items.each do |replacement_item| %>
+				{id: <%= replacement_item.item.id %>, name: "<%= escape_javascript( replacement_item.item.name )%>"},
+			<% end %> 
+		],
 		zindex: 9999,
 		propertyToSearch: "name" 
 	});
-	
 	
 	
 });
