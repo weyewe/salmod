@@ -1,9 +1,15 @@
 <% source = object.one_to_one_source %> 
 <% target = object.one_to_one_target %>
-<tr> 
+<tr id="entry-<%= object.id %>">
 	<td><%= object.code %></td>
-	<td><b><%= source.quantity %>x</b> <%= source.item.name  %></td>
-	<td><b><%= target.quantity %>x</b>  <%= target.item.name %></td>
+	<td>
+		<b><%= source.quantity %>x</b> <%= source.item.name  %> <br />
+		Ready: <%= source.item.ready %>
+	</td>
+	<td>
+		<b><%= target.quantity %>x</b>  <%= target.item.name %><br />
+		Ready: <%= target.item.ready %>
+	</td>
 	<td>
 		<%= object.convert_stocks.where(:is_deleted => false ).count%>
 	</td>

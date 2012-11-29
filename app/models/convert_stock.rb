@@ -10,12 +10,12 @@ class ConvertStock < ActiveRecord::Base
   
   
   def deduct_source_one_on_one(employee)
-    source = self.stock_conversion.source 
+    source = self.stock_conversion.one_to_one_source 
     
     StockMutation.deduct_stock(
             employee, 
             1 ,  # quantity  BECAUSE ONE_ON_ONE, it is always  1 
-            self.item ,  # item 
+            source.item ,  # item 
             self, #source_document
             self, # source_document_entry,
             MUTATION_CASE[:stock_conversion_source], # mutation_case 
@@ -29,13 +29,13 @@ class ConvertStock < ActiveRecord::Base
       :source_document_entry_id => self.id,
       :mutation_case => MUTATION_CASE[:stock_conversion_source],
       :mutation_status => MUTATION_STATUS[:deduction] ,
-      :item_id => self.stock_conversion.source.item_id
+      :item_id => self.stock_conversion.one_to_one_source.item_id
     ).first 
     
     deduction_stock_entry = deduction_stock_mutation.stock_entry
     base_price = deduction_stock_entry.base_price_per_piece
     
-    target = self.stock_conversion.target  
+    target = self.stock_conversion.one_to_one_target  
     
     new_stock_entry = StockEntry.new 
     new_stock_entry.creator_id = employee.id
@@ -49,6 +49,9 @@ class ConvertStock < ActiveRecord::Base
     new_stock_entry.source_document_id = self.id 
     new_stock_entry.save
     
+    item  = new_stock_entry.item 
+    item.add_stock_and_recalculate_average_cost_post_stock_entry_addition( new_stock_entry ) 
+    
     StockMutation.create(
       :quantity            =>  new_stock_entry.quantity  ,
       :stock_entry_id      =>  new_stock_entry.id ,
@@ -59,7 +62,7 @@ class ConvertStock < ActiveRecord::Base
       :source_document    =>  self.class.class.to_s,
       :mutation_case      => MUTATION_CASE[:stock_conversion_target],
       :mutation_status => MUTATION_STATUS[:addition],
-      :item_id => stock_entry.item_id
+      :item_id => new_stock_entry.item_id
     )
   end
   
@@ -69,12 +72,13 @@ class ConvertStock < ActiveRecord::Base
   def execute_conversion_one_on_one(employee) 
     # deduct all the source
     # add all the targets 
-    
+
     self.source_quantity.times.each do |x| 
       self.deduct_source_one_on_one(employee) 
-      self.add_target_one_on_one(employee) 
+      self.add_target_one_on_one(employee)  
     end # looping all the quantity 
     
+    return self
   end
   
 end

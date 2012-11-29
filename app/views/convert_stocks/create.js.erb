@@ -18,12 +18,13 @@ $(document).ready(function(){
 	<% if @has_no_errors %>
 		// show the growl. save. done. 
 		<% new_entry = escape_javascript(  render :partial => "convert_stocks/entry", :locals => {
-	    :object => @object  
+	    :object =>  @stock_conversion
 	  })%>
-		$("#tableview tbody").prepend('<%= new_entry %>');
+		$("#entry-<%= @stock_conversion.id %>").replaceWith('<%= new_entry %>');
 		
-		$.msgbox("Telah berhasil konversi <b><%= @object.source.item.name  %></b> ke " + 
-							" <%= <b><%= @object.source.quantity  %></b>%>  <b><%= @object.target.item.name  %></b>", 
+		$.msgbox("Telah berhasil konversi <b><%= @stock_conversion.one_to_one_source.item.name  %></b> ke " + 
+							" <b><%= @stock_conversion.one_to_one_target.quantity  %></b> "+ 
+							" <b><%= @stock_conversion.one_to_one_target.item.name  %></b>", 
 					{type: "info"});
 		$modal.modal('hide'); 
 		$form.remove();
