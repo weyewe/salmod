@@ -131,7 +131,8 @@ class SalesReturn < ActiveRecord::Base
     ActiveRecord::Base.transaction do
       
       self.active_sales_return_entries.each do |sales_return_entry|
-        sales_return_entry.recover_stock( employee ) 
+        StockMutation.recover_stock_from_sales_return( employee, sales_return_entry) 
+        # sales_return_entry.recover_stock( employee ) 
       end
       
       self.is_confirmed = true 

@@ -135,11 +135,13 @@ MUTATION_CASE = {
   :stock_migration => 0, 
   :sales_order => 1 ,
   :stock_conversion_source => 2 ,
+  :scrap_item => 3, 
   
-  # from 30 onward, it is the addition case 
+  # from 30 onward, it is the addition case  # not really
   :sales_return => 30,
   :stock_conversion_target => 31 ,
-  :stock_conversion_target => 32
+  :stock_conversion_target => 32,
+  :scrap_item_replacement => 33
 }
 
 MUTATION_STATUS = {
@@ -147,13 +149,16 @@ MUTATION_STATUS = {
   :addition => 2 
 }
 
+# inside VS outside 
 ITEM_STATUS = {
   :ready => 1 , 
   :scrap => 2, 
-  :pending_receival => 3 ,
-  :pending_delivery => 4 ,
-  :on_delivery => 5 
+  :ordered => 3 , # from the supplier , but hasn't arrived at destination
+  :sold => 4 ,  # to the customer, hasn't even left the warehouse 
+  :on_delivery => 5  # to the customer. has left the warehouse. but not yet  # do they need this info? no idea
 }
+
+# WAREHOUSE_ITEM_STATUS ? ready, scrap , on delivery, pending receival
 
 
 CONVERSION_STATUS = {

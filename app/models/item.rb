@@ -56,4 +56,26 @@ class Item < ActiveRecord::Base
     self.save 
   end
   
+ 
+  
+  def deduct_ready_quantity( quantity)
+    self.ready -= quantity 
+    self.save
+  end
+  
+  def add_ready_quantity( quantity ) 
+    self.ready += quantity 
+    self.save
+  end
+  
+  def deduct_scrap_quantity( quantity )
+    self.scrap -= quantity 
+    self.save
+  end
+  
+  def add_scrap_quantity( quantity ) 
+    self.scrap += quantity 
+    self.save 
+  end
+  
 end

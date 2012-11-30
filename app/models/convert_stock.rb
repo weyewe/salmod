@@ -12,7 +12,7 @@ class ConvertStock < ActiveRecord::Base
   def deduct_source_one_on_one(employee)
     source = self.stock_conversion.one_to_one_source 
     
-    StockMutation.deduct_stock(
+    StockMutation.deduct_ready_stock(
             employee, 
             1 ,  # quantity  BECAUSE ONE_ON_ONE, it is always  1 
             source.item ,  # item 

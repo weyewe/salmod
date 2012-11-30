@@ -34,7 +34,7 @@ class SalesEntry < ActiveRecord::Base
     # end 
     supplied_quantity = 0
     
-    StockMutation.deduct_stock(
+    StockMutation.deduct_ready_stock(
             employee, 
             self.quantity,  # quantity 
             self.item ,  # item 
@@ -42,45 +42,9 @@ class SalesEntry < ActiveRecord::Base
             self, # source_document_entry,
             MUTATION_CASE[:sales_order], # mutation_case 
             MUTATION_STATUS[:deduction] # mutation_status
+         
           )
-    
-    # while supplied_quantity != requested_quantity
-    #   # create stock entry to deduct it 
-    #   unfulfilled_quantity = requested_quantity - supplied_quantity 
-    #   
-    #   stock_entry =  StockEntry.first_available_stock(self.item )
-    #   
-    #   #  stock_entry.nil? raise error  # later.. 
-    #   if stock_entry.nil?
-    #     raise ActiveRecord::Rollback, "Can't be executed. No Item in the stock" 
-    #   end
-    #   
-    #   available_quantity = stock_entry.available_quantity 
-    #   
-    #   served_quantity = 0 
-    #   if unfulfilled_quantity <= available_quantity 
-    #     served_quantity = unfulfilled_quantity 
-    #   else
-    #     served_quantity = available_quantity 
-    #   end
-    #   
-    #   stock_entry.update_usage(served_quantity) 
-    #   supplied_quantity += served_quantity 
-    #   
-    #   StockMutation.create(
-    #     :quantity            => served_quantity  ,
-    #     :stock_entry_id      =>  stock_entry.id ,
-    #     :creator_id          =>  employee.id ,
-    #     :source_document_entry_id  =>  self.id  ,
-    #     :source_document_id  =>  self.sales_order_id  ,
-    #     :source_document_entry     =>  self.class.to_s,
-    #     :source_document    =>  self.sales_order.class.to_s,
-    #     :mutation_case      => MUTATION_CASE[:sales_order],
-    #     :mutation_status => MUTATION_STATUS[:deduction],
-    #     :item_id => stock_entry.item_id 
-    #   )
-    #    
-    # end 
+     
   end
   
   def is_product?

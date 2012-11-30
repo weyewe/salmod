@@ -32,56 +32,56 @@ class SalesReturnEntry < ActiveRecord::Base
     self.save
   end
   
-  def recover_stock(employee)
-    pending_recovery_quantity = self.quantity 
-    
-    sales_entry = self.sales_entry
-    sales_order = sales_entry.sales_order 
-     
-    
-    
-    StockMutation.where(
-      :source_document_entry_id  =>  sales_entry.id  ,
-      :source_document_id  =>  sales_order.id  ,
-      :source_document_entry     =>  sales_entry.class.to_s,
-      :source_document    =>  sales_order.class.to_s,
-      :mutation_case      => MUTATION_CASE[:sales_order],
-      :mutation_status => MUTATION_STATUS[:deduction]
-    ).order("created_at DESC").each do |stock_mutation|
-      
-      stock_entry = stock_mutation.stock_entry 
-      deducted_quantity = stock_mutation.quantity
-      
-      quantity_to_be_recovered =  0 
-      
-      if deducted_quantity >= pending_recovery_quantity
-        # it means this is the last stock_entry to be recovered
-        quantity_to_be_recovered = pending_recovery_quantity
-      else
-        quantity_to_be_recovered = deducted_quantity
-      end
-      
-      stock_entry.recover_usage(quantity_to_be_recovered) 
-      pending_recovery_quantity -= quantity_to_be_recovered 
-      
-      StockMutation.create(
-        :quantity            => quantity_to_be_recovered  ,
-        :stock_entry_id      =>  stock_entry.id ,
-        :creator_id          =>  employee.id ,
-        :source_document_entry_id  =>  self.id  ,
-        :source_document_id  =>  self.sales_return_id  ,
-        :source_document_entry     =>  self.class.to_s,
-        :source_document    =>  self.sales_return.class.to_s,
-        :mutation_case      => MUTATION_CASE[:sales_return],
-        :mutation_status => MUTATION_STATUS[:addition],
-        :item_id => stock_entry.item_id
-      )
-    end
-    
-      
-  end
-   
-  
+  # def recover_stock(employee)
+  #   pending_recovery_quantity = self.quantity 
+  #   
+  #   sales_entry = self.sales_entry
+  #   sales_order = sales_entry.sales_order 
+  #    
+  #   
+  #   
+  #   StockMutation.where(
+  #     :source_document_entry_id  =>  sales_entry.id  ,
+  #     :source_document_id  =>  sales_order.id  ,
+  #     :source_document_entry     =>  sales_entry.class.to_s,
+  #     :source_document    =>  sales_order.class.to_s,
+  #     :mutation_case      => MUTATION_CASE[:sales_order],
+  #     :mutation_status => MUTATION_STATUS[:deduction]
+  #   ).order("created_at DESC").each do |stock_mutation|
+  #     
+  #     stock_entry = stock_mutation.stock_entry 
+  #     deducted_quantity = stock_mutation.quantity
+  #     
+  #     quantity_to_be_recovered =  0 
+  #     
+  #     if deducted_quantity >= pending_recovery_quantity
+  #       # it means this is the last stock_entry to be recovered
+  #       quantity_to_be_recovered = pending_recovery_quantity
+  #     else
+  #       quantity_to_be_recovered = deducted_quantity
+  #     end
+  #     
+  #     stock_entry.recover_usage(quantity_to_be_recovered) 
+  #     pending_recovery_quantity -= quantity_to_be_recovered 
+  #     
+  #     StockMutation.create(
+  #       :quantity            => quantity_to_be_recovered  ,
+  #       :stock_entry_id      =>  stock_entry.id ,
+  #       :creator_id          =>  employee.id ,
+  #       :source_document_entry_id  =>  self.id  ,
+  #       :source_document_id  =>  self.sales_return_id  ,
+  #       :source_document_entry     =>  self.class.to_s,
+  #       :source_document    =>  self.sales_return.class.to_s,
+  #       :mutation_case      => MUTATION_CASE[:sales_return],
+  #       :mutation_status => MUTATION_STATUS[:addition],
+  #       :item_id => stock_entry.item_id
+  #     )
+  #   end
+  #   
+  #     
+  # end
+  #  
+  # 
    
   
   

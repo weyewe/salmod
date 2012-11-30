@@ -2,7 +2,8 @@ class CreateStockMutations < ActiveRecord::Migration
   def change
     create_table :stock_mutations do |t|
       t.integer :quantity 
-      t.integer :stock_entry_id 
+      t.integer :scrap_item_id , :default => nil
+      t.integer :stock_entry_id  , :default => nil
       
       t.integer :creator_id  
       t.integer :source_document_id
