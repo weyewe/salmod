@@ -2,6 +2,9 @@ class StockMigration < ActiveRecord::Base
   # attr_accessible :title, :body
   
   
+  
+  
+  
   def stock_entry 
     stock_migration = self 
     StockEntry.find(:first, :conditions => {
@@ -27,9 +30,15 @@ class StockMigration < ActiveRecord::Base
   end
   
   
+   
   
   def StockMigration.create_item_migration(employee, item, quantity,  base_price_per_piece) 
-    stock_migration = self.create_migration
+    if item.stock_mutations.count != 0 
+      return nil
+    end
+    
+    
+    
     
     new_stock_entry = StockEntry.new 
     new_stock_entry.creator_id = employee.id
@@ -39,14 +48,32 @@ class StockMigration < ActiveRecord::Base
     new_stock_entry.item_id  = item.id 
     
     new_stock_entry.entry_case =  STOCK_ENTRY_CASE[:initial_migration]
-    new_stock_entry.source_document = self.class.to_s 
-    new_stock_entry.source_document_id = stock_migration.id 
+    new_stock_entry.source_document = self.to_s 
+    
+    # if quantity <= 0 
+    #     new_stock_entry.errors.add(:quantity , "Quantity harus setidaknya 1" ) 
+    #     return new_stock_entry
+    #   end
+    #   
+    #   if base_price_per_piece <= BigDecimal('0')
+    #     new_stock_entry.errors.add(:base_price_per_piece , "Harga harus setidaknya 1" ) 
+    #     return new_stock_entry
+    #   end
+    #   
+    #   
+    
+    if not new_stock_entry.valid?
+      return new_stock_entry
+    end
+      
+    
+    stock_migration = self.create_migration
+    
+    
+    new_stock_entry.source_document_id = stock_migration.id  
     new_stock_entry.save 
     
-    # update the summary? 
-    # item.ready += new_stock_entry.quantity
-    # item.save 
-    
+     
     item.add_stock_and_recalculate_average_cost_post_stock_entry_addition( new_stock_entry ) 
     
     # create the StockMutation

@@ -123,7 +123,7 @@ rush_b_1665_bsf  = willy.new_vehicle_registration( admin ,  rush_b_1665_bsf_para
 ##################################################################
 customer = nil
 vehicle = nil 
-sales_order=  SalesOrder.create_sales_order( admin, customer, vehicle )  
+sales_order=  SalesOrder.create_sales_order( admin, customer )  
 
 shell_purchase_quantity = 5
 shell_purchase_price = BigDecimal('600000')
@@ -159,7 +159,7 @@ sales_order.confirm_sales( admin ) # will create stock entry, update the item's 
 
 customer = willy
 vehicle = nil 
-sales_order=  SalesOrder.create_sales_order( admin, customer, vehicle )  
+sales_order=  SalesOrder.create_sales_order( admin, customer  )  
 
 shell_purchase_quantity = 5
 shell_purchase_price = BigDecimal('600000')
@@ -197,7 +197,7 @@ puts "Total willy sales order: #{total_willy_sales_order}"
 
 customer = willy
 vehicle = rush_b_1665_bsf 
-sales_order=  SalesOrder.create_sales_order( admin, customer, vehicle )  
+sales_order=  SalesOrder.create_sales_order( admin, customer )  
 
 shell_purchase_quantity = 5
 shell_purchase_price = BigDecimal('600000')
@@ -239,7 +239,7 @@ tire_replacement.set_price( BigDecimal("200000"))
 
 customer = willy
 vehicle = rush_b_1665_bsf 
-sales_order =  SalesOrder.create_sales_order( admin, customer, vehicle )  
+sales_order =  SalesOrder.create_sales_order( admin, customer )  
 
 puts "About to create service"
 lubricant_replacement_sales_entry   = sales_order.add_sales_entry_service(lubricant_replacement, BigDecimal("40000")  ) 

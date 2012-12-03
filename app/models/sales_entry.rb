@@ -8,7 +8,43 @@ class SalesEntry < ActiveRecord::Base
   
   has_many :sales_return_entries
   
-   
+  validate  :quantity_must_greater_than_zero, 
+            :selling_price_per_piece_must_be_greater_than_zero,
+            :product_sales_entry_has_no_past_item 
+            
+  def quantity_must_greater_than_zero
+    if not quantity.present? or quantity <= 0 
+      errors.add(:quantity , "Quantity harus setidaknya 1" )  
+    end
+  end
+  
+  def selling_price_per_piece_must_be_greater_than_zero
+    if not selling_price_per_piece.present? or selling_price_per_piece <= BigDecimal('0') 
+      errors.add(:selling_price_per_piece , "Harga harus lebih besar dari 0" )  
+    end
+  end
+  
+  def product_sales_entry_has_no_past_item
+    sales_order = SalesOrder.find_by_id self.sales_order_id 
+    
+    # puts "Inside the validation sales entry. sales_order #{sales_order}"
+    if self.is_product? 
+      
+      # puts "YEAH, I AM IS PRODUCT\n"*10
+      item = Item.find_by_id self.entry_id 
+      # puts "item: #{item}"
+      past_item_sales_entries = sales_order.sales_entries_for_item( item )
+    
+    # it seems that eventhough it is not saved yet, it is still appearing on the result 
+      # if not past_item.nil?   and not past_item.persisted?
+      
+      # puts "Total sales entries: #{past_item_sales_entries.count}\n"*5
+      if past_item_sales_entries.count >  1 
+        errors.add(:duplicate_entry , "There is exact item in the sales invoice list" )  
+      end
+    end
+  end
+  
   
   def update_total_sales_price 
     self.total_sales_price = self.selling_price_per_piece *  self.quantity
@@ -28,11 +64,20 @@ class SalesEntry < ActiveRecord::Base
   end
   
   def deduct_stock(employee)
+    
+    
     requested_quantity = self.quantity
     # if quantity > item.ready_quantity
     # return nil -> correct way: create indent request 
     # end 
     supplied_quantity = 0
+    
+    ready_quantity = self.item.ready 
+    
+    if ready_quantity < requested_quantity 
+      raise ActiveRecord::Rollback, "Can't be executed. Not enough Item in the stock" 
+    end
+    # puts "#{self.item.name }, Ready: #{ready_quantity}, requested: #{requested_quantity}\n"*10
     
     StockMutation.deduct_ready_stock(
             employee, 

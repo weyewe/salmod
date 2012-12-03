@@ -137,7 +137,8 @@ MUTATION_CASE = {
   :stock_conversion_source => 2 ,
   :scrap_item => 3,  # ready item -> scrap item
   
-  # from 30 onward, it is the addition case  # not really
+  # from  onward, it is the addition case  # not really
+  :purchase_order => 29, 
   :sales_return => 30,
   :stock_conversion_target => 31 ,
   :stock_conversion_target => 32,

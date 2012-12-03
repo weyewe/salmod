@@ -3,6 +3,20 @@ class StockEntry < ActiveRecord::Base
   belongs_to :item
   has_many :stock_mutations 
   
+  validates_presence_of :quantity, :base_price_per_piece
+  validate :quantity_not_less_than_zero, :base_price_per_piece_not_less_than_zero
+  
+  def quantity_not_less_than_zero
+    if quantity <= 0 
+      errors.add(:quantity , "Quantity harus setidaknya 1" )  
+    end
+  end
+  
+  def base_price_per_piece_not_less_than_zero
+    if base_price_per_piece <= BigDecimal('0') 
+      errors.add(:base_price_per_piece , "Harga tidak boleh kurang atau sama dengan  0" )  
+    end
+  end
   
   
   def available_quantity  

@@ -12,7 +12,7 @@ class SalesOrdersController < ApplicationController
   def create
     @vehicle = Vehicle.find_by_id params[:sales_order][:vehicle_id]
     @customer = Customer.find_by_id params[:sales_order][:customer_id]
-    @new_object = SalesOrder.create_sales_order( current_user, @customer, @vehicle )
+    @new_object = SalesOrder.create_sales_order( current_user, @customer  )
     
     @errors =  @new_object.errors.messages
     

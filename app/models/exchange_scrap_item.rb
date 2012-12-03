@@ -14,7 +14,7 @@ class ExchangeScrapItem < ActiveRecord::Base
     end
     
     if quantity <= 0 or quantity > item.scrap 
-      new_ex_scrap_item.errors.add(:quantity , "Invalid Quantity. Setidaknya 1 dan tidak lebih dari #{item.scrap}"
+      new_ex_scrap_item.errors.add(:quantity , "Invalid Quantity. Setidaknya 1 dan tidak lebih dari #{item.scrap}" ) 
       return new_ex_scrap_item
     end
     
@@ -22,8 +22,7 @@ class ExchangeScrapItem < ActiveRecord::Base
     
     ActiveRecord::Base.transaction do 
       StockMutation.deduct_scrap_add_ready_stock(
-              employee, new_ex_scrap_item
-            ) 
+              employee, new_ex_scrap_item  ) 
     end
     
     return new_ex_scrap_item 

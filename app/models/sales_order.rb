@@ -15,7 +15,7 @@ class SalesOrder < ActiveRecord::Base
   # validates_presence_of :is_registered_customer
   # validates_presence_of :is_registered_vehicle
   
-  def self.create_sales_order( employee, customer, vehicle )  
+  def self.create_sales_order( employee, customer  )  
     a = SalesOrder.new
     year = DateTime.now.year 
     month = DateTime.now.month  
@@ -28,27 +28,11 @@ class SalesOrder < ActiveRecord::Base
     a.year = year
     a.month = month 
     
-    if not customer.nil? and not vehicle.nil? 
-      
-      # the vehicle must belong to customer 
-      if vehicle.customer_id == customer.id 
-        a.customer_id = customer.id  
-        a.vehicle_id = vehicle.id 
-      else
-        a.errors.add(:vehicle_id , "Customer #{customer.name} tidak memiliki kendaraan #{vehicle.id_code}" ) 
-        return a
-      end
-    end
-    
-    
+   
     if not customer.nil?
       a.customer_id = customer.id   
     end
     
-    if customer.nil? and not vehicle.nil? 
-      a.vehicle_id = vehicle.id 
-      a.customer_id   = vehicle.customer_id 
-    end
     
     a.creator_id = employee.id 
         
@@ -74,6 +58,14 @@ class SalesOrder < ActiveRecord::Base
     })  
   end 
   
+  def sales_entries_for_item( item ) 
+    self.active_sales_entries.where{
+      (entry_case.eq SALES_ENTRY_CASE[:item]) & 
+      ( entry_id.eq item.id )  & 
+      (id.not_eq nil )
+    }
+  end
+  
   
   def has_sales_entry_for_item?(item)
     not sales_entry_for_item( item).nil?
@@ -81,21 +73,24 @@ class SalesOrder < ActiveRecord::Base
   
   # @has_no_errors  = @project.errors.messages.length == 0 
   def add_sales_entry_item(item,  quantity,   price_per_piece )
-    past_item = self.sales_entry_for_item(item)   
+       
     
-    puts "Gonna return if the past item is not nil\n"*10
-    puts "#{past_item.class}"
-    puts "sales_order.id #{self.id}"
-    puts "total sales entries: #{self.active_sales_entries.count}"
-    if not past_item.nil?  and past_item.is_product? 
-      past_item.errors.add(:duplicate_entry , "There is exact item in the sales invoice list" ) 
-      return past_item 
-    end
+    # puts "Gonna return if the past item is not nil\n"*10
+    #   puts "#{past_item.class}"
+    #   puts "sales_order.id #{self.id}"
+    #   puts "total sales entries: #{self.active_sales_entries.count}"
+    
+    # past_item = self.sales_entry_for_item(item)
+    
+    # if not past_item.nil?  and past_item.is_product? 
+    #   past_item.errors.add(:duplicate_entry , "There is exact item in the sales invoice list" ) 
+    #   return past_item 
+    # end
     
     
     
     
-    puts "Gonna create new sales entry\n"*10
+    # puts "Gonna create new sales entry\n"*10
     
     # rule for sales entry creation: max stock?  no indent?. just sell whatever we have now 
     # MVP minimum viable product
@@ -108,18 +103,22 @@ class SalesOrder < ActiveRecord::Base
     
     
     
-    if not quantity.present? or quantity <=  0
-      new_object.errors.add(:quantity , "Quantity harus setidaknya 1. Ready stock:  #{item.ready}") 
-      return new_object
-    end
+    # if not quantity.present? or quantity <=  0
+    #   new_object.errors.add(:quantity , "Quantity harus setidaknya 1. Ready stock:  #{item.ready}") 
+    #   return new_object
+    # end
     
-    if quantity > item.ready
-      new_object.errors.add(:quantity , "Quantity harus setidaknya 1. Ready stock:  #{item.ready}" ) 
-      return new_object
-    end
-     
-    if not price_per_piece.present? or price_per_piece <=  BigDecimal('0')
-      new_object.errors.add(:selling_price_per_piece , "Harga jual harus lebih besar dari 0 rupiah" ) 
+    # if quantity > item.ready
+    #   new_object.errors.add(:quantity , "Quantity harus setidaknya 1. Ready stock:  #{item.ready}" ) 
+    #   return new_object
+    # end
+    #  
+    # if not price_per_piece.present? or price_per_piece <=  BigDecimal('0')
+    #   new_object.errors.add(:selling_price_per_piece , "Harga jual harus lebih besar dari 0 rupiah" ) 
+    #   return new_object
+    # end
+    
+    if not new_object.valid?
       return new_object
     end
     

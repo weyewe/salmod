@@ -40,22 +40,44 @@ class PurchaseEntry < ActiveRecord::Base
   
   def create_stock_entry(employee)
     new_stock_entry = StockEntry.new 
-    new_stock_entry.creator_id = employee.id
-    new_stock_entry.quantity = quantity
-    new_stock_entry.base_price_per_piece  = price_per_piece
+    item = self.item 
     
-    new_stock_entry.item_id  = item.id 
+    new_stock_entry.creator_id = employee.id
+    new_stock_entry.quantity = self.quantity
+    new_stock_entry.base_price_per_piece  = self.price_per_piece
+    
+    
+    new_stock_entry.item_id  =  item.id 
+    
+    
     
     new_stock_entry.entry_case =  STOCK_ENTRY_CASE[:purchase]
-    new_stock_entry.source_document = self.to_s 
+    new_stock_entry.source_document = self.class.to_s 
     new_stock_entry.source_document_id = self.id 
     new_stock_entry.save 
     
-    # update the summary? 
-    item.ready += new_stock_entry.quantity
-    item.save 
+     
     
-    item.recalculate_average_cost_post_stock_entry_addition( new_stock_entry )
+    # where is the stock mutation ?
+    StockMutation.create(
+      :quantity            => self.quantity  ,
+      :stock_entry_id      =>  new_stock_entry.id ,
+      :creator_id          =>  employee.id ,
+      :source_document_entry_id  =>  self.id   ,
+      :source_document_id  =>  self.purchase_order_id  ,
+      :source_document_entry     =>  self.class.to_s,
+      :source_document    =>  self.purchase_order.class.to_s,
+      :mutation_case      => MUTATION_CASE[:purchase_order],
+      :mutation_status => MUTATION_STATUS[:addition],
+      :item_id => item.id
+    )
+    
+    
+     
+    item.add_stock_and_recalculate_average_cost_post_stock_entry_addition( new_stock_entry )
+    
+    return new_stock_entry
+    
   end
   
   

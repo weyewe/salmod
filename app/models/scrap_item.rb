@@ -16,7 +16,7 @@ class ScrapItem < ActiveRecord::Base
     end
     
     if quantity <= 0 or quantity > item.ready 
-      new_scrap_item.errors.add(:quantity , "Invalid Quantity. Setidaknya 1 dan tidak lebih dari #{item.ready}"
+      new_scrap_item.errors.add(:quantity , "Invalid Quantity. Setidaknya 1 dan tidak lebih dari #{item.ready}")
       return new_scrap_item
     end
     

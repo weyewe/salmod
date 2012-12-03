@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121129164017) do
+ActiveRecord::Schema.define(:version => 20121130034249) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -81,6 +81,15 @@ ActiveRecord::Schema.define(:version => 20121129164017) do
     t.datetime "updated_at",                      :null => false
   end
 
+  create_table "exchange_scrap_items", :force => true do |t|
+    t.integer  "creator_id"
+    t.string   "code"
+    t.integer  "item_id"
+    t.integer  "quantity"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "friendly_id_slugs", :force => true do |t|
     t.string   "slug",                         :null => false
     t.integer  "sluggable_id",                 :null => false
@@ -137,11 +146,6 @@ ActiveRecord::Schema.define(:version => 20121129164017) do
     t.integer  "paid_declarator_id"
     t.datetime "created_at",                            :null => false
     t.datetime "updated_at",                            :null => false
-  end
-
-  create_table "replace_items", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
   end
 
   create_table "replacement_items", :force => true do |t|
@@ -223,8 +227,10 @@ ActiveRecord::Schema.define(:version => 20121129164017) do
     t.string   "code"
     t.integer  "item_id"
     t.integer  "quantity"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.boolean  "is_finished",        :default => false
+    t.integer  "exchanged_quantity", :default => 0
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
   end
 
   create_table "service_items", :force => true do |t|
@@ -273,6 +279,7 @@ ActiveRecord::Schema.define(:version => 20121129164017) do
     t.integer  "entry_case"
     t.integer  "quantity"
     t.integer  "used_quantity",                                       :default => 0
+    t.integer  "scrapped_quantity",                                   :default => 0
     t.integer  "item_id"
     t.boolean  "is_finished",                                         :default => false
     t.decimal  "base_price_per_piece", :precision => 12, :scale => 2, :default => 0.0
@@ -291,6 +298,7 @@ ActiveRecord::Schema.define(:version => 20121129164017) do
 
   create_table "stock_mutations", :force => true do |t|
     t.integer  "quantity"
+    t.integer  "scrap_item_id"
     t.integer  "stock_entry_id"
     t.integer  "creator_id"
     t.integer  "source_document_id"

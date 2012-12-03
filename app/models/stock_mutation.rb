@@ -290,7 +290,7 @@ class StockMutation < ActiveRecord::Base
           scrap_item_stock_mutation = StockMutation.create(
             :quantity            => recover_quantity  ,
             :stock_entry_id      =>  stock_entry.id ,
-            :scrap_item_id => scrap_item.id 
+            :scrap_item_id => scrap_item.id ,
             :creator_id          =>  employee.id ,
             :source_document_entry_id  =>  ex_scrap_item.id  ,
             :source_document_id  =>  ex_scrap_item.id  ,
