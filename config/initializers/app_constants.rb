@@ -135,13 +135,13 @@ MUTATION_CASE = {
   :stock_migration => 0, 
   :sales_order => 1 ,
   :stock_conversion_source => 2 ,
-  :scrap_item => 3, 
+  :scrap_item => 3,  # ready item -> scrap item
   
   # from 30 onward, it is the addition case  # not really
   :sales_return => 30,
   :stock_conversion_target => 31 ,
   :stock_conversion_target => 32,
-  :scrap_item_replacement => 33
+  :scrap_item_replacement => 33   # scrap item -> ready item 
 }
 
 MUTATION_STATUS = {

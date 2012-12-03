@@ -14,6 +14,7 @@ class CreateStockEntries < ActiveRecord::Migration
       
       t.integer :quantity  
       t.integer :used_quantity  , :default => 0  # use can be == broken, etc 
+      t.integer :scrapped_quantity, :default => 0 
        
       t.integer :item_id
       

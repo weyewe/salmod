@@ -45,4 +45,19 @@ class ScrapItem < ActiveRecord::Base
     self.exchanged_quantity += quantity
     self.save 
   end
+  
+  def stock_mutations_to_deduct_stock_entry_with_pending_scrapped_items
+  
+    self.stock_mutations.joins(:stock_entry).where{
+      (mutation_case.eq  MUTATION_CASE[:scrap_item ])  & 
+      (mutation_status.eq  MUTATION_STATUS[:deduction ] )  & 
+      (item_status.eq ITEM_STATUS[:ready] )  & 
+      (stock_entry.scrapped_quantity.gt 0  )  
+    }.order("created_at ASC")
+    
+  end
+  
+  def stock_mutations_to_add_scrap_item
+  end
+  
 end

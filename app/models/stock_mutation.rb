@@ -120,6 +120,9 @@ class StockMutation < ActiveRecord::Base
 
 =begin
   FOR SCRAP ITEM 
+  Intersection between scrap ITEM_STATUS and ready ITEM_STATUS
+  stock_entry   DEDUCT STOCK_MUTATION     , source document is scrap_item 
+  scrap_item    ADD STOCK_MUTATION         
 =end
   def StockMutation.deduct_ready_stock_add_scrap_item( employee, scrap_item) 
     
@@ -146,37 +149,43 @@ class StockMutation < ActiveRecord::Base
         served_quantity = available_quantity 
       end
 
-      stock_entry.update_usage(served_quantity) 
+      # update the stock entry  and the item ( SCRAP + USAGE + READY)
+      stock_entry.perform_item_scrapping( served_quantity) 
+      
       supplied_quantity += served_quantity 
 
       deduct_ready_stock_mutation = StockMutation.create(
         :quantity            => served_quantity  ,
         :stock_entry_id      =>  stock_entry.id ,
+        :scrap_item_id => scrap_item.id, 
         :creator_id          =>  employee.id ,
         :source_document_entry_id  =>  scrap_item.id  ,
         :source_document_id  =>  scrap_item.id  ,
         :source_document_entry     =>  scrap_item.class.to_s,
         :source_document    =>  scrap_item.class.to_s,
-        :mutation_case      => MUTATION_CASE[:scrap_item],
-        :mutation_status => MUTATION_STATUS[:deduction],
         :item_id => stock_entry.item_id ,
-        :item_status => ITEM_STATUS[:ready]
+        
+        :mutation_case      => MUTATION_CASE[:scrap_item],
+        :mutation_status => MUTATION_STATUS[:deduction], 
+        :item_status => ITEM_STATUS[:ready] # item status under mutation == ready item being deducted
       )
       
       
-      item.add_scrap_quantity( served_quantity ) 
+      
       scrap_item_stock_mutation = StockMutation.create(
         :quantity            => served_quantity  ,
         :stock_entry_id      =>  stock_entry.id ,
+        :scrap_item_id => scrap_item.id, 
         :creator_id          =>  employee.id ,
         :source_document_entry_id  =>  scrap_item.id  ,
         :source_document_id  =>  scrap_item.id  ,
         :source_document_entry     =>  scrap_item.class.to_s,
         :source_document    =>  scrap_item.class.to_s,
-        :mutation_case      => MUTATION_CASE[:scrap_item],
-        :mutation_status => MUTATION_STATUS[:addition],
         :item_id => stock_entry.item_id ,
-        :item_status => ITEM_STATUS[:scrap]
+        
+        :mutation_case      => MUTATION_CASE[:scrap_item],
+        :mutation_status => MUTATION_STATUS[:addition], 
+        :item_status => ITEM_STATUS[:scrap] # item status under mutation == scrap item being added
       )
 
     end
@@ -186,6 +195,8 @@ class StockMutation < ActiveRecord::Base
   
 =begin
   SCRAP ITEM REPLACEMENT
+  scrap_item   DEDUCT STOCK_MUTATION   ,  source document is exchange_scrap_item 
+  stock_item    ADD STOCK_MUTATION
 =end
   def StockMutation.deduct_scrap_add_ready_stock(  employee,  ex_scrap_item )
     # create several stock mutations to deduct scrap item
@@ -216,10 +227,9 @@ class StockMutation < ActiveRecord::Base
         served_quantity = unexchanged_quantity 
       end
 
-      scrap_item.exchange_scrap(served_quantity)  
+      
       exchanged_quantity += served_quantity 
       
-      item.deduct_scrap_quantity( served_quantity ) 
       # deduct the scrap item
       deduct_scrap_stock_mutation = StockMutation.create(
         :quantity            => served_quantity  ,
@@ -236,25 +246,67 @@ class StockMutation < ActiveRecord::Base
         :item_status => ITEM_STATUS[:scrap]
       )
       
+      recovered_quantity = 0  
+      scrap_item.stock_mutations_to_deduct_stock_entry_with_pending_scrapped_items.each do |stock_mutation|
+        stock_entry = stock_mutation.stock_entry 
+        stock_entry_scrap_quantity = stock_entry.scrapped_quantity
+        
+        # example: we replace 8 items in one go
+        # those 8 items composed of 2 scrap item: 5 and 3 
+        # => so, we will find the stock entry deduction for the first scrap item (5)
+          # => first scrap item comes from 2 stock entries( 3 and 2 ) 
+            # => so, we will recover the scrap from first stock entry ( 3 ) 
+              # illustration for this thing to work
+              # => served quantity = 5  (constant)
+              # => the  stock_entry_scrap_quantity =  3
+              # => scrap_to_recover_quantity = 5 - 0  = 5  
+                # we will create the first mutation (3)
+                  # => recovered_quantity = 3 , stock_entry_scrap_quantity == 0 .. move to the next stock mutation
+                  
+            # => then, we will recover the scrap from second stock entry ( 2 )
+              # => served_quantity = 5 (constant)  
+              # => stock_entry_scrap_quantity = 5 (more than we need: 2 ) 
+              # => scrap_to_recover_quantity = 5-3 = 2 
+                # then we will create the second mutation (2)
+                  # => recovered_quantity = 5 , stock_entry_scrap_quantity == 3
+                
+        
+        
+        # finish the served_quantity 
+        scrap_to_recover_quantity = served_quantity - recovered_quantity
+        
+        while  scrap_to_recover_quantity != 0  or  # if the scrap to recover quantity == 0.. we have replaced enough
+          stock_entry_scrap_quantity != 0  # if stock entry scrap quantity ==0 , get the next stock entry 
+          
+          if scrap_to_recover_quantity <= stock_entry_scrap_quantity
+            recover_quantity = scrap_to_recover_quantity
+          else
+            recover_quantity = stock_entry_scrap_quantity
+          end
+          
+          stock_entry.perform_scrap_item_replacement( recover_quantity  )  
+
+
+          scrap_item_stock_mutation = StockMutation.create(
+            :quantity            => recover_quantity  ,
+            :stock_entry_id      =>  stock_entry.id ,
+            :scrap_item_id => scrap_item.id 
+            :creator_id          =>  employee.id ,
+            :source_document_entry_id  =>  ex_scrap_item.id  ,
+            :source_document_id  =>  ex_scrap_item.id  ,
+            :source_document_entry     =>  ex_scrap_item.class.to_s,
+            :source_document    =>  ex_scrap_item.class.to_s,
+            :mutation_case      => MUTATION_CASE[:scrap_item_replacement],
+            :mutation_status => MUTATION_STATUS[:addition],
+            :item_id => item.id  ,
+            :item_status => ITEM_STATUS[:ready]
+          )
+          
+          recovered_quantity += recover_quantity
+          scrap_to_recover_quantity -= recover_quantity
+        end 
+      end
       
-      
-      # add the ready item 
-      # since this is replacement, we have to treat it like sales return.. 
-      # find the exact stock entry. recover it.
-      item.add_ready_quantity( served_quantity ) 
-      scrap_item_stock_mutation = StockMutation.create(
-        :quantity            => served_quantity  ,
-        :stock_entry_id      =>  stock_entry.id ,
-        :creator_id          =>  employee.id ,
-        :source_document_entry_id  =>  scrap_item.id  ,
-        :source_document_id  =>  scrap_item.id  ,
-        :source_document_entry     =>  scrap_item.class.to_s,
-        :source_document    =>  scrap_item.class.to_s,
-        :mutation_case      => MUTATION_CASE[:scrap_item_replacement],
-        :mutation_status => MUTATION_STATUS[:addition],
-        :item_id => stock_entry.item_id ,
-        :item_status => ITEM_STATUS[:ready]
-      )
 
     end
   end

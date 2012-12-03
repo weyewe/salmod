@@ -17,10 +17,7 @@ class StockEntry < ActiveRecord::Base
       self.is_finished = true 
     end
     
-    self.save 
-    # update the item summary 
-    
-    
+    self.save  
     
     item = self.item 
     item.deduct_ready_quantity(served_quantity ) 
@@ -57,4 +54,52 @@ class StockEntry < ActiveRecord::Base
       return nil
     end
   end
+  
+  
+  # MAYBE WE DON't NEED THIS SHIT? since we have the squeel 
+  def mark_as_finished 
+    if self.used_quantity + self.scrapped_quantity == self.quantity
+      self.is_finished = true 
+    end
+    self.save
+  end
+  
+  def unmark_as_finished 
+    if self.used_quantity + self.scrapped_quantity < self.quantity
+      self.is_finished = false 
+    end
+    self.save
+  end
+  
+  
+=begin
+  SCRAP RELATED : READY -> SCRAP
+=end 
+
+  def perform_item_scrapping( served_quantity) 
+    self.scrapped_quantity += served_quantity  
+    self.save 
+    
+    self.mark_as_finished 
+    
+    item.add_scrap_quantity( served_quantity )  
+    
+    return self
+  end
+  
+=begin
+  SCRAP EXCHANGE RELATED : SCRAP -> READY
+=end
+
+  def perform_scrap_item_replacement( scrap_recover_quantity) 
+    self.scrapped_quantity -= scrap_recover_quantity  
+    self.save 
+  
+    self.unmark_as_finished  
+  
+    item.deduct_scrap_quantity( scrap_recover_quantity )  
+  
+    return self
+  end
+  
 end
