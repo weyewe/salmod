@@ -4,7 +4,9 @@ class SalesReturn < ActiveRecord::Base
   has_many :sales_return_entries 
   validates_presence_of :sales_order_id 
   
-  def self.create_sales_return( employee, sales_order )  
+  def self.create_sales_return( employee, sales_order )   
+    return nil if sales_order.nil? 
+    
     a = SalesReturn.new
     year = DateTime.now.year 
     month = DateTime.now.month  
@@ -74,6 +76,14 @@ class SalesReturn < ActiveRecord::Base
     })  
   end
   
+  def duplicate_sales_return_entry_for_item?(item)
+    sales_entry = self.sales_entry_for(item)
+    
+    self.active_sales_return_entries.where( 
+      :sales_entry_id => sales_entry.id  
+    ).count >= 2
+  end
+  
   
   def has_sales_return_entry_for_item?(item)
     not sales_return_entry_for_item( item).nil?
@@ -81,6 +91,7 @@ class SalesReturn < ActiveRecord::Base
   
   def add_sales_return_entry_item( item, quantity,reimburse_price_per_piece )
     sales_entry = sales_entry_for(item) 
+    return nil if sales_entry.nil?
     
     new_sales_return_entry = SalesReturnEntry.new 
     new_sales_return_entry.sales_entry_id = sales_entry.id 
@@ -89,19 +100,23 @@ class SalesReturn < ActiveRecord::Base
     new_sales_return_entry.sales_return_id  = self.id  
     new_sales_return_entry.total_reimburse_price  = quantity * reimburse_price_per_piece
     
-    if self.has_sales_return_entry_for_item?(item ) or sales_entry.nil?
-      return new_sales_return_entry 
-    end
     
-    if quantity.nil? or quantity <= 0 or quantity > self.max_returnable_for(item)
-      new_sales_return_entry.errors.add(:quantity , "Quantity must be more than 1 and less than  #{self.max_returnable_for(item)}" ) 
-      return new_sales_return_entry
-    end
     
-    if reimburse_price_per_piece < BigDecimal('0')
-      new_sales_return_entry.errors.add(:reimburse_price_per_piece , "Pengembalian uang tidak boleh negative" ) 
-      return new_sales_return_entry
-    end
+    
+    # if self.has_sales_return_entry_for_item?(item ) or sales_entry.nil?
+    #   new_sales_return_entry.errors.add(:quantity , "Quantity must be more than 1 and less than  #{self.max_returnable_for(item)}" ) 
+    #   return new_sales_return_entry 
+    # end
+    # 
+    # if quantity.nil? or quantity <= 0 or quantity > self.max_returnable_for(item)
+    #   new_sales_return_entry.errors.add(:quantity , "Quantity must be more than 1 and less than  #{self.max_returnable_for(item)}" ) 
+    #   return new_sales_return_entry
+    # end
+    # 
+    # if reimburse_price_per_piece < BigDecimal('0')
+    #   new_sales_return_entry.errors.add(:reimburse_price_per_piece , "Pengembalian uang tidak boleh negative" ) 
+    #   return new_sales_return_entry
+    # end
     
     
     new_sales_return_entry.save 
@@ -131,8 +146,7 @@ class SalesReturn < ActiveRecord::Base
     ActiveRecord::Base.transaction do
       
       self.active_sales_return_entries.each do |sales_return_entry|
-        StockMutation.recover_stock_from_sales_return( employee, sales_return_entry) 
-        # sales_return_entry.recover_stock( employee ) 
+        StockMutation.recover_stock_from_sales_return( employee, sales_return_entry)  
       end
       
       self.is_confirmed = true 

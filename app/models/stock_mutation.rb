@@ -100,6 +100,7 @@ class StockMutation < ActiveRecord::Base
       end
       
       stock_entry.recover_usage(quantity_to_be_recovered) 
+      # recovering the stock entry and the item.ready 
       pending_recovery_quantity -= quantity_to_be_recovered 
       
       StockMutation.create(
