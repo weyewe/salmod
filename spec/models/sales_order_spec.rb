@@ -127,14 +127,7 @@ describe SalesOrder do
         # puts "******* #{@shell_lubricant_5L.name}, ready: #{@shell_lubricant_5L.ready}, requested: #{@shell_lubricant_5L.ready }"
         @competing_shell_sales_entry = @competing_sales_order.add_sales_entry_item( @shell_lubricant_5L,  @shell_lubricant_5L.ready  ,@shell_price )
         @competing_pertamina_sales_entry = @competing_sales_order.add_sales_entry_item( @pertamina_lubricant_5L,  @pertamina_lubricant_5L.ready , @pertamina_price )
-        puts "Inspecting the shell sales entry\n"*10
-        puts 'a'
-        # puts "The length: #{@competing_shell_sales_entry.errors..length}"
-        puts "The length: #{@competing_shell_sales_entry.errors.messages.length}"
-        puts 'b'
-        @competing_shell_sales_entry.errors.messages.each do |x|
-          puts x 
-        end
+       
         @competing_shell_sales_entry.should be_valid
         @competing_pertamina_sales_entry.should be_valid
       
@@ -190,10 +183,86 @@ describe SalesOrder do
       
       it '[ACCOUNTING] should increase the cash, deduct the Inventory, add CoGS, add Revenue' # to bad, no accounting yet 
       
+    end 
+  end # end of context "sales invoice confirmation"
+  
+  
+  context "sales confirmation accross several stock entries" do
+    before(:each) do
+      @first_pertamina_quantity = 2
+      @first_pertamina_price = BigDecimal("250000")
+
+      @second_pertamina_quantity = 2
+      @second_pertamina_price = BigDecimal("200000")
+
+      StockEntry.where(:entry_case => STOCK_ENTRY_CASE[:purchase], :item_id =>@pertamina_lubricant_5L.id ).count.should == 0 
+      @purchase_order = PurchaseOrder.create_purchase_order( @admin, nil)
+      @purchase_order.add_purchase_entry_item( @pertamina_lubricant_5L,  @first_pertamina_quantity,   @first_pertamina_price )
+      @purchase_order.confirm_purchase(@admin)
+
+      @second_purchase_order = PurchaseOrder.create_purchase_order( @admin, nil)
+      @second_purchase_order.add_purchase_entry_item( @pertamina_lubricant_5L,  @second_pertamina_quantity,   @second_pertamina_price )
+      @second_purchase_order.confirm_purchase(@admin)
+      @pertamina_lubricant_5L.reload
+    end 
+    
+    it 'should produce total quantity ==  sum of all purchases' do
+      @purchase_order.is_confirmed?.should be_true 
+      @second_purchase_order.is_confirmed?.should be_true 
+       
+      @pertamina_lubricant_5L.ready.should == (@second_pertamina_quantity + @first_pertamina_quantity + @pertamina_quantity)
+      
+      StockEntry.where(:entry_case => STOCK_ENTRY_CASE[:purchase], :item_id =>@pertamina_lubricant_5L.id ).count.should == 2 
+      StockEntry.where( :item_id =>@pertamina_lubricant_5L.id ).count.should == 3
+      
     end
     
-    
-    
+    context "creating  sales order that spans multiple stock entries" do
+      # pertamina quantity = 5 
+      # first pertamina quantity = 2 
+      # second pertamina quantity = 2
+      # what if I order 8 -> Will eat the pertamina quantity (all), first (2) , and second (1)
+      before(:each) do
+
+        @remaining_quantity = 1 
+        @experiment_quantity = @pertamina_lubricant_5L.ready  - @remaining_quantity
+        @sales_order = SalesOrder.create_sales_order( @admin, @wilson  ) 
+        @pertamina_sales_entry  = @sales_order.add_sales_entry_item( @pertamina_lubricant_5L, @experiment_quantity  , @pertamina_price ) 
+        @sales_order.confirm_sales( @admin) 
+      end
+      
+      it 'should be confirmed' do
+        @sales_order.is_confirmed?.should be_true 
+      end
+      
+      it 'should deduct the number of ready' do
+        @pertamina_lubricant_5L.reload
+        @pertamina_lubricant_5L.ready.should == @remaining_quantity 
+      end
+      
+      it 'should create 3 stock mutation (deduction)' do
+        @pertamina_sales_entry.stock_mutations.count ==  3 
+        @pertamina_sales_entry.stock_mutations.sum("quantity").should == @experiment_quantity
+      end
+      
+      it 'stock deduction should come from 3 stock entries, in ascending order' do 
+        @pertamina_sales_entry.stock_entries.count.should == 3 
+      end
+      
+      it 'should mark the first 2 stock entry as finished, and the last one is having 1 remnant' do
+        stock_entries = @pertamina_sales_entry.stock_entries
+        stock_entries[0..1].each do |x|
+          x.is_finished?.should be_true 
+          (x.quantity - x.used_quantity).should == 0 
+        end
+        
+        stock_entries[2].is_finished?.should be_false 
+        
+        (stock_entries[2].quantity - stock_entries[2].used_quantity).should ==  @remaining_quantity
+      end
+      
+      
+      
+    end # end of the sales order multiple stock entries confirmation 
   end
-  
 end
