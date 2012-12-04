@@ -206,6 +206,25 @@ class SalesOrder < ActiveRecord::Base
     
   end
   
+=begin
+  TRACKING ALL STOCK ENTRIES AND STOCK MUTATIONS
+=end
+
+  def stock_mutations
+    StockMutation.where(  
+      :source_document_id  =>  self.id  , 
+      :source_document    =>  self.class.to_s,
+      :mutation_case      => MUTATION_CASE[:sales_order],
+      :mutation_status => MUTATION_STATUS[:deduction], 
+      :item_status => ITEM_STATUS[:ready]
+    ).order("created_at ASC")
+  end
+  
+  def stock_entries
+    stock_entry_id_list  = self.stock_mutations.map{|x| x.stock_entry_id }.uniq
+    StockEntry.where(:id =>stock_entry_id_list ).order("created_at ASC") 
+  end
+  
   
 =begin
   Sales Invoice Printing

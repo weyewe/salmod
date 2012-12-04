@@ -110,6 +110,10 @@ class SalesEntry < ActiveRecord::Base
     StockEntry.where(:id =>stock_entry_id_list ).order("created_at ASC")
   end
   
+  def stock_mutation_for( stock_entry )
+    self.stock_mutations.where(:stock_entry_id => stock_entry.id ).first
+  end
+  
   def is_product?
     self.entry_case == SALES_ENTRY_CASE[:item]
   end

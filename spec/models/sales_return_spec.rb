@@ -53,7 +53,7 @@ describe SalesReturn do
     
     @pertamina_quantity = 5
     @pertamina_price = BigDecimal('150000')
-    StockMigration.create_item_migration(@admin, @pertamina_lubricant_5L, 
+    @pertamina_migration_stock_entry = StockMigration.create_item_migration(@admin, @pertamina_lubricant_5L, 
           @pertamina_quantity,  @pertamina_price)
           
     @shell_quantity = 3
@@ -73,6 +73,13 @@ describe SalesReturn do
                   @pertamina_sales_price )
       @sales_order.confirm_sales(@admin)
       @sales_order.is_confirmed?.should be_true 
+      @pertamina_lubricant_5L.reload
+    end
+    
+    it "should  deduct the item's ready " do
+      
+      @pertamina_lubricant_5L.ready.should == @pertamina_quantity - @pertamina_sales_quantity 
+      puts "The ready pertamina: #{@pertamina_lubricant_5L.ready}"
     end
     
     it 'should not allow creation if there is no sales invoice' do
@@ -99,31 +106,65 @@ describe SalesReturn do
                                                           1 , 
                                                           BigDecimal('50000') )
                                                           
-                                                          
       @sales_return.confirm_return(@admin)
-      
       @sales_return.is_confirmed?.should be_true 
     end
     
     context 'post sales return creation' do
       before(:each) do
+        @returned_quantity = 1 
+       
+        # puts "#{@pertamina_lubricant_5L.name} ready before sales return : #{@pertamina_lubricant_5L.ready}"
         @sales_return = SalesReturn.create_sales_return( @admin, @sales_order   )
         @sales_return_entry =   @sales_return.add_sales_return_entry_item( @pertamina_lubricant_5L,    
-                                                            1 , 
+                                                            @returned_quantity , 
                                                             BigDecimal('50000') )
+                                                            
+        
+        @initial_pertamina_quantity = @pertamina_lubricant_5L.ready 
+        @sales_stock_entry = @sales_order.stock_entries.first 
+        @initial_used_sales_stock_entry = @sales_stock_entry.used_quantity
+        
+        @pertamina_migration_stock_entry.reload 
+        @used_quantity_before_sales_return = @pertamina_migration_stock_entry.used_quantity
+        
         @sales_return.confirm_return(@admin)
+        @pertamina_migration_stock_entry.reload 
+        @pertamina_lubricant_5L.reload 
+        # puts "#{@pertamina_lubricant_5L.name} ready after sales return : #{@pertamina_lubricant_5L.ready}" 
       end
+      
       
       it 'should have been confirmed' do 
         @sales_return.is_confirmed?.should be_true 
       end
       
+      it "should recover the stock entry. used quantity deducted " do
+                
+        puts "used quantity before sales return:  #{@used_quantity_before_sales_return} "  
+        puts "returned quantity:  #{@returned_quantity} "      
+        puts "final used quantity:  #{@pertamina_migration_stock_entry.used_quantity} "
+        
+        @pertamina_migration_stock_entry.used_quantity.should == (@used_quantity_before_sales_return - @returned_quantity )
+      end
+  
       
       it 'should create 1 stock mutation, and deduct 1 stock entry because of the quantity to be returned == 1' do
-        
+        @sales_return.stock_mutations.count.should == 1 
+        @sales_return.stock_entries.count.should == 1 
       end
-    end
-    
-   
+      
+      it 'should recover the item by 1 ' do
+        (@pertamina_lubricant_5L.ready - @initial_pertamina_quantity).should == @returned_quantity
+      end
+      
+      it 'should recover item from the related stock entry' do 
+        @sales_stock_entry.reload
+        ( @initial_used_sales_stock_entry - @sales_stock_entry.used_quantity ).should == 1 
+      end
+    end 
   end 
+  
+  
+  
 end

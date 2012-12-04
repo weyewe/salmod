@@ -82,16 +82,15 @@ class StockMutation < ActiveRecord::Base
   end
   
   def StockMutation.recover_stock_from_sales_return( employee, sales_return_entry) 
-    pending_recovery_quantity = sales_return_entry.quantity 
     
+    pending_recovery_quantity = sales_return_entry.quantity 
     sales_entry = sales_return_entry.sales_entry 
       
-    StockMutation.stock_mutations_for_sales_entry(sales_entry).each do |stock_mutation|
-      stock_entry = stock_mutation.stock_entry 
+    sales_entry.stock_entries.each do |stock_entry| # created ASC 
+      stock_mutation = sales_entry.stock_mutation_for( stock_entry ) 
       deducted_quantity = stock_mutation.quantity
       
-      quantity_to_be_recovered =  0 
-      
+      quantity_to_be_recovered =  0  
       if deducted_quantity >= pending_recovery_quantity
         # it means this is the last stock_entry to be recovered
         quantity_to_be_recovered = pending_recovery_quantity

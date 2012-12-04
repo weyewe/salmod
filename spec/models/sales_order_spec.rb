@@ -229,14 +229,25 @@ describe SalesOrder do
         @sales_order = SalesOrder.create_sales_order( @admin, @wilson  ) 
         @pertamina_sales_entry  = @sales_order.add_sales_entry_item( @pertamina_lubricant_5L, @experiment_quantity  , @pertamina_price ) 
         @sales_order.confirm_sales( @admin) 
+        @sales_order.reload
       end
       
       it 'should be confirmed' do
         @sales_order.is_confirmed?.should be_true 
       end
       
+      it 'should have 3 stock entries, 3 stock mutations' do
+        @sales_order.stock_entries.count.should == 3 
+        @sales_order.stock_mutations.count.should == 3 
+      end
+      
       it 'should deduct the number of ready' do
+        
         @pertamina_lubricant_5L.reload
+        
+        # puts "9999999999999999"
+        # puts "#{@pertamina_lubricant_5L.name}'s ready is #{@pertamina_lubricant_5L.ready}"
+        #  puts "remaining quantity is #{@remaining_quantity}"
         @pertamina_lubricant_5L.ready.should == @remaining_quantity 
       end
       
@@ -259,10 +270,7 @@ describe SalesOrder do
         stock_entries[2].is_finished?.should be_false 
         
         (stock_entries[2].quantity - stock_entries[2].used_quantity).should ==  @remaining_quantity
-      end
-      
-      
-      
+      end 
     end # end of the sales order multiple stock entries confirmation 
   end
 end

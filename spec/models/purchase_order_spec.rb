@@ -78,8 +78,8 @@ describe PurchaseOrder do
   
   context "purchase order confirmation" do
     before(:each) do
-      @purchase_order = PurchaseOrder.create_purchase_order( @admin, nil)
-      
+      @purchase_order = PurchaseOrder.create_purchase_order( @admin, @toyota_vendor)
+      @purchase_order.should be_valid
       
       # @purchase_order.add_purchase_entry_item( @pertamina_lubricant_5L,  @pertamina_quantity,   @pertamina_price )
       # @purchase_order.add_purchase_entry_item( @shell_lubricant_5L,  @shell_quantity,   @shell_price )

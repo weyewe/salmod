@@ -26,12 +26,10 @@ class StockEntry < ActiveRecord::Base
   
   # used in stock entry deduction 
   def update_usage(served_quantity) 
-    self.used_quantity += served_quantity  
-    if self.used_quantity == self.quantity
-      self.is_finished = true 
-    end
-    
+    self.used_quantity += served_quantity    
     self.save  
+    
+    self.mark_as_finished
     
     item = self.item 
     item.deduct_ready_quantity(served_quantity ) 
@@ -43,12 +41,11 @@ class StockEntry < ActiveRecord::Base
   #  used in sales return =>  recovering the ready item, from the sold 
   def recover_usage(quantity_to_be_recovered)
     self.used_quantity -= quantity_to_be_recovered 
-     
-    if self.used_quantity != self.quantity
-      self.is_finished = false 
-    end
-    
     self.save  
+     
+    self.unmark_as_finished
+    
+    
     
     item = self.item 
     item.add_ready_quantity( quantity_to_be_recovered ) 

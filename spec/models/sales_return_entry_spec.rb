@@ -116,6 +116,22 @@ describe SalesReturnEntry do
       @sales_return_entry.should_not be_valid
     end
     
+    context 'post sales return confirmation' do
+      before(:each) do
+        @sales_return_entry =   @sales_return.add_sales_return_entry_item( @pertamina_lubricant_5L,    
+                                                            1, 
+                                                            BigDecimal('50000') )
+        @sales_return.confirm_return(@admin)                                                
+      end
+      
+      it 'should produce 1 stock mutation from 1 stock entry ' do
+        @sales_return_entry.stock_mutations.count.should == 1 
+        @sales_return_entry.stock_entries.count.should == 1 
+      end
+      
+      
+    end
+    
     
   end
 end

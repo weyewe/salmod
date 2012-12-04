@@ -81,4 +81,23 @@ class PurchaseEntry < ActiveRecord::Base
   end
   
   
+  def stock_mutations
+    StockMutation.where( 
+      :source_document_entry_id  =>  self.id ,
+      :source_document_id  =>  self.purchase_order_id  ,
+      :source_document_entry     =>  self.class.to_s,
+      :source_document    =>  self.purchase_order.class.to_s,
+      :mutation_case      => MUTATION_CASE[:purchase_order],
+      :mutation_status => MUTATION_STATUS[:addition],
+      :item_id =>  self.entry_id  ,
+      :item_status => ITEM_STATUS[:ready]
+    ).order("created_at ASC")
+  end
+  
+  def stock_entries
+    stock_entry_id_list  = self.stock_mutations.map{|x| x.stock_entry_id }.uniq 
+    StockEntry.where(:id =>stock_entry_id_list ).order("created_at ASC")
+  end
+  
+  
 end
