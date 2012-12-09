@@ -12,10 +12,11 @@ class ExchangeScrapItemsController < ApplicationController
 
   def create 
     @item = Item.find_by_id params[:item_id]  
-    quantity = params[:scrap_item][:quantity].to_i  
+    quantity = params[:exchange_scrap_item][:quantity].to_i  
 
+# create_exchange_scrap( employee, item, quantity) 
     # @object = StockMigration.create_item_migration(current_user , item, params[:stock_migration])
-    @scrap_item =   ExchangeScrapItem.create_scrap( current_user, @item, quantity)  
+    @scrap_item =   ExchangeScrapItem.create_exchange_scrap( current_user, @item, quantity)  
     @object = @scrap_item  
     @item.reload 
 

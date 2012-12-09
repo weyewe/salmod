@@ -2,10 +2,18 @@ class ExchangeScrapItem < ActiveRecord::Base
   # attr_accessible :title, :body
   
   belongs_to :item 
+  validate :quantity_must_not_exceed_scrap_quantity
+  
+  def quantity_must_not_exceed_scrap_quantity
+    item = self.item
+    if self.quantity <= 0 or self.quantity > item.scrap 
+      errors.add(:quantity , "Invalid Quantity. Setidaknya 1 dan tidak lebih dari #{item.scrap}") 
+    end
+  end
   
   def self.create_exchange_scrap( employee, item, quantity) 
     
-    return nil if quantity > item.scrap 
+    # return nil if quantity > item.scrap 
     
     new_ex_scrap_item = ExchangeScrapItem.new 
     new_ex_scrap_item.item_id = item.id 

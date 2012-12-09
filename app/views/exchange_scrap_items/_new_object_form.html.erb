@@ -7,8 +7,8 @@
  	
 
  	<%= hidden_field_tag 'item_id', "#{item_id}"%>
-	<%= f.input :quantity , :label => "Jumlah yang ditukarkan", 
-	 			:hint => "Jumlah yang rusak: #{item.ready}"   %> 
+	<%= f.input :quantity , :label => "Jumlah yang ditukar supplier", 
+	 			:hint => "Jumlah yang rusak: #{item.scrap}"   %> 
 
   <div class="form-actions">
     <%= f.button :submit , :class => "btn btn-primary", :value=> "Create Exchange Scrap Item" %>

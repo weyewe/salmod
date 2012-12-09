@@ -23,7 +23,7 @@ $(document).ready(function(){
 		// append the new stock migration into the last created stock migration. Just in case if he wants to edit
 		
  
-		<% summary_table = escape_javascript(  render :partial => "scrap_items/scrap_summary", :locals => {
+		<% summary_table = escape_javascript(  render :partial => "exchange_scrap_items/exchange_scrap_summary", :locals => {
 	    :item =>  @item,
 			:object => @object  
 	  }) %>
@@ -34,10 +34,10 @@ $(document).ready(function(){
 					
 	<% else %>
 	
-	
-		<% new_form = escape_javascript(  render :partial => "scrap_items/new_object_form", :locals => {
+	 
+		<% new_form = escape_javascript(  render :partial => "exchange_scrap_items/new_object_form", :locals => {
 	    :new_object => @new_object , 
-			:url => scrap_items_url ,
+			:url => exchange_scrap_items_url ,
 			:item_id => @item.id,
 			:item => @item
 	  })%>
@@ -45,7 +45,7 @@ $(document).ready(function(){
 	 
 		$form.replaceWith('<%= new_form  %>');
 	
-		$.msgbox("Fail to create scrap item.", 
+		$.msgbox("Gagal menukar barang rusak", 
 					{type: "error"});
 	<% end %>
 	
