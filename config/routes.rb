@@ -12,11 +12,12 @@ Salmod::Application.routes.draw do
   
   
   resources :stock_migrations 
+  resources :stock_adjustments
   match 'search_item'  => 'items#search_item' , :as => :search_item
   match 'search_service' => 'services#search_service', :as => :search_service
   match 'generate_stock_migration'  => 'stock_migrations#generate_stock_migration' , :as => :generate_stock_migration, :method => :post 
   
-  
+  match 'generate_stock_adjustment'  => 'stock_adjustments#generate_stock_adjustment' , :as => :generate_stock_adjustment, :method => :post 
   
 =begin
   Creating Sales Order

@@ -6,6 +6,7 @@ class CreateExchangeScrapItems < ActiveRecord::Migration
       t.string :code
       t.integer :item_id 
       t.integer :quantity
+       
 
       t.timestamps
     end

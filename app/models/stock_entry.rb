@@ -55,7 +55,7 @@ class StockEntry < ActiveRecord::Base
 
   def self.first_available_stock(item) 
     # FOR FIFO , we will devour the first available item
-    StockEntry.where(:is_finished => false, :item_id => item.id ).order("created_at ASC").first 
+    StockEntry.where(:is_finished => false, :item_id => item.id ).order("id ASC").first 
   end
   
   def stock_migration

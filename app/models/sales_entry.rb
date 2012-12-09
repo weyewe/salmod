@@ -102,12 +102,12 @@ class SalesEntry < ActiveRecord::Base
       :mutation_status => MUTATION_STATUS[:deduction],
       :item_id =>  self.entry_id  ,
       :item_status => ITEM_STATUS[:ready]
-    ).order("created_at ASC")
+    ) 
   end
   
   def stock_entries
     stock_entry_id_list  = self.stock_mutations.map{|x| x.stock_entry_id }.uniq 
-    StockEntry.where(:id =>stock_entry_id_list ).order("created_at ASC")
+    StockEntry.where(:id =>stock_entry_id_list ) 
   end
   
   def stock_mutation_for( stock_entry )

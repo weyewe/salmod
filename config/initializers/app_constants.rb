@@ -119,6 +119,7 @@ STOCK_ENTRY_CASE = {
   :stock_adjustment =>1,
   :scrap => 2,  # broken 
   :stock_conversion =>3, 
+  :stock_adjustment => 4 , 
   
   
     # => 10-19 == related to vendor 
@@ -140,9 +141,9 @@ MUTATION_CASE = {
   # from  onward, it is the addition case  # not really
   :purchase_order => 29, 
   :sales_return => 30,
-  :stock_conversion_target => 31 ,
-  :stock_conversion_target => 32,
-  :scrap_item_replacement => 33   # scrap item -> ready item 
+  :stock_conversion_target => 31 , 
+  :scrap_item_replacement => 32,    # scrap item -> ready item 
+  :stock_adjustment => 33 
 }
 
 MUTATION_STATUS = {
@@ -171,7 +172,10 @@ STOCK_CONVERSION_ENTRY_STATUS ={
   :result => 2 
 }
 
-
+STOCK_ADJUSTMENT_CASE = {
+  :deduction => 1 ,
+  :addition => 2
+}
 
 
 

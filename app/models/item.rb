@@ -7,8 +7,10 @@ class Item < ActiveRecord::Base
   has_many :service_items, :through => :replacement_items 
   has_many :replacement_items
   has_many :stock_mutations
-  
+  has_many :scrap_items
+  has_many :exchange_scrap_items 
   has_many :conversion_entries
+  has_many :stock_adjustments
   
   validates_uniqueness_of :name
   validates_presence_of :name 

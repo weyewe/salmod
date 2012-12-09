@@ -13,10 +13,9 @@
 			
 					<ul id="myTab" class="nav nav-pills">
 						<li class="active">
-							<%= link_to "Stock Migration", new_stock_migration_url %>
+							<%= link_to "Stock Migration", new_stock_adjustment_url %>
 								<!-- <a href="#tab1" data-toggle="tab">Stock Migration</a> -->
 						</li>
-						<!-- <li class=""><a href="#tab2" data-toggle="tab">Stock Adjustment</a></li> -->
 						<!-- <li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
 							<ul class="dropdown-menu">
@@ -39,7 +38,7 @@
 			
 			<div class="span4">
 				
-				<%= render :partial => "stock_migrations/stock_migration_trigger_form" %>
+				<%= render :partial => "stock_adjustments/stock_adjustment_trigger_form" %>
 				
 				<div id="item_info_wrapper">
 					<!-- <div id='item_info'>

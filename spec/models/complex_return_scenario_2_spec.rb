@@ -6,9 +6,12 @@ require 'spec_helper'
   1. create stock migration ( 2 ) # => 2
   2. create purchase order ( 1 )  # => 3
   3. create purchase order ( 3 ) # => 6
-    4. create sales order ( -5 ) # => 1 => 2 from migration, 1 from purchase order1 , 2 from purchase order 2 
+    4. create sales order 1 ( -5 ) # => 1 => 2 from migration, 1 from purchase order1 , 2 from purchase order 2 
   5. create purchase order ( 2 ) # => 3 
-  6. create sales return based on sales order 5 ( +4) # => 7 # 2 to migration, 1 to purchase_order1, 1  to purchase_order_2 
+ 
+    6. Create Sales Order  2  ( -2 ) => 1 
+    
+  7. Create Sales Return for sales order 1  ( + 1 ) => 2 
 =end
 
 describe SalesOrder do
@@ -143,82 +146,7 @@ describe SalesOrder do
         @pertamina_lubricant_5L.ready.should == @sales_remaining_quantity + @third_pertamina_quantity
       end
       
-      context "creating sales return (-3)" do
-        
-         # 1. create stock migration ( 2 ) # => 2
-         # 2. create purchase order ( 1 )  # => 3
-         # 3. create purchase order ( 3 ) # => 6
-         #   4. create sales order ( -5 ) # => 1
-         # 5. create purchase order ( 2 ) # => 3 
-         # 6. create sales return based on sales order 5 ( +4) # => 7
-        before(:each) do 
-          @sales_return = SalesReturn.create_sales_return( @admin, @sales_order   )
-          
-          # sales quantity = 4.. sales return == 3
-          @unreturned_sales_quantity = 1 
-          @sales_return_quantity = @sales_quantity - @unreturned_sales_quantity 
-          @sales_return_reimburse_price = BigDecimal('200000')
-          @sales_return_entry =   @sales_return.add_sales_return_entry_item( @pertamina_lubricant_5L,    
-                                                              @sales_return_quantity , 
-                                                              @sales_return_reimburse_price)
-          
-          @pertamina_lubricant_5L.reload 
-          @pre_sales_return_ready = @pertamina_lubricant_5L.ready      
-          
-          @migration_stock_entry.reload
-          @first_stock_entry.reload
-          @second_stock_entry.reload                                          
-           
-          @pre_return_used_quantity_migration_stock_entry = @migration_stock_entry.used_quantity
-          @pre_return_used_quantity_first_stock_entry     = @first_stock_entry.used_quantity
-          @pre_return_used_quantity_second_stock_entry    = @second_stock_entry.used_quantity 
-          
-          @sales_return.confirm_return( @admin ) 
-          @pertamina_lubricant_5L.reload 
-          @sales_return_entry.reload
-          
-          @migration_stock_entry.reload
-          @first_stock_entry.reload
-          @second_stock_entry.reload 
-        end
-        
-           
-        
-        it "should add the ready item by  #{@sales_return_quantity }" do
-          (@pertamina_lubricant_5L.ready  - @pre_sales_return_ready).should == @sales_return_quantity
-        end
-        
-        it 'should create 3 stock mutations from 3 stock entries' do
-          @sales_return.stock_entries.count.should == 3 
-          @sales_return.stock_mutations.count.should == 3 
-        end
-        
-        it 'should have 3 stock entries from migration, first purchase, and second purchase' do
-          correct_stock_entry_id_list = [@migration_stock_entry.id , @first_stock_entry.id , @second_stock_entry.id ]
-          data_stock_entry_id_list = @sales_return.stock_entries.map{|x| x.id }
-          (data_stock_entry_id_list - correct_stock_entry_id_list).length.should == 0 
-          @sales_return.stock_entries.each do |stock_entry|
-            is_included = correct_stock_entry_id_list.include?( stock_entry.id )
-            is_included.should be_true 
-          end
-        end
-        
-        # 2 from migration_stock_entry
-        # 1 from first_stock_entry
-        # 1 from second_stock_entry  +> total == +4
-        # sales return == 4
-        it "should fill up the stock entries that were deducted by sales order" do
-          (@pre_return_used_quantity_migration_stock_entry -  # used 2 
-               @migration_stock_entry.used_quantity) .should == @migration_stock_entry.quantity # returned all (2)
-              
-          (@pre_return_used_quantity_first_stock_entry  -  # used 1 
-              @first_stock_entry.used_quantity) .should == @first_stock_entry.quantity  # returned all (1)
-              
-          (@pre_return_used_quantity_second_stock_entry - # used  2
-               @second_stock_entry.used_quantity) .should ==   @unreturned_sales_quantity  # only returned 1 
-        end
-        
-      end # end of sales return creation
+       
     end # end of third purchase order
     
   end # end of the sales order creation

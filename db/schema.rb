@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121130034249) do
+ActiveRecord::Schema.define(:version => 20121209074436) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -263,6 +263,18 @@ ActiveRecord::Schema.define(:version => 20121130034249) do
     t.datetime "updated_at",                                                                  :null => false
   end
 
+  create_table "stock_adjustments", :force => true do |t|
+    t.integer  "creator_id"
+    t.string   "code"
+    t.integer  "item_id"
+    t.integer  "ready_quantity"
+    t.integer  "physical_quantity"
+    t.integer  "adjustment_quantity"
+    t.integer  "adjustment_case"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
   create_table "stock_conversions", :force => true do |t|
     t.string   "code"
     t.integer  "conversion_status", :default => 1
@@ -292,6 +304,8 @@ ActiveRecord::Schema.define(:version => 20121130034249) do
     t.boolean  "is_deleted", :default => false
     t.integer  "year"
     t.integer  "month"
+    t.integer  "item_id"
+    t.integer  "creator_id"
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
   end

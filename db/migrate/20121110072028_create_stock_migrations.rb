@@ -7,7 +7,8 @@ class CreateStockMigrations < ActiveRecord::Migration
       t.boolean :is_deleted , :default => false 
       t.integer :year
       t.integer :month 
-      
+      t.integer :item_id
+      t.integer :creator_id
       t.timestamps
     end
   end
