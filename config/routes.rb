@@ -10,14 +10,21 @@ Salmod::Application.routes.draw do
   resources :categories 
   resources :items 
   
-  
-  resources :stock_migrations 
-  resources :stock_adjustments
   match 'search_item'  => 'items#search_item' , :as => :search_item
   match 'search_service' => 'services#search_service', :as => :search_service
+  
+  
+  resources :stock_migrations 
   match 'generate_stock_migration'  => 'stock_migrations#generate_stock_migration' , :as => :generate_stock_migration, :method => :post 
   
+  
+  resources :stock_adjustments
   match 'generate_stock_adjustment'  => 'stock_adjustments#generate_stock_adjustment' , :as => :generate_stock_adjustment, :method => :post 
+  
+  resources :scrap_items
+  match 'generate_scrap_item'  => 'scrap_items#generate_scrap_item' , :as => :generate_scrap_item, :method => :post 
+  
+  
   
 =begin
   Creating Sales Order

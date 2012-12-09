@@ -20,7 +20,7 @@ class StockAdjustmentsController < ApplicationController
     @object = @stock_adjustment  
     @item.reload 
 
-
+    
     if @object.valid?
       @new_object=  StockAdjustment.new 
     else

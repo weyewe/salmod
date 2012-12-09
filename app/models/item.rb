@@ -21,6 +21,10 @@ class Item < ActiveRecord::Base
 =begin
   INITIAL MIGRATION 
 =end 
+  def has_past_migration?
+    StockMigration.where(:item_id => self.id ).count > 0 
+  end
+  
   def Item.create_by_category(category, item_params) 
     item = Item.create :name => item_params[:name]
     
@@ -35,10 +39,7 @@ class Item < ActiveRecord::Base
   end
   
   
-  def add_stock_and_recalculate_average_cost_post_stock_entry_addition( new_stock_entry ) 
-    
-    
-    
+  def add_stock_and_recalculate_average_cost_post_stock_entry_addition( new_stock_entry )  
     total_amount = ( self.average_cost * self.ready)   + 
                    ( new_stock_entry.base_price_per_piece * new_stock_entry.quantity ) 
                   
