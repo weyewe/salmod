@@ -1,15 +1,15 @@
 # Create Office  
-admin_role = Role.create :name => USER_ROLE[:admin]
-purchasing_role = Role.create :name => USER_ROLE[:purchasing]
-inventory_role = Role.create :name => USER_ROLE[:inventory]
-sales_role = Role.create :name => USER_ROLE[:sales]  
-mechanic_role = Role.create :name => USER_ROLE[:mechanic]
+# admin_role = Role.create :name => USER_ROLE[:admin]
+# purchasing_role = Role.create :name => USER_ROLE[:purchasing]
+# inventory_role = Role.create :name => USER_ROLE[:inventory]
+# sales_role = Role.create :name => USER_ROLE[:sales]  
+# mechanic_role = Role.create :name => USER_ROLE[:mechanic]
 
 jakarta = Town.create(:name => "Jakarta")
 lampung = Town.create :name => "Lampung"
 
 admin = User.create_main_user(   :email => "admin@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234") 
-admin.add_role_if_not_exists( admin_role ) 
+# admin.add_role_if_not_exists( admin_role ) 
 admin.reload
  
 # Create Employee 

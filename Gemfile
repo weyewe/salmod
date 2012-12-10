@@ -40,6 +40,8 @@ gem 'awesome_nested_set'
 # gem 'jquery-rails'
 gem "cancan"
 
+gem 'the_role'
+
 
 # Gems used only for assets and not required
 # in production environments by default.

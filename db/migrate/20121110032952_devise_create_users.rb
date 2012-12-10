@@ -20,6 +20,9 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string   :last_sign_in_ip
       
       
+      t.integer :role_id,         :default => nil
+      
+      
       t.integer :is_main_user, :default => false 
 
       ## Confirmable
