@@ -22,6 +22,10 @@ class DeviseCreateUsers < ActiveRecord::Migration
       
       t.integer :role_id,         :default => nil
       
+      t.string :name
+      t.string :username
+      t.string :login
+      
       
       t.integer :is_main_user, :default => false 
 

@@ -41,6 +41,7 @@ gem 'awesome_nested_set'
 gem "cancan"
 
 gem 'the_role'
+gem 'jquery-rails', '~> 2.1'
 
 
 # Gems used only for assets and not required

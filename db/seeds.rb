@@ -259,3 +259,10 @@ total_willy_sales_order = customer.sales_orders.count
 puts "Total willy sales order: #{total_willy_sales_order}"
 puts "Total rush_b_1665_bsf sales order: #{vehicle.sales_orders.count }"
 
+
+=begin
+admin_user = User.first
+admin_role = Role.find_by_name("admin")
+admin_user.role_id = admin_role.id
+admin_user.save
+=end

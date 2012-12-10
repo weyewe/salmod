@@ -357,6 +357,9 @@ ActiveRecord::Schema.define(:version => 20121210013040) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.integer  "role_id"
+    t.string   "name"
+    t.string   "username"
+    t.string   "login"
     t.integer  "is_main_user",           :default => 0
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
