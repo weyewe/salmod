@@ -11,31 +11,10 @@ class StockMutation < ActiveRecord::Base
   belongs_to :item
   
   
-  
+ 
 =begin
   SETUP + ADJUSTMENT 
-=end
-
-  # def StockMutation.create_stock_migration(employee, stock_entry, stock_migration )
-  #   item = stock_migration.item 
-  #   
-  #   item.add_stock_and_recalculate_average_cost_post_stock_entry_addition( stock_entry ) 
-  #   
-  #   # create the StockMutation
-  #   StockMutation.create(
-  #     :quantity            => stock_entry.quantity  ,
-  #     :stock_entry_id      =>  stock_entry.id ,
-  #     :creator_id          =>  employee.id ,
-  #     :source_document_entry_id  =>  stock_migration.id   ,
-  #     :source_document_id  =>  stock_migration.id  ,
-  #     :source_document_entry     =>  stock_migration.class.to_s,
-  #     :source_document    =>  stock_migration.class.to_s,
-  #     :mutation_case      => MUTATION_CASE[:stock_migration],
-  #     :mutation_status => MUTATION_STATUS[:addition],
-  #     :item_id => item.id
-  #   )
-  # end
-
+=end 
   def StockMutation.create_stock_adjustment( employee, stock_adjustment)
     item = stock_adjustment.item 
     if stock_adjustment.adjustment_case == STOCK_ADJUSTMENT_CASE[:addition]
@@ -67,52 +46,48 @@ class StockMutation < ActiveRecord::Base
         :item_id => item.id
       ) 
     else stock_adjustment.adjustment_case == STOCK_ADJUSTMENT_CASE[:deduction]
+      
+      
+                
+                
       requested_quantity =  stock_adjustment.adjustment_quantity
-      supplied_quantity = 0
       
-      
-      while supplied_quantity != requested_quantity
-        unfulfilled_quantity = requested_quantity - supplied_quantity 
-        stock_entry =  StockEntry.first_available_stock(  item )
-
-        #  stock_entry.nil? raise error  # later.. 
-        if stock_entry.nil?
-          raise ActiveRecord::Rollback, "Can't be executed. No Item in the stock" 
-        end
-
-        available_quantity = stock_entry.available_quantity 
-
-        served_quantity = 0 
-        if unfulfilled_quantity <= available_quantity 
-          served_quantity = unfulfilled_quantity 
-        else
-          served_quantity = available_quantity 
-        end
-
-        stock_entry.update_usage(served_quantity) 
-        supplied_quantity += served_quantity 
-
-        StockMutation.create(
-          :quantity            => served_quantity  ,
-          :stock_entry_id      =>  stock_entry.id ,
-          :creator_id          =>  employee.id ,
-          :source_document_entry_id  =>  stock_adjustment.id  ,
-          :source_document_id  =>  stock_adjustment.id  ,
-          :source_document_entry     =>  stock_adjustment.class.to_s,
-          :source_document    =>  stock_adjustment.class.to_s,
-          :mutation_case      => MUTATION_CASE[:stock_adjustment],
-          :mutation_status => MUTATION_STATUS[:deduction],
-          :item_id => stock_entry.item_id ,
-          :item_status => ITEM_STATUS[:ready]
-        )
-
-      end
+      StockMutation.deduct_ready_stock(
+              employee, 
+              requested_quantity, 
+              item, 
+              stock_adjustment, 
+              stock_adjustment,
+              MUTATION_CASE[:stock_adjustment], 
+              MUTATION_STATUS[:deduction]  
+            )
+             
       
     end
   end
   
+  def StockMutation.create_purchase_return(employee,   purchase_return )
+    item  = purchase_return.item 
+    
+    
+    requested_quantity =  purchase_return.quantity
+    StockMutation.deduct_ready_stock(
+            employee, 
+            requested_quantity, 
+            item, 
+            purchase_return, 
+            purchase_return,
+            MUTATION_CASE[:purchase_return], 
+            MUTATION_STATUS[:deduction]  
+          )
+     
+              
+  
+    
+  end
+  
 =begin
-  For normal purchase: reducing the stock 
+  UTILITY to deduct ready item without any callback
 =end
   def StockMutation.deduct_ready_stock(
           employee, 

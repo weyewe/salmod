@@ -27,6 +27,10 @@ Salmod::Application.routes.draw do
   resources :exchange_scrap_items
   match 'generate_exchange_scrap_item'  => 'exchange_scrap_items#generate_exchange_scrap_item' , :as => :generate_exchange_scrap_item, :method => :post
   
+  
+  resources :purchase_returns
+  match 'generate_purchase_return'  => 'purchase_returns#generate_purchase_return' , :as => :generate_purchase_return, :method => :post
+  
 =begin
   Creating Sales Order
 =end

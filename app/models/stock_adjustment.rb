@@ -21,6 +21,22 @@ class StockAdjustment < ActiveRecord::Base
    
   
   
+  def StockAdjustment.generate_adjustment_code( item)
+    datetime  =  DateTime.now
+    year = datetime.year 
+    month = datetime.month   
+    total_stock_adjustment_created_this_month = StockAdjustment.where(:created_at => datetime.beginning_of_month..datetime.end_of_month   ).count  
+    
+    code =  'SADJ/' + year.to_s + '/' + 
+                        month.to_s + '/' + 
+                        (total_stock_adjustment_created_this_month + 1 ).to_s 
+    
+    
+    return code
+  end
+  
+  
+  
   def self.create_item_adjustment(employee, item , physical_quantity ) 
     
     ActiveRecord::Base.transaction do
@@ -33,6 +49,7 @@ class StockAdjustment < ActiveRecord::Base
       
       new_stock_adjustment.creator_id = employee.id 
       new_stock_adjustment.item_id = item.id 
+      new_stock_adjustment.code=  StockAdjustment.generate_adjustment_code( item)
       
       physical_to_ready_diff  = physical_quantity  - ready_quantity 
     

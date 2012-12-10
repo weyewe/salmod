@@ -11,6 +11,7 @@ class Item < ActiveRecord::Base
   has_many :exchange_scrap_items 
   has_many :conversion_entries
   has_many :stock_adjustments
+  has_many :purchase_returns
   
   validates_uniqueness_of :name
   validates_presence_of :name 

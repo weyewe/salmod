@@ -21,6 +21,20 @@ class ScrapItem < ActiveRecord::Base
   end
   
   
+  def ScrapItem.generate_scrap_code( item)
+    datetime  =  DateTime.now
+    year = datetime.year 
+    month = datetime.month   
+    total_scrap_item_created_this_month = ScrapItem.where(:created_at => datetime.beginning_of_month..datetime.end_of_month   ).count  
+    
+    code =  'SCR/' + year.to_s + '/' + 
+                        month.to_s + '/' + 
+                        (total_scrap_item_created_this_month + 1 ).to_s 
+    
+    
+    return code
+  end
+  
   def self.create_scrap( employee, item, quantity) 
     
     new_scrap_item = ScrapItem.new 
@@ -33,6 +47,8 @@ class ScrapItem < ActiveRecord::Base
       return new_scrap_item
     end
     
+    
+    new_scrap_item.code = ScrapItem.generate_scrap_code(item) 
     new_scrap_item.save 
     
     ActiveRecord::Base.transaction do 
@@ -58,21 +74,7 @@ class ScrapItem < ActiveRecord::Base
     self.exchanged_quantity += quantity
     self.save 
   end
-  
-  # def stock_mutations_to_deduct_stock_entry_with_pending_scrapped_items
-  # 
-  #   self.stock_mutations.joins(:stock_entry).where{
-  #     (mutation_case.eq  MUTATION_CASE[:scrap_item ])  & 
-  #     (mutation_status.eq  MUTATION_STATUS[:deduction ] )  & 
-  #     (item_status.eq ITEM_STATUS[:ready] )  & 
-  #     (stock_entry.scrapped_quantity.gt 0  )  
-  #   }.order("created_at ASC")
-  #   
-  # end
-  # 
-  # def stock_mutations_to_add_scrap_item
-  # end
-  
+   
 =begin
   STOCK MUTATIONS, when scrapping item 
 =end
@@ -116,22 +118,7 @@ class ScrapItem < ActiveRecord::Base
 =begin
   STOCK MUTATION WHEN EXCHANGE SCRAP ITEM 
 =end
-  def stock_mutations_for_ready_item_addition
-        # 
-        # :quantity            => recover_quantity  ,
-        # :stock_entry_id      =>  stock_entry.id ,
-        # :scrap_item_id => scrap_item.id ,
-        # :creator_id          =>  employee.id ,
-        # :source_document_entry_id  =>  ex_scrap_item.id  ,
-        # :source_document_id  =>  ex_scrap_item.id  ,
-        # :source_document_entry     =>  ex_scrap_item.class.to_s,
-        # :source_document    =>  ex_scrap_item.class.to_s,
-        # :mutation_case      => MUTATION_CASE[:scrap_item_replacement],
-        # :mutation_status => MUTATION_STATUS[:addition],
-        # :item_id => item.id  ,
-        # :item_status => ITEM_STATUS[:ready]
-        # 
-        # 
+  def stock_mutations_for_ready_item_addition 
     StockMutation.where(
       :scrap_item_id => self.id,   
       :source_document_entry     =>  ExchangeScrapItem.to_s,

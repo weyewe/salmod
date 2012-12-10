@@ -11,6 +11,22 @@ class ExchangeScrapItem < ActiveRecord::Base
     end
   end
   
+  
+  def ExchangeScrapItem.generate_exchange_scrap_code( item)
+    datetime  =  DateTime.now
+    year = datetime.year 
+    month = datetime.month   
+    total_scrap_item_created_this_month = ExchangeScrapItem.where(:created_at => datetime.beginning_of_month..datetime.end_of_month   ).count  
+    
+    code =  'SCR/' + year.to_s + '/' + 
+                        month.to_s + '/' + 
+                        (total_scrap_item_created_this_month + 1 ).to_s 
+    
+    
+    return code
+  end
+  
+  
   def self.create_exchange_scrap( employee, item, quantity) 
     
     # return nil if quantity > item.scrap 
@@ -31,6 +47,8 @@ class ExchangeScrapItem < ActiveRecord::Base
       return new_ex_scrap_item
     end
     
+    
+    new_ex_scrap_item.code = ExchangeScrapItem.generate_exchange_scrap_code( item) 
     new_ex_scrap_item.save 
     
     ActiveRecord::Base.transaction do 
