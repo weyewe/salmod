@@ -107,6 +107,7 @@ ActiveRecord::Schema.define(:version => 20121211060637) do
   add_index "friendly_id_slugs", ["sluggable_type"], :name => "index_friendly_id_slugs_on_sluggable_type"
 
   create_table "items", :force => true do |t|
+    t.integer  "creator_id"
     t.integer  "ready",                                                    :default => 0
     t.integer  "scrap",                                                    :default => 0
     t.integer  "pending_return",                                           :default => 0
@@ -115,8 +116,6 @@ ActiveRecord::Schema.define(:version => 20121211060637) do
     t.decimal  "average_cost",              :precision => 11, :scale => 2, :default => 0.0
     t.decimal  "recommended_selling_price", :precision => 11, :scale => 2, :default => 0.0
     t.boolean  "is_deleted",                                               :default => false
-    t.integer  "initial_quantity"
-    t.decimal  "initial_base_price",        :precision => 11, :scale => 2, :default => 0.0
     t.datetime "created_at",                                                                  :null => false
     t.datetime "updated_at",                                                                  :null => false
   end

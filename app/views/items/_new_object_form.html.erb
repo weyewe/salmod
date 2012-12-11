@@ -26,18 +26,7 @@
 				:label =>"Harga Jual",  
 				:as => :string %>
 
-
-	<% if not  new_object.persisted? %> 
-		<hr />
-		<%= f.input :initial_quantity ,
-					:label =>"Kuantitas Awal",  
-					:as => :string,
-					:hint => "Hati-hati, tidak bisa di edit. Jika belum tahu, item ini jangan dibuat dulu." %>
-		<%= f.input :initial_base_price ,
-					:label =>"harga modal rata-rata untuk kuantitas awal (CoGS)",  
-					:as => :string,
-					:hint => "Hati-hati, tidak bisa di edit. Jika belum tahu, item ini jangan dibuat dulu." %>
-	<% end %>
+ 
 
   <div class="form-actions">
 		<% if new_object.persisted? %>
