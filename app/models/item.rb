@@ -49,11 +49,11 @@ class Item < ActiveRecord::Base
       return item
     end
     
-    item.creator_id = employee.id 
+    # item.creator_id = employee.id 
     # item.initial_quantity = item_params[:initial_quantity]
     # item.initial_base_price = BigDecimal("#{item_params[:initial_base_price]}") 
     item.category_id = category.id 
-    item.recommended_selling_price = BigDecimal("#{item_params[:recommended_selling_price]}")
+    # item.recommended_selling_price = BigDecimal("#{item_params[:recommended_selling_price]}")
     
     
     if not item.valid?
