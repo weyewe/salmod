@@ -83,6 +83,17 @@ class SalesOrdersController < ApplicationController
       end
     end
   end
+  
+  def generate_form_to_edit_sales_order_customer
+    @sales_order = SalesOrder.find_by_id  params[:sales_order_id]
+    @customer= @sales_order.customer 
+  end
+  
+  def update_sales_order_customer
+    @sales_order = SalesOrder.find_by_id params[:sales_order_id]
+    @customer = SalesOrder.find_by_id params[:sales_order][:customer_id]
+    @sales_order.update_customer( @customer ) 
+  end
    
   
 end

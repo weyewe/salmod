@@ -4,7 +4,9 @@
 		<%= "#{object.id_code}" %>
 	</td>
 	<td>
-		<%= "#{object.customer.name }" %>
+		<% if not object.customer_id.nil? %>
+			<%= "#{object.customer.name }" %>
+		<% end %>
 	</td>
 	
 	<td>

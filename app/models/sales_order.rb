@@ -130,6 +130,16 @@ class SalesOrder < ActiveRecord::Base
   
   
   
+  def update_customer( customer ) 
+    return nil if  self.is_confirmed == true  
+    if not customer.nil? 
+      self.customer_id = customer.id 
+    else
+      self.customer_id = nil 
+    end
+    self.save
+  end
+  
   def add_sales_entry_service(service_object, price  )
     new_object = SalesEntry.new 
     new_object.entry_id = service_object.id ,   

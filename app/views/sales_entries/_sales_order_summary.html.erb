@@ -15,25 +15,19 @@
 					<% end %>
 					
 					<% if not sales_order.is_confirmed? %>
-						<%= link_to root_url, :class =>"edit_entry", :style => "cursor:pointer; text-decoration:none;" do %>
+					
+						<br />
+						<%= link_to generate_form_to_edit_sales_order_customer_url(sales_order), 
+								:class =>"edit_entry", :style => "cursor:pointer; text-decoration:none;" do %>
 							<i class='icon-edit'></i>Edit
 						<% end %>
 					<% end %>
 			</td>
 			<td> 
 				
-				Vehicle: 
-					<% if sales_order.vehicle.nil? %>
-						<span class="label label-important">N/A</span>
-					<% else %>
-						<span class="label label-success"><%= sales_order.vehicle.id_code %></span>
-					<% end %>
-
-					<% if not sales_order.is_confirmed? %>
-						<%= link_to root_url, :class =>"edit_entry", :style => "cursor:pointer; text-decoration:none;" do %>
-							<i class='icon-edit'></i>Edit
-						<% end %>
-					<% end %>
+				<%= link_to new_vehicle_from_sales_order_url, :class => "new_entry btn btn-primary" do %>
+					<i class="icon-plus"></i>Kendaraan Baru
+				<% end %>
 			</td>
 		</tr>
 		<tr>

@@ -72,6 +72,18 @@ Salmod::Application.routes.draw do
  
   
 =begin
+  Edit sales order's customer
+=end
+  match 'generate_form_to_edit_sales_order_customer/:sales_order_id' => 'sales_orders#generate_form_to_edit_sales_order_customer', :as => :generate_form_to_edit_sales_order_customer
+  match 'update_sales_order_customer/:sales_order_id' => 'sales_orders#update_sales_order_customer', :as => :update_sales_order_customer, :method => :post
+
+=begin
+  Create new vehicle from sales order
+=end
+  match 'new_vehicle_from_sales_order' => 'vehicles#new_vehicle_from_sales_order', :as => :new_vehicle_from_sales_order  
+  match 'create_vehicle_from_sales_order' => 'vehicles#create_vehicle_from_sales_order', :as => :create_vehicle_from_sales_order, :method => :post 
+
+=begin
   Adding Sales Entry
 =end
   match 'generate_sales_entry_add_product_form' => 'sales_entries#generate_sales_entry_add_product_form', :as => :generate_sales_entry_add_product_form, :method => :post 

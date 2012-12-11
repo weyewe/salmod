@@ -9,6 +9,16 @@ class VehiclesController < ApplicationController
       format.js  
     end
   end
+  
+  def new_vehicle_from_sales_order
+    @objects = Vehicle.active_vehicles
+    @new_object = Vehicle.new 
+    
+    respond_to do |format|
+      format.html # show.html.erb 
+      format.js  
+    end
+  end
 
   def create
     id_code = params[:vehicle][:id_code] 
@@ -25,6 +35,27 @@ class VehiclesController < ApplicationController
     
     respond_to do |format|
       format.html { render :file => 'vehicles/new' }
+      format.js do
+        @customer = Customer.find_by_id params[:vehicle][:customer_id]
+      end
+    end
+  end
+  
+  
+  def create_vehicle_from_sales_order
+    
+    id_code = params[:vehicle][:id_code] 
+    params[:vehicle][:id_code]  =  id_code.upcase.gsub(/\s+/, "")
+    
+    
+    @object = Vehicle.create( params[:vehicle] ) 
+    if @object.valid?
+      @new_object=  Vehicle.new
+    else
+      @new_object= @object 
+    end
+    
+    respond_to do |format| 
       format.js do
         @customer = Customer.find_by_id params[:vehicle][:customer_id]
       end
