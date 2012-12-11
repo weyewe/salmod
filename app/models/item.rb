@@ -16,6 +16,20 @@ class Item < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_presence_of :name 
   
+  # validate :initial_quantity_non_negative, :initial_base_price_non_negative
+  
+  # def initial_quantity_non_negative 
+  #    if not self.initial_quantity.present? or  self.initial_quantity < 0  
+  #      errors.add(:initial_quantity , "Invalid Initial Quantity. Tidak boleh kurang dari 0.") 
+  #    end
+  #  end
+  #  
+  #  def initial_base_price_non_negative 
+  #    if not self.initial_base_price_non_negative.present? or  self.initial_base_price_non_negative < BigDecimal('0')
+  #      errors.add(:initial_base_price_non_negative , "Invalid Harga Dasar Awal. Tidak boleh kurang dari 0.") 
+  #    end
+  #  end
+  
   def self.active_items
     Item.where(:is_deleted => false).order("created_at DESC")
   end
@@ -26,16 +40,32 @@ class Item < ActiveRecord::Base
     StockMigration.where(:item_id => self.id ).count > 0 
   end
   
-  def Item.create_by_category(category, item_params) 
+  def Item.create_by_category(  category, item_params) 
     item = Item.create :name => item_params[:name]
+    
+    
     
     if not item.valid?
       return item
     end
     
+    item.creator_id = employee.id 
+    # item.initial_quantity = item_params[:initial_quantity]
+    # item.initial_base_price = BigDecimal("#{item_params[:initial_base_price]}") 
     item.category_id = category.id 
     item.recommended_selling_price = BigDecimal("#{item_params[:recommended_selling_price]}")
+    
+    
+    if not item.valid?
+      return item
+    end
+    
+    
     item.save
+    # create stock migration
+    # StockMigration.create_item_migration(employee, item, item.initial_quantity,  item.initial_base_price ) 
+    
+    
     return item 
   end
   

@@ -115,6 +115,8 @@ ActiveRecord::Schema.define(:version => 20121211060637) do
     t.decimal  "average_cost",              :precision => 11, :scale => 2, :default => 0.0
     t.decimal  "recommended_selling_price", :precision => 11, :scale => 2, :default => 0.0
     t.boolean  "is_deleted",                                               :default => false
+    t.integer  "initial_quantity"
+    t.decimal  "initial_base_price",        :precision => 11, :scale => 2, :default => 0.0
     t.datetime "created_at",                                                                  :null => false
     t.datetime "updated_at",                                                                  :null => false
   end

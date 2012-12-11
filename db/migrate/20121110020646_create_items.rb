@@ -4,7 +4,7 @@ class CreateItems < ActiveRecord::Migration
       # item has several phases: ready to be sold
       # scrap : broken, can't be returned to supplier 
       # pending_return : can be returned to supplier. but not yet delivered 
-      
+      t.integer :creator_id 
       t.integer :ready , :default => 0 
       t.integer :scrap , :default => 0 
       t.integer :pending_return, :default => 0  
@@ -21,8 +21,9 @@ class CreateItems < ActiveRecord::Migration
       t.decimal :recommended_selling_price , :precision => 11, :scale => 2 , :default => 0  # 10^9 << max value
       
       t.boolean :is_deleted , :default => false 
-      
-      
+      # t.integer :initial_quantity 
+      #  t.decimal :initial_base_price , :precision => 11, :scale => 2 , :default => 0  # 10^9 << max value
+      #  
       t.timestamps
     end
   end

@@ -12,7 +12,7 @@ class ItemsController < ApplicationController
   def create 
     @category = Category.find_by_id params[:item][:category_id]
     
-    @object = Item.create_by_category( @category, params[:item])
+    @object = Item.create_by_category(  @category, params[:item])
     
     
     if @object.valid?
