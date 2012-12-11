@@ -7,6 +7,8 @@ class CreatePurchaseReturns < ActiveRecord::Migration
       t.integer :item_id 
       t.integer :quantity 
       
+      t.integer :purchase_order_id
+      
 
       t.timestamps
     end

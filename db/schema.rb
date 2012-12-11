@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121210013040) do
+ActiveRecord::Schema.define(:version => 20121211060637) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "user_id"
@@ -29,6 +29,11 @@ ActiveRecord::Schema.define(:version => 20121210013040) do
     t.boolean  "is_deleted", :default => false
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
+  end
+
+  create_table "companies", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "conversion_entries", :force => true do |t|
@@ -153,8 +158,9 @@ ActiveRecord::Schema.define(:version => 20121210013040) do
     t.string   "code"
     t.integer  "item_id"
     t.integer  "quantity"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "purchase_order_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
   create_table "replacement_items", :force => true do |t|
