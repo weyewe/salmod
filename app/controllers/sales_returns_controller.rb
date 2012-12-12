@@ -10,6 +10,11 @@ class SalesReturnsController < ApplicationController
   def create 
     
     @sales_order = SalesOrder.find_by_id params[:sales_return][:sales_order_id]
+    if @sales_order.nil?
+      redirect_to new_sales_return_url
+      return
+    end
+    
     @new_object = SalesReturn.create_sales_return( current_user, @sales_order  )
     
     @errors =  @new_object.errors.messages
