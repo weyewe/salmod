@@ -142,9 +142,9 @@ class SalesOrder < ActiveRecord::Base
   
   def add_sales_entry_service(service_object, price  )
     new_object = SalesEntry.new 
-    new_object.entry_id = service_object.id ,   
-    new_object.entry_case = SALES_ENTRY_CASE[:service] ,
-    new_object.quantity = 1 , 
+    new_object.entry_id = service_object.id   
+    new_object.entry_case = SALES_ENTRY_CASE[:service] 
+    new_object.quantity = 1 
     new_object.selling_price_per_piece = price
     new_object.sales_order_id = self.id 
     new_object.total_sales_price = price
