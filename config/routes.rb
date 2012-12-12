@@ -7,6 +7,10 @@ Salmod::Application.routes.draw do
   root :to => 'home#index'
   root :to => 'home#login'
   
+  resources :companies
+  match 'update_company/:id' => 'companies#update_company', :as => :update_company, :method => :post 
+  
+  
   resources :categories 
   resources :items 
   

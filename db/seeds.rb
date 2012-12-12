@@ -11,6 +11,8 @@ lampung = Town.create :name => "Lampung"
 admin = User.create_main_user(   :email => "admin@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234") 
 # admin.add_role_if_not_exists( admin_role ) 
 admin.reload
+
+dixzell_company = Company.create :name => "Dixzell", :address => "Depan Citra 1", :phone => "54563659"
  
 # Create Employee 
 
