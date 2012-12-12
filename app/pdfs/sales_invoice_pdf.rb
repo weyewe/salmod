@@ -55,18 +55,23 @@ class SalesInvoicePdf < Prawn::Document
     
     half_page = @page_width/2
     width = half_page - box_separator
+    @company = Company.first 
     
+    @customer = @invoice.customer
     
     bounding_box( [0,cursor], :width => @page_width) do
       bounding_box([gap, bounds.top - gap], :width => width) do 
-        text 'Dixzell Reparation Shop'
-        text 'Perumahan Citra Garden 1 Blok AC2/3G Perumahan Citra Garden 1 Blok AC2/3G Perumahan Citra Garden 1 Blok AC2/3G'
+        text "#{@company.name}"
+        text "#{@company.address}"
+        text "#{@company.phone}"
       end
       
-      bounding_box([half_page + box_separator, bounds.top - gap], :width => width) do 
-        text 'PT Alfindo Jaya'
-        text 'Kompleks Pergudangan Rawa Lele nomor 3315'
-      end 
+      if not @customer.nil?
+        bounding_box([half_page + box_separator, bounds.top - gap], :width => width) do 
+          text "#{@customer.name}"
+          # text 'Kompleks Pergudangan Rawa Lele nomor 3315'
+        end 
+      end
     end
   end
    
@@ -135,8 +140,29 @@ class SalesInvoicePdf < Prawn::Document
     [["No", "Item", "Quantity", "Price", "Total"]] +
     (@invoice.active_sales_entries).map do |sales_entry|
       count = count + 1 
+      item_data = "#{sales_entry.item.name} " 
+      if sales_entry.is_service?  
+        
+        if not sales_entry.service_item.vehicle.nil?  
+					id_code=  sales_entry.service_item.vehicle.id_code
+					item_data += "\n"
+          item_data += "Kendaraan: #{id_code}"
+				end
+				 
+        employees = sales_entry.service_item.employees
+        employees.each do |employee|
+          item_data += "\n"
+          item_data += "#{employee.name}"
+        end
+         
+        sales_entry.service_item.items.each do |item| 
+					item_data += "\n"
+          item_data += "#{item.name}" 
+				end  
+      end
+      
       [ "#{count}", 
-        "#{sales_entry.item.name} ", sales_entry.quantity,
+        "#{item_data} ", sales_entry.quantity,
       "#{precision(sales_entry.selling_price_per_piece)}  ", 
       "#{precision(sales_entry.total_sales_price)}" ]
     end  + 
@@ -154,10 +180,10 @@ class SalesInvoicePdf < Prawn::Document
    
   def regards_message
     move_down 50
-    text "Thank You," ,:indent_paragraphs => 400
+    # text "Thank You," ,:indent_paragraphs => 400
     move_down 6
-    text "XYZ",
-    :indent_paragraphs => 370, :size => 14, style:  :bold
+    # text "XYZ",
+    # :indent_paragraphs => 370, :size => 14, style:  :bold
   end
   
   def page_numbering
