@@ -36,8 +36,19 @@ class StockConversionsController < ApplicationController
     end
   end
   
-  def edit
-    # if there is  mutation executed, we can't edit the stock conversion 
-    # solution? create the new one. 
+  # def edit
+  #    @service = Service.find_by_id params[:id] 
+  #  end
+  #  
+  #  def update_service
+  #    @service = Service.find_by_id params[:service_id] 
+  #    @service.update_attributes( params[:service] )
+  #    @has_no_errors  = @service.errors.messages.length == 0
+  #  end
+  
+  def delete_stock_conversion
+    @stock_conversion = StockConversion.find_by_id params[:object_to_destroy_id]
+    @stock_conversion.delete 
   end
+  
 end

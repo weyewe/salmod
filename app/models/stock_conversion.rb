@@ -3,6 +3,9 @@ class StockConversion < ActiveRecord::Base
   has_many :conversion_entries
   has_many :convert_stocks
   
+  
+  
+  
   def self.active_stock_conversions
     self.where(:is_deleted => false).order("created_at DESC")
   end
@@ -101,6 +104,11 @@ class StockConversion < ActiveRecord::Base
   
   def active_conversion_entries
     self.conversion_entries.where(:is_deleted => false )
+  end
+  
+  def delete
+    self.is_deleted = true 
+    self.save 
   end
   
 end

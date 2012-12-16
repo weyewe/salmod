@@ -256,9 +256,11 @@ Salmod::Application.routes.draw do
   
 ##################################################
 ##################################################
-######### VENDOR
+######### STOCK CONVERSION
 ##################################################
 ##################################################
   match 'update_stock_conversion/:vendor_id' => 'stock_conversions#update_stock_conversion', :as => :update_stock_conversion , :method => :post 
   match 'delete_stock_conversion' => 'stock_conversions#delete_stock_conversion', :as => :delete_stock_conversion , :method => :post
+  
+ 
 end
